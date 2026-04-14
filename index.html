@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio of a Flutter &amp; Full Stack Developer – showcasing DocuKeep and other innovative projects." />
+  <title>Portfolio | Flutter &amp; Full Stack Developer</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav id="navbar">
+  <div class="nav-container">
+    <a href="#hero" class="nav-logo">&lt;Dev /&gt;</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <!-- Left: Text -->
+    <div class="hero-text">
+      <p class="hero-greeting">Hello, World! 👋</p>
+      <h1 class="hero-name">I Build Digital<br/>Experiences</h1>
+      <p class="hero-role">
+        <span id="typed-text" class="typed-text"></span><span class="cursor"></span>
+      </p>
+      <p class="hero-bio">
+        Passionate developer crafting cross-platform mobile apps and responsive web experiences.
+        I turn ideas into polished, production-ready products with clean code and thoughtful design.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">🚀 View Projects</a>
+        <a href="#contact" class="btn btn-outline">📬 Get in Touch</a>
+      </div>
+    </div>
+
+    <!-- Right: Visual -->
+    <div class="hero-visual">
+      <div class="avatar-container">
+        <div class="avatar-ring"></div>
+        <div class="avatar-placeholder">
+          <span>👨‍💻</span>
+        </div>
+        <div class="float-badge">📱 Flutter</div>
+        <div class="float-badge">🔥 Firebase</div>
+        <div class="float-badge">☁️ Cloudinary</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-dot"></div>
+    <span>Scroll down</span>
+  </div>
+</section>
+
+<!-- ========== ABOUT ========== -->
+<section id="about">
+  <div class="container">
+    <p class="section-title animate-fade-up">About Me</p>
+    <p class="section-subtitle animate-fade-up">Get to know the developer behind the code</p>
+
+    <div class="about-grid">
+      <!-- Left: Card -->
+      <div class="about-image-wrap animate-fade-up">
+        <div class="about-card">
+          <div class="about-avatar">👨‍💻</div>
+          <h3 style="font-size:1.2rem; margin-bottom:0.25rem;">Full Stack &amp; Mobile Dev</h3>
+          <p style="color:var(--text-muted); font-size:0.85rem;">Flutter · Firebase · Next.js</p>
+
+          <div class="about-stats">
+            <div class="stat-item">
+              <div class="stat-number" data-target="3" data-suffix="+">0+</div>
+              <div class="stat-label">Projects Built</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" data-target="2" data-suffix="+">0+</div>
+              <div class="stat-label">Years Coding</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" data-target="100" data-suffix="%">0%</div>
+              <div class="stat-label">Passion Level</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" data-target="2" data-suffix="">0</div>
+              <div class="stat-label">Platforms Mastered</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Text -->
+      <div class="about-text animate-fade-up">
+        <h3>Turning Ideas into Reality</h3>
+        <p>
+          I'm a dedicated developer with a strong focus on mobile app development using
+          <strong style="color:var(--primary-light)">Flutter</strong> and cloud-based web applications.
+          I love architecting scalable, user-centric solutions that solve real problems.
+        </p>
+        <p>
+          My journey into software development is fuelled by curiosity and a desire to ship
+          products that matter. From designing smooth mobile UIs to integrating powerful cloud
+          services like <strong style="color:var(--accent)">Firebase</strong> and
+          <strong style="color:var(--primary-light)">Cloudinary</strong>, I strive to deliver
+          end-to-end solutions.
+        </p>
+        <p>
+          When I'm not coding, I'm exploring new technologies, contributing to open-source, and
+          constantly levelling up my skills to stay at the cutting edge of development.
+        </p>
+
+        <div class="about-highlights">
+          <div class="highlight-item">
+            <span class="highlight-icon">📱</span>
+            <span>Cross-platform mobile development with Flutter &amp; Dart</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">🔥</span>
+            <span>Real-time backends with Firebase (Firestore, Auth, Storage)</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">🌐</span>
+            <span>Full-stack web development with Next.js &amp; TypeScript</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">☁️</span>
+            <span>Cloud storage &amp; media management with Cloudinary</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">🎨</span>
+            <span>Clean, accessible UI/UX with attention to detail</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SKILLS ========== -->
+<section id="skills">
+  <div class="container">
+    <p class="section-title animate-fade-up">Tech Stack</p>
+    <p class="section-subtitle animate-fade-up">Technologies I work with every day</p>
+
+    <div class="skills-grid">
+
+      <!-- Flutter -->
+      <div class="skill-card animate-fade-up">
+        <div class="skill-icon">📱</div>
+        <div class="skill-name">Flutter &amp; Dart</div>
+        <div class="skill-desc">
+          Building beautiful, natively compiled cross-platform mobile apps from a single codebase.
+        </div>
+        <div class="skill-tags">
+          <span class="tag">Flutter SDK</span>
+          <span class="tag">Dart</span>
+          <span class="tag">Provider</span>
+          <span class="tag">BLoC</span>
+          <span class="tag">Riverpod</span>
+        </div>
+      </div>
+
+      <!-- Firebase -->
+      <div class="skill-card animate-fade-up">
+        <div class="skill-icon">🔥</div>
+        <div class="skill-name">Firebase</div>
+        <div class="skill-desc">
+          Real-time data sync, authentication, cloud storage, and serverless functions.
+        </div>
+        <div class="skill-tags">
+          <span class="tag">Firestore</span>
+          <span class="tag">Auth</span>
+          <span class="tag">Storage</span>
+          <span class="tag">Cloud Functions</span>
+        </div>
+      </div>
+
+      <!-- Cloudinary -->
+      <div class="skill-card animate-fade-up">
+        <div class="skill-icon">☁️</div>
+        <div class="skill-name">Cloudinary</div>
+        <div class="skill-desc">
+          Robust cloud-based media management, upload, transformation, and delivery.
+        </div>
+        <div class="skill-tags">
+          <span class="tag">Media Upload</span>
+          <span class="tag">Transformations</span>
+          <span class="tag">CDN</span>
+          <span class="tag">REST API</span>
+        </div>
+      </div>
+
+      <!-- Next.js -->
+      <div class="skill-card animate-fade-up">
+        <div class="skill-icon">⚡</div>
+        <div class="skill-name">Next.js &amp; React</div>
+        <div class="skill-desc">
+          Server-side rendering, static generation, and dynamic web applications.
+        </div>
+        <div class="skill-tags">
+          <span class="tag">Next.js</span>
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Tailwind</span>
+        </div>
+      </div>
+
+      <!-- Backend -->
+      <div class="skill-card animate-fade-up">
+        <div class="skill-icon">🖥️</div>
+        <div class="skill-name">Backend &amp; APIs</div>
+        <div class="skill-desc">
+          RESTful APIs, database design, and server-side logic for scalable systems.
+        </div>
+        <div class="skill-tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">REST APIs</span>
+          <span class="tag">SQL</span>
+          <span class="tag">NoSQL</span>
+        </div>
+      </div>
+
+      <!-- Tools -->
+      <div class="skill-card animate-fade-up">
+        <div class="skill-icon">🛠️</div>
+        <div class="skill-name">Dev Tools &amp; Practices</div>
+        <div class="skill-desc">
+          Version control, CI/CD, agile workflows, and clean coding practices.
+        </div>
+        <div class="skill-tags">
+          <span class="tag">Git &amp; GitHub</span>
+          <span class="tag">VS Code</span>
+          <span class="tag">Vercel</span>
+          <span class="tag">Postman</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== PROJECTS ========== -->
+<section id="projects">
+  <div class="container">
+    <p class="section-title animate-fade-up">Projects</p>
+    <p class="section-subtitle animate-fade-up">Things I've built with passion and purpose</p>
+
+    <!-- ===== FEATURED: DOCUKEEP ===== -->
+    <div class="featured-project animate-fade-up">
+      <span class="featured-label">⭐ Featured Project</span>
+
+      <div class="project-card-featured">
+        <div class="featured-inner">
+          <!-- Visual side -->
+          <div class="project-visual">
+            <div class="project-visual-icon">📱</div>
+            <div class="project-visual-text">DocuKeep</div>
+            <div class="mock-screen">
+              <div class="mock-line"></div>
+              <div class="mock-line"></div>
+              <div class="mock-line"></div>
+            </div>
+          </div>
+
+          <!-- Content side -->
+          <div class="project-content">
+            <h2 class="project-title">📱 DocuKeep</h2>
+            <p class="project-overview">
+              A streamlined mobile document management application built for organizing, storing,
+              and accessing important files on the go. DocuKeep brings enterprise-grade document
+              management to your pocket with a clean, intuitive interface powered by Flutter and
+              backed by Firebase &amp; Cloudinary.
+            </p>
+
+            <div class="tech-stack">
+              <span class="tech-badge tech-flutter">📱 Flutter</span>
+              <span class="tech-badge tech-firebase">🔥 Firebase</span>
+              <span class="tech-badge tech-cloudinary">☁️ Cloudinary</span>
+              <span class="tech-badge tech-dart">🎯 Dart</span>
+            </div>
+
+            <div class="project-features">
+              <h4>Key Features</h4>
+              <ul class="feature-list">
+                <li>
+                  <strong>Cross-Platform Performance</strong> – Developed with Flutter to deliver
+                  a smooth, native-feeling experience on both iOS &amp; Android from a single codebase.
+                </li>
+                <li>
+                  <strong>Cloud Storage Integration</strong> – Leverages Cloudinary for robust and
+                  reliable document upload, storage, and on-the-fly media transformations.
+                </li>
+                <li>
+                  <strong>Real-time Synchronisation</strong> – Utilises Firebase Firestore for
+                  efficient database management, ensuring documents and user data are seamlessly
+                  synced across devices in real time.
+                </li>
+                <li>
+                  <strong>Secure Authentication</strong> – Implements Firebase Auth with secure
+                  Google Sign-In and Email/Password login, keeping your documents private and
+                  protected.
+                </li>
+                <li>
+                  <strong>Organised Document Library</strong> – Category-based organisation system
+                  that lets users folder, tag, and quickly search for any stored document.
+                </li>
+              </ul>
+            </div>
+
+            <div class="project-links">
+              <a
+                href="https://github.com/23MH1A1202"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+                View on GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MORE PROJECTS GRID ===== -->
+    <div class="projects-grid">
+
+      <!-- Project: File Sharing App (instant-share context, excluded by name but can mention tech) -->
+      <div class="project-card animate-fade-up">
+        <div class="project-card-header">
+          <div class="project-card-icon">🔗</div>
+          <div class="project-card-links">
+            <a href="https://github.com/23MH1A1202" target="_blank" rel="noopener noreferrer" class="icon-link" title="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <h3 class="project-card-title">Instant Share</h3>
+        <p class="project-card-desc">
+          A fast, cross-platform file-sharing application enabling users to transfer files
+          seamlessly between devices. Built with a focus on speed, simplicity, and a frictionless
+          sharing experience using modern mobile technologies.
+        </p>
+        <div class="project-card-tags">
+          <span class="tag">Mobile App</span>
+          <span class="tag">File Sharing</span>
+          <span class="tag">Cross-Platform</span>
+        </div>
+      </div>
+
+      <!-- Project: Web Development Projects -->
+      <div class="project-card animate-fade-up">
+        <div class="project-card-header">
+          <div class="project-card-icon">🌐</div>
+          <div class="project-card-links">
+            <a href="https://github.com/23MH1A1202" target="_blank" rel="noopener noreferrer" class="icon-link" title="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <h3 class="project-card-title">Full Stack Web Apps</h3>
+        <p class="project-card-desc">
+          A collection of full-stack web applications built with modern frameworks.
+          Leveraging Next.js, TypeScript, and Tailwind CSS for the frontend with robust
+          backend integrations and database management.
+        </p>
+        <div class="project-card-tags">
+          <span class="tag">Next.js</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Tailwind CSS</span>
+          <span class="tag">Vercel</span>
+        </div>
+      </div>
+
+      <!-- Project: Firebase / Backend Projects -->
+      <div class="project-card animate-fade-up">
+        <div class="project-card-header">
+          <div class="project-card-icon">🔥</div>
+          <div class="project-card-links">
+            <a href="https://github.com/23MH1A1202" target="_blank" rel="noopener noreferrer" class="icon-link" title="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <h3 class="project-card-title">Firebase Cloud Projects</h3>
+        <p class="project-card-desc">
+          Backend-focused projects utilising Firebase's suite — Firestore, Firebase Authentication,
+          Cloud Storage, and Cloud Functions — to deliver scalable, real-time, serverless
+          application architectures.
+        </p>
+        <div class="project-card-tags">
+          <span class="tag">Firebase</span>
+          <span class="tag">Firestore</span>
+          <span class="tag">Cloud Functions</span>
+          <span class="tag">Auth</span>
+        </div>
+      </div>
+
+      <!-- Project: Portfolio -->
+      <div class="project-card animate-fade-up">
+        <div class="project-card-header">
+          <div class="project-card-icon">✨</div>
+          <div class="project-card-links">
+            <a href="https://github.com/23MH1A1202/portfolio" target="_blank" rel="noopener noreferrer" class="icon-link" title="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <h3 class="project-card-title">Developer Portfolio</h3>
+        <p class="project-card-desc">
+          This very portfolio website! Built from scratch with pure HTML, CSS, and vanilla JavaScript.
+          Features a modern dark theme, smooth animations, a typing effect, scroll-triggered
+          reveals, and a fully responsive layout — no framework dependencies.
+        </p>
+        <div class="project-card-tags">
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Responsive</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONTACT ========== -->
+<section id="contact">
+  <div class="container">
+    <p class="section-title animate-fade-up">Get In Touch</p>
+    <p class="section-subtitle animate-fade-up">Have a project in mind? Let's build something great together.</p>
+
+    <div class="contact-wrapper">
+      <!-- Left: Info -->
+      <div class="contact-info animate-fade-up">
+        <h3>Let's Connect 🤝</h3>
+        <p>
+          Whether you're looking to collaborate on a project, have a question about my work, or
+          just want to say hi — my inbox is always open. I'll do my best to get back to you!
+        </p>
+
+        <div class="contact-links">
+          <a
+            href="https://github.com/23MH1A1202"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-link-item"
+          >
+            <span class="contact-link-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </span>
+            <div>
+              <div style="font-weight:600; font-size:0.9rem; color:var(--text);">GitHub</div>
+              <div style="font-size:0.8rem;">github.com/23MH1A1202</div>
+            </div>
+          </a>
+
+          <!-- TODO: Replace with your actual email address -->
+          <a
+            href="mailto:alalithasagar355@gmail.com"
+            class="contact-link-item"
+            id="emailLink"
+          >
+            <span class="contact-link-icon">📧</span>
+            <div>
+              <div style="font-weight:600; font-size:0.9rem; color:var(--text);">Email</div>
+              <div style="font-size:0.8rem;" id="emailText">alalithasagar355@gmail.com</div>
+            </div>
+          </a>
+
+          <!-- TODO: Replace with your actual LinkedIn profile URL -->
+          <a
+            href="https://www.linkedin.com/in/lalitha-sagar-ambati-71b9302a4/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-link-item"
+            id="linkedinLink"
+          >
+            <span class="contact-link-icon">💼</span>
+            <div>
+              <div style="font-weight:600; font-size:0.9rem; color:var(--text);">LinkedIn</div>
+              <div style="font-size:0.8rem;">Connect with me professionally</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="contact-form animate-fade-up">
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="John Doe" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="john@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="Project Collaboration" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+            Send Message 🚀
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="footer-inner">
+    <p class="footer-text">
+      Built with ❤️ using HTML, CSS &amp; JavaScript &nbsp;·&nbsp;
+      <a href="https://github.com/23MH1A1202/portfolio" target="_blank" rel="noopener noreferrer">View Source</a>
+    </p>
+    <div class="footer-links">
+      <a href="#hero">Home</a>
+      <a href="#projects">Projects</a>
+      <a href="https://github.com/23MH1A1202" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<!-- JS -->
+<script src="script.js"></script>
+</body>
+</html>
