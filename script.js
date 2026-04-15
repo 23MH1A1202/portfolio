@@ -259,3 +259,35 @@ const glowObserver = new IntersectionObserver(
 document.querySelectorAll('.skill-card, .project-card').forEach(card => {
   glowObserver.observe(card);
 });
+
+
+
+// ===== 3D TILT EFFECT FOR DESKTOP =====
+// Select the cards you want to tilt
+const tiltCards = document.querySelectorAll('.skill-card, .about-card');
+
+tiltCards.forEach(card => {
+  card.addEventListener('mousemove', e => {
+    // Only run on desktop/devices with a mouse
+    if (window.innerWidth <= 900) return; 
+
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left; // X position within the card
+    const y = e.clientY - rect.top;  // Y position within the card
+    
+    // Calculate rotation limits (max 8 degrees)
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -8;
+    const rotateY = ((x - centerX) / centerX) * 8;
+
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px) scale(1.02)`;
+    card.style.transition = 'transform 0.1s ease-out'; // Fast response while moving
+  });
+
+  card.addEventListener('mouseleave', () => {
+    // Snap back to original position smoothly
+    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)`;
+    card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
+  });
+});
