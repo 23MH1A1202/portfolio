@@ -190,3 +190,29 @@ if (carousel) {
     }
   }, 3500); // Scrolls every 3.5 seconds
 }
+// ===== FOCUS GLOW EFFECT =====
+// Automatically highlights cards when they scroll into the viewport
+const glowObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      // If the card is at least 50% visible on screen
+      if (entry.isIntersecting) {
+        entry.target.classList.add('glow-active');
+      } else {
+        // Remove glow when it scrolls away
+        entry.target.classList.remove('glow-active');
+      }
+    });
+  },
+  {
+    // Threshold 0.5 means 50% of the element must be visible to trigger
+    threshold: 0.5,
+    // RootMargin slightly shrinks the trigger box so it happens closer to the center
+    rootMargin: "-10% 0px -10% 0px" 
+  }
+);
+
+// Apply this observer to all skill cards and project cards
+document.querySelectorAll('.skill-card, .project-card').forEach(card => {
+  glowObserver.observe(card);
+});
