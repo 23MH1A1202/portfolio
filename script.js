@@ -30,7 +30,8 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 // ===== ACTIVE NAV =====
 function updateActiveNav() {
   const sections = document.querySelectorAll('section[id]');
-  const scrollPos = window.scrollY + 100;
+  // Adjust scrollPos to be more sensitive (150 instead of 100)
+  const scrollPos = window.scrollY + 150; 
   sections.forEach(sec => {
     const link = document.querySelector(`.nav-links a[href="#${sec.id}"]`);
     if (!link) return;
@@ -136,13 +137,21 @@ form?.addEventListener('submit', e => {
 });
 
 // ===== SMOOTH SCROLL =====
+// Update the Smooth Scroll section in script.js
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', e => {
     const target = document.querySelector(anchor.getAttribute('href'));
     if (target) {
       e.preventDefault();
-      const offset = 80;
-      window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+      // Changed offset from 80 to 60 for tighter alignment
+      const offset = 60; 
+      window.scrollTo({ 
+        top: target.offsetTop - offset, 
+        behavior: 'smooth' 
+      });
+      
+      // Ensure nav closes on mobile after clicking
+      closeNav(); 
     }
   });
 });
