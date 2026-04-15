@@ -1,3 +1,18 @@
+// ===== PRELOADER =====
+// Lock the scroll immediately when the script loads
+document.body.classList.add('no-scroll');
+
+window.addEventListener('load', () => {
+  const preloader = document.getElementById('preloader');
+  
+  // Wait for the 2.2 seconds (matches the CSS animation duration) 
+  // before sliding the preloader up and unlocking the scroll
+  setTimeout(() => {
+    preloader.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+  }, 2200); 
+});
+
 // ===== NAVBAR =====
 const navbar = document.getElementById('navbar');
 const navToggle = document.getElementById('navToggle');
