@@ -37,6 +37,15 @@ body.light-mode {
   --nav-bg: rgba(255, 255, 255, 0.9);
 }
 
+/* Makes gradients darker in light mode so they don't vanish */
+body.light-mode .hero-name,
+body.light-mode .preloader-text {
+  background: linear-gradient(135deg, var(--primary), #2d3436);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Nav Actions & Theme Button */
 .nav-actions {
   display: flex;
