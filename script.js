@@ -155,3 +155,38 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   });
 });
+
+
+// ===== PROJECTS CAROUSEL AUTO-SCROLL =====
+const carousel = document.getElementById('projectsCarousel');
+let isCarouselPaused = false;
+
+if (carousel) {
+  // Pause auto-scroll when user interacts (mouse or touch)
+  carousel.addEventListener('mouseenter', () => isCarouselPaused = true);
+  carousel.addEventListener('mouseleave', () => isCarouselPaused = false);
+  
+  carousel.addEventListener('touchstart', () => isCarouselPaused = true);
+  carousel.addEventListener('touchend', () => {
+    // Resume scrolling 2 seconds after touch ends
+    setTimeout(() => isCarouselPaused = false, 2000);
+  });
+
+  setInterval(() => {
+    if (!isCarouselPaused) {
+      // Find the width of one card + the gap (1.5rem = 24px)
+      const card = carousel.querySelector('.project-card');
+      if (!card) return;
+      
+      const scrollStep = card.offsetWidth + 24; 
+      
+      // If we've reached the end of the scrollable area, jump back to start
+      if (carousel.scrollLeft + carousel.offsetWidth >= carousel.scrollWidth - 10) {
+        carousel.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        // Otherwise, scroll right by one card
+        carousel.scrollBy({ left: scrollStep, behavior: 'smooth' });
+      }
+    }
+  }, 3500); // Scrolls every 3.5 seconds
+}
