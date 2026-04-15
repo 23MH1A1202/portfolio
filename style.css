@@ -1129,7 +1129,7 @@ footer {
     top: 0; 
     right: 0; /* Anchors the menu to the right side */
     bottom: 0;
-    width: 50%; /* Sets it to exactly half the screen */
+    width: 60%; /* Sets it to exactly half the screen */
     height: 100vh;
     padding: 6rem 1.5rem 2rem; /* Adjusted side padding for smaller width */
     background: var(--bg-secondary);
@@ -1139,6 +1139,9 @@ footer {
     z-index: 1001;
     transform: translateX(100%); /* Hides it off-screen to the right */
     transition: transform 0.3s ease, visibility 0.3s ease;
+    /* ADDED: Rounded corners on the left side */
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
   }
   .nav-links.open {
     visibility: visible;
@@ -1147,11 +1150,10 @@ footer {
   .nav-toggle { display: flex; z-index: 1002; }
 
   /* Navbar gets solid background when menu is open */
-  #navbar.nav-open {
-  background: var(--bg-secondary) !important; /* Ensure solid background */
-  backdrop-filter: blur(20px);
-  height: 100vh; /* Prevents hero content from bleeding through bottom */
-}
+ #navbar.nav-open {
+    background: rgba(18, 18, 26, 0.98) !important; 
+    backdrop-filter: blur(20px);
+  }
 
   /* Hero scroll indicator – hidden on mobile to avoid layout issues */
   .hero-scroll { display: none; }
