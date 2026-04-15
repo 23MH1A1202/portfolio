@@ -46,6 +46,35 @@ body.light-mode .preloader-text {
   background-clip: text;
 }
 
+/* ===== OFFICIAL ICONS STYLING ===== */
+.bx, .bxl, .bxs {
+  font-size: 1.15em;
+  vertical-align: middle;
+  transform: translateY(-1px); /* Optically centers the icon with text */
+}
+
+/* Make the large section icons pop with your primary color */
+.skill-icon .bx, 
+.project-card-icon .bx {
+  font-size: 2.5rem;
+  color: var(--primary-light);
+}
+
+.highlight-icon .bx {
+  font-size: 1.3rem;
+  color: var(--primary);
+}
+
+.contact-link-icon .bx {
+  font-size: 1.5rem;
+  color: var(--primary-light);
+}
+
+.avatar-placeholder .bx {
+  font-size: 4rem;
+  color: var(--text-muted);
+}
+
 /* Nav Actions & Theme Button */
 .nav-actions {
   display: flex;
