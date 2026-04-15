@@ -679,11 +679,11 @@ body.no-scroll {
 
 /* Cascade delays for Skills Grid */
 .skills-grid .skill-card:nth-child(1) { transition-delay: 0.0s; }
-.skills-grid .skill-card:nth-child(2) { transition-delay: 0.1s; }
-.skills-grid .skill-card:nth-child(3) { transition-delay: 0.2s; }
-.skills-grid .skill-card:nth-child(4) { transition-delay: 0.3s; }
-.skills-grid .skill-card:nth-child(5) { transition-delay: 0.2s; }
-.skills-grid .skill-card:nth-child(6) { transition-delay: 0.1s; }
+.skills-grid .skill-card:nth-child(2) { transition-delay: 0.0s; }
+.skills-grid .skill-card:nth-child(3) { transition-delay: 0.0s; }
+.skills-grid .skill-card:nth-child(4) { transition-delay: 0.0s; }
+.skills-grid .skill-card:nth-child(5) { transition-delay: 0.0s; }
+.skills-grid .skill-card:nth-child(6) { transition-delay: 0.0s; }
 
 #skills {
   padding: 3rem 0;
