@@ -6,15 +6,15 @@
   <meta name="description" content="Portfolio of Ambati Lalitha Sagar – B.Tech IT student at Aditya College of Engineering and Technology, passionate about building web apps, PWAs, and mobile apps." />
   <title>Sagar | Portfolio</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
     rel="stylesheet"
   />
-
-  <!-- CSS -->
+  
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -26,7 +26,7 @@
   </div>
   <div class="preloader-loading-bar"></div>
 </div>
-<!-- ========== NAVBAR ========== -->
+
 <nav id="navbar">
   <div class="nav-container">
     <a href="#hero" class="nav-logo">&lt;Sagar/&gt;</a>
@@ -61,13 +61,11 @@
     </div>
   </nav>
 
-<!-- ========== HERO ========== -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
 
   <div class="hero-content">
-    <!-- Left: Text -->
     <div class="hero-text">
       <p class="hero-greeting">Hello👋, I'm</p>
       <h1 class="hero-name">Lalitha Sagar Ambati</h1>
@@ -80,24 +78,23 @@
         real-time cloud backends.
       </p>
       <div class="hero-actions">
-        <a href="#projects" class="btn btn-primary">🚀 View Projects</a>
-        <a href="#contact" class="btn btn-outline">📬 Get in Touch</a>
+        <a href="#projects" class="btn btn-primary"><i class='bx bx-rocket'></i> View Projects</a>
+        <a href="#contact" class="btn btn-outline"><i class='bx bx-envelope'></i> Get in Touch</a>
       </div>
     </div>
 
-    <!-- Right: Visual -->
     <div class="hero-visual">
       <div class="avatar-container">
         <div class="avatar-ring"></div>
         <div class="avatar-placeholder">
-          <span>🧑🏻‍💻</span>
+          <span><i class='bx bx-code-alt'></i></span>
         </div>
-        <div class="float-badge">🌐 PWA</div>
-        <div class="float-badge">🔥 Firebase</div>
-        <div class="float-badge">📱 Flutter</div>
-        <div class="float-badge">💻 HTML5</div>
-        <div class="float-badge">✨ CSS3</div>
-        <div class="float-badge">Git & Github</div>
+        <div class="float-badge"><i class='bx bx-globe'></i> PWA</div>
+        <div class="float-badge"><i class='bx bxl-firebase' style="color:#FFCA28"></i> Firebase</div>
+        <div class="float-badge"><i class='bx bxl-flutter' style="color:#54C5F8"></i> Flutter</div>
+        <div class="float-badge"><i class='bx bxl-html5' style="color:#E34F26"></i> HTML5</div>
+        <div class="float-badge"><i class='bx bxl-css3' style="color:#1572B6"></i> CSS3</div>
+        <div class="float-badge"><i class='bx bxl-github'></i> Git & Github</div>
       </div>
     </div>
   </div>
@@ -108,17 +105,15 @@
   </div>
 </section>
 
-<!-- ========== ABOUT ========== -->
 <section id="about">
   <div class="container">
     <p class="section-title animate-fade-up">About Me</p>
     <p class="section-subtitle animate-fade-up">Get to know the developer behind the code</p>
 
     <div class="about-grid">
-      <!-- Left: Card -->
       <div class="about-image-wrap animate-fade-up">
         <div class="about-card">
-          <div class="about-avatar">🧑🏻‍💻</div>
+          <div class="about-avatar"><i class='bx bx-user-circle'></i></div>
           <h3 style="font-size:1.2rem; margin-bottom:0.25rem;">Lalitha Sagar Ambati</h3>
           <p style="color:var(--text-muted); font-size:0.85rem;">B.Tech IT · Aditya College of Engg. & Tech.</p>
 
@@ -143,7 +138,6 @@
         </div>
       </div>
 
-      <!-- Right: Text -->
       <div class="about-text animate-fade-up">
         <h3>Turning Ideas into Reality</h3>
         <p>
@@ -166,23 +160,23 @@
 
         <div class="about-highlights">
           <div class="highlight-item">
-            <span class="highlight-icon">🌐</span>
+            <span class="highlight-icon"><i class='bx bx-globe'></i></span>
             <span>Progressive Web Apps (PWA) with offline support &amp; installability</span>
           </div>
           <div class="highlight-item">
-            <span class="highlight-icon">🔥</span>
+            <span class="highlight-icon"><i class='bx bxl-firebase'></i></span>
             <span>Real-time backends with Firebase (Firestore, Auth, Storage)</span>
           </div>
           <div class="highlight-item">
-            <span class="highlight-icon">🔗</span>
+            <span class="highlight-icon"><i class='bx bx-transfer-alt'></i></span>
             <span>Peer-to-peer file sharing using WebRTC &amp; PeerJS</span>
           </div>
           <div class="highlight-item">
-            <span class="highlight-icon">📱</span>
+            <span class="highlight-icon"><i class='bx bxl-flutter'></i></span>
             <span>Cross-platform mobile app development with Flutter &amp; Dart</span>
           </div>
           <div class="highlight-item">
-            <span class="highlight-icon">🖥️</span>
+            <span class="highlight-icon"><i class='bx bxl-nodejs'></i></span>
             <span>Server-side automation &amp; scraping with Node.js &amp; Playwright</span>
           </div>
         </div>
@@ -191,7 +185,6 @@
   </div>
 </section>
 
-<!-- ========== SKILLS ========== -->
 <section id="skills">
   <div class="container">
     <p class="section-title animate-fade-up">Tech Stack</p>
@@ -199,9 +192,8 @@
 
     <div class="skills-grid">
 
-      <!-- HTML / CSS / JS -->
       <div class="skill-card animate-fade-up">
-        <div class="skill-icon">🌐</div>
+        <div class="skill-icon"><i class='bx bx-code-block'></i></div>
         <div class="skill-name">HTML · CSS · JavaScript</div>
         <div class="skill-desc">
           Building responsive, accessible web interfaces with vanilla web technologies and
@@ -215,9 +207,8 @@
         </div>
       </div>
 
-      <!-- PWA -->
       <div class="skill-card animate-fade-up">
-        <div class="skill-icon">📲</div>
+        <div class="skill-icon"><i class='bx bx-mobile'></i></div>
         <div class="skill-name">Progressive Web Apps</div>
         <div class="skill-desc">
           Offline-capable, installable PWAs with service workers, web app manifests, and
@@ -231,9 +222,8 @@
         </div>
       </div>
 
-      <!-- Firebase -->
       <div class="skill-card animate-fade-up">
-        <div class="skill-icon">🔥</div>
+        <div class="skill-icon"><i class='bx bxl-firebase'></i></div>
         <div class="skill-name">Firebase</div>
         <div class="skill-desc">
           Real-time data sync, authentication, cloud storage, and browser push notifications.
@@ -246,9 +236,8 @@
         </div>
       </div>
 
-      <!-- Node.js / Backend -->
       <div class="skill-card animate-fade-up">
-        <div class="skill-icon">🖥️</div>
+        <div class="skill-icon"><i class='bx bxl-nodejs'></i></div>
         <div class="skill-name">Node.js &amp; Backend</div>
         <div class="skill-desc">
           Server-side logic, REST APIs, scheduled tasks, and headless browser automation
@@ -263,9 +252,8 @@
         </div>
       </div>
 
-      <!-- Flutter -->
       <div class="skill-card animate-fade-up">
-        <div class="skill-icon">📱</div>
+        <div class="skill-icon"><i class='bx bxl-flutter'></i></div>
         <div class="skill-name">Flutter &amp; Dart</div>
         <div class="skill-desc">
           Building cross-platform mobile apps from a single codebase with clean UIs and
@@ -279,9 +267,8 @@
         </div>
       </div>
 
-      <!-- Tools -->
       <div class="skill-card animate-fade-up">
-        <div class="skill-icon">🛠️</div>
+        <div class="skill-icon"><i class='bx bx-wrench'></i></div>
         <div class="skill-name">Dev Tools &amp; Practices</div>
         <div class="skill-desc">
           Version control, containerised deployments, and peer-to-peer real-time
@@ -299,7 +286,6 @@
   </div>
 </section>
 
-<!-- ========== PROJECTS ========== -->
 <section id="projects">
   <div class="container">
     <p class="section-title animate-fade-up">Projects</p>
@@ -314,12 +300,12 @@
             <img src="assets/smartshare.png" alt="SmartShare Preview">
           </div>
           <div class="project-card-header">
-            <div class="project-card-icon">🔗</div>
+            <div class="project-card-icon"><i class='bx bx-share-alt'></i></div>
             <div class="project-card-links">
-              <a href="https://smartshare.alsagar.tech/" target="_blank" rel="noopener noreferrer" class="icon-link" title="Live App">View Project</a>
+              <a href="https://smartshare.alsagar.tech/" target="_blank" rel="noopener noreferrer" class="icon-link" title="Live App"><i class='bx bx-link-external'></i> View Project</a>
             </div>
           </div>
-          <h3 class="project-card-title">SmartShare <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px; margin-left:5px; vertical-align:middle;">⭐ Featured</span></h3>
+          <h3 class="project-card-title">SmartShare <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px; margin-left:5px; vertical-align:middle;"><i class='bx bxs-star'></i> Featured</span></h3>
           <p class="project-card-desc">
             A fast, account-free file sharing web app with two modes: direct device-to-device transfer via WebRTC and cloud vault sharing with expiry times.
           </p>
@@ -336,9 +322,9 @@
             <img src="assets/studentphotos.png" alt="Student Photos Preview">
           </div>
           <div class="project-card-header">
-            <div class="project-card-icon">🔍</div>
+            <div class="project-card-icon"><i class='bx bx-search-alt'></i></div>
             <div class="project-card-links">
-              <a href="https://23mh1a1202.github.io/student_photos/" target="_blank" rel="noopener noreferrer" class="icon-link" title="Live App">View Project</a>
+              <a href="https://23mh1a1202.github.io/student_photos/" target="_blank" rel="noopener noreferrer" class="icon-link" title="Live App"><i class='bx bx-link-external'></i> View Project</a>
             </div>
           </div>
           <h3 class="project-card-title">Student Photos</h3>
@@ -357,9 +343,9 @@
             <img src="assets/attendance.png" alt="Sagar Attendance Preview">
           </div>
           <div class="project-card-header">
-            <div class="project-card-icon">📊</div>
+            <div class="project-card-icon"><i class='bx bx-bar-chart-square'></i></div>
             <div class="project-card-links">
-              <span style="font-size:0.72rem; color:#f59e0b; background:rgba(255,165,0,0.15); padding:2px 7px; border-radius:999px; font-weight:600;">💤 Hibernating</span>
+              <span style="font-size:0.72rem; color:#f59e0b; background:rgba(255,165,0,0.15); padding:2px 7px; border-radius:999px; font-weight:600;"><i class='bx bx-moon'></i> Hibernating</span>
             </div>
           </div>
           <h3 class="project-card-title">Sagar Attendance</h3>
@@ -378,9 +364,9 @@
             <img src="assets/docukeep1.jpg" alt="DocuKeep Preview">
           </div>
           <div class="project-card-header">
-            <div class="project-card-icon">📁</div>
+            <div class="project-card-icon"><i class='bx bx-folder-open'></i></div>
             <div class="project-card-links">
-              <a href="https://drive.google.com/drive/folders/1uBTA6v6d7Di_k5hlqC8ds32hfIBG5JNe?usp=drive_link" target="_blank" rel="noopener noreferrer" class="icon-link" title="Download App">Download App</a>
+              <a href="https://drive.google.com/drive/folders/1uBTA6v6d7Di_k5hlqC8ds32hfIBG5JNe?usp=drive_link" target="_blank" rel="noopener noreferrer" class="icon-link" title="Download App"><i class='bx bx-download'></i> Download App</a>
             </div>
           </div>
           <h3 class="project-card-title">DocuKeep</h3>
@@ -394,24 +380,20 @@
           </div>
         </div>
 
-       
-
       </div>
       <button class="carousel-btn next-btn" id="nextBtn" aria-label="Next">❯</button>
     </div>
   </div>
 </section>
 
-<!-- ========== CONTACT ========== -->
 <section id="contact">
   <div class="container">
     <p class="section-title animate-fade-up">Get In Touch</p>
     <p class="section-subtitle animate-fade-up">Have a project in mind? Let's build something great together.</p>
 
     <div class="contact-wrapper">
-      <!-- Left: Info -->
       <div class="contact-info animate-fade-up">
-        <h3>Let's Connect 🤝</h3>
+        <h3>Let's Connect <i class='bx bx-group'></i></h3>
         <p>
           Whether you're looking to collaborate on a project, have a question about my work, or
           just want to say hi — my inbox is always open. I'll do my best to get back to you!
@@ -425,9 +407,7 @@
             class="contact-link-item"
           >
             <span class="contact-link-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-              </svg>
+              <i class='bx bxl-github'></i>
             </span>
             <div>
               <div style="font-weight:600; font-size:0.9rem; color:var(--text);">GitHub</div>
@@ -440,7 +420,7 @@
             class="contact-link-item"
             id="emailLink"
           >
-            <span class="contact-link-icon">📧</span>
+            <span class="contact-link-icon"><i class='bx bx-envelope'></i></span>
             <div>
               <div style="font-weight:600; font-size:0.9rem; color:var(--text);">Email</div>
               <div style="font-size:0.8rem;" id="emailText">alalithasagar355@gmail.com</div>
@@ -454,7 +434,7 @@
             class="contact-link-item"
             id="linkedinLink"
           >
-            <span class="contact-link-icon">💼</span>
+            <span class="contact-link-icon"><i class='bx bxl-linkedin-square'></i></span>
             <div>
               <div style="font-weight:600; font-size:0.9rem; color:var(--text);">LinkedIn</div>
               <div style="font-size:0.8rem;">Connect with me professionally</div>
@@ -463,7 +443,6 @@
         </div>
       </div>
 
-      <!-- Right: Form -->
       <div class="contact-form animate-fade-up">
         <form id="contactForm" action="https://formspree.io/f/xeeveoep" method="POST">
           <div class="form-group">
@@ -483,7 +462,7 @@
             <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
           </div>
           <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
-            Send Message 🚀
+            Send Message <i class='bx bx-send'></i>
           </button>
         </form>
       </div>
@@ -491,11 +470,10 @@
   </div>
 </section>
 
-<!-- ========== FOOTER ========== -->
 <footer>
   <div class="footer-inner">
     <p class="footer-text">
-      © 2025 Ambati Lalitha Sagar &nbsp;·&nbsp; Built with ❤️ using HTML, CSS &amp; JavaScript &nbsp;·&nbsp;
+      © 2025 Ambati Lalitha Sagar &nbsp;·&nbsp; Built with <i class='bx bxs-heart' style="color:var(--accent)"></i> using HTML, CSS &amp; JavaScript &nbsp;·&nbsp;
       <a href="https://github.com/23MH1A1202/portfolio" target="_blank" rel="noopener noreferrer">View Source</a>
     </p>
     <div class="footer-links">
@@ -510,7 +488,6 @@
     <path d="M18 15l-6-6-6 6"/>
   </svg>
 </button>
-<!-- JS -->
 <script src="script.js"></script>
 </body>
 </html>
