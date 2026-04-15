@@ -32,11 +32,11 @@ function updateActiveNav() {
 
 // ===== TYPING EFFECT =====
 const roles = [
-  'Flutter Developer',
-  'Mobile App Developer',
-  'Full Stack Developer',
+  'Web Developer',
+  'PWA Builder',
   'Firebase Enthusiast',
-  'UI/UX Focused Coder',
+  'Flutter Developer',
+  'Problem Solver',
 ];
 
 let roleIndex = 0;
