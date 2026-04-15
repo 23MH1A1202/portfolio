@@ -11,13 +11,18 @@
   --accent: #fd79a8;
   --bg: #0a0a0f;
   --bg-secondary: #12121a;
-  --bg-card: #1a1a2e;
+  --bg-card: rgba(26, 26, 46, 0.6);
   --text: #e0e0f0;
   --text-muted: #8888aa;
   --border: rgba(108, 99, 255, 0.2);
   --glow: rgba(108, 99, 255, 0.3);
   --font: 'Inter', 'Segoe UI', system-ui, sans-serif;
   --mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+}
+
+.about-card, .skill-card, .project-card, .contact-form, .contact-link-item {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 html {
@@ -670,6 +675,15 @@ body.no-scroll {
 }
 
 /* ===== SKILLS ===== */
+
+/* Cascade delays for Skills Grid */
+.skills-grid .skill-card:nth-child(1) { transition-delay: 0.0s; }
+.skills-grid .skill-card:nth-child(2) { transition-delay: 0.1s; }
+.skills-grid .skill-card:nth-child(3) { transition-delay: 0.2s; }
+.skills-grid .skill-card:nth-child(4) { transition-delay: 0.3s; }
+.skills-grid .skill-card:nth-child(5) { transition-delay: 0.4s; }
+.skills-grid .skill-card:nth-child(6) { transition-delay: 0.5s; }
+
 #skills {
   padding: 4rem 0;
 }
