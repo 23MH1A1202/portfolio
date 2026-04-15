@@ -716,7 +716,30 @@ a:hover { color: var(--accent); }
 .project-card.glow-active::after {
   transform: scaleX(1);
 }
+/* PROJECT SCREENSHOTS */
+.project-image {
+  width: 100%;
+  height: 180px; /* Keeps all screenshots a uniform height */
+  margin-bottom: 1.25rem;
+  border-radius: 12px; /* Neat border radius */
+  overflow: hidden;
+  border: 1px solid var(--border);
+  flex-shrink: 0; 
+}
 
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures images fill the box without squishing */
+  object-position: top center; /* Focuses on the top of mobile screenshots like DocuKeep */
+  transition: transform 0.4s ease;
+}
+
+/* Subtle zoom effect when the card glows or is hovered */
+.project-card:hover .project-image img,
+.project-card.glow-active .project-image img {
+  transform: scale(1.05); 
+}
 /* INNER CARD ELEMENTS */
 .project-card-header {
   display: flex;
