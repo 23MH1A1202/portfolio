@@ -606,13 +606,15 @@ a:hover { color: var(--accent); }
   transition: transform 0.3s;
 }
 
-.skill-card:hover {
+.skill-card:hover,
+.skill-card.glow-active{
   border-color: var(--primary);
   transform: translateY(-4px);
   box-shadow: 0 8px 30px var(--glow);
 }
 
-.skill-card:hover::before {
+.skill-card:hover::before,
+.skill-card.glow-active::before{
   transform: scaleX(1);
 }
 
@@ -703,13 +705,15 @@ a:hover { color: var(--accent); }
 }
 
 /* The hover glow and float effect */
-.project-card:hover {
+.project-card:hover,
+.project-card.glow-active {
   border-color: rgba(108, 99, 255, 0.4);
   transform: translateY(-4px);
   box-shadow: 0 8px 30px var(--glow);
 }
 
-.project-card:hover::after {
+.project-card:hover::after,
+.project-card.glow-active::after {
   transform: scaleX(1);
 }
 
