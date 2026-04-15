@@ -1116,7 +1116,7 @@ footer {
 .animate-fade-up {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .animate-fade-up.visible {
@@ -1222,3 +1222,54 @@ footer {
   .about-stats { grid-template-columns: 1fr 1fr; }
 }
 
+/* ===== SCROLL TO TOP BUTTON ===== */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  color: var(--primary-light);
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  
+  /* Hidden state by default */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+/* Class added by JS when scrolled down */
+.scroll-top-btn.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px var(--glow);
+}
+
+/* Mobile sizing */
+@media (max-width: 600px) {
+  .scroll-top-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+  }
+}
