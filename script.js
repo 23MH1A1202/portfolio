@@ -72,11 +72,6 @@ window.addEventListener('scroll', () => {
   }
 });
 
-navToggle?.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-  navbar.classList.toggle('nav-open', navLinks.classList.contains('open'));
-});
-
 // Close nav on link click (mobile)
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', closeNav);
