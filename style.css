@@ -647,200 +647,35 @@ a:hover { color: var(--accent); }
   background: linear-gradient(180deg, var(--bg) 0%, var(--bg-secondary) 100%);
 }
 
-.featured-project {
-  margin-bottom: 4rem;
-}
-
-.featured-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--accent);
-  margin-bottom: 1.5rem;
-  padding: 0.3rem 0.8rem;
-  background: rgba(253, 121, 168, 0.1);
-  border: 1px solid rgba(253, 121, 168, 0.2);
-  border-radius: 999px;
-}
-
-.project-card-featured {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  overflow: hidden;
-  transition: all 0.3s;
+/* CAROUSEL WRAPPER & SCROLLING */
+.projects-carousel-wrapper {
   position: relative;
+  width: 100%;
 }
 
-.project-card-featured:hover {
-  border-color: var(--primary);
-  box-shadow: 0 16px 50px var(--glow);
-  transform: translateY(-4px);
-}
-
-.project-card-featured::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(108,99,255,0.05) 0%, rgba(253,121,168,0.03) 100%);
-  pointer-events: none;
-}
-
-.featured-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  padding: 2.5rem;
-  align-items: center;
-}
-
-.project-visual {
-  background: linear-gradient(135deg, rgba(108, 99, 255, 0.15) 0%, rgba(253, 121, 168, 0.1) 100%);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 2rem;
+.projects-carousel {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 300px;
-  position: relative;
-  overflow: hidden;
-}
-
-.project-visual-icon {
-  font-size: 5rem;
-  margin-bottom: 1rem;
-  filter: drop-shadow(0 0 20px rgba(108,99,255,0.5));
-  animation: float 4s ease-in-out infinite;
-}
-
-.project-visual-text {
-  font-size: 1.5rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--primary-light), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-align: center;
-}
-
-.mock-screen {
-  position: absolute;
-  bottom: -20px;
-  right: -20px;
-  width: 120px;
-  height: 80px;
-  background: rgba(10,10,15,0.8);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px;
-  opacity: 0.6;
-}
-
-.mock-line {
-  height: 4px;
-  border-radius: 2px;
-  margin-bottom: 5px;
-}
-.mock-line:nth-child(1) { background: var(--primary); width: 70%; }
-.mock-line:nth-child(2) { background: var(--accent); width: 50%; }
-.mock-line:nth-child(3) { background: var(--text-muted); width: 80%; }
-
-.project-content { position: relative; z-index: 1; }
-
-.project-title {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-  color: var(--text);
-}
-
-.project-overview {
-  color: var(--text-muted);
-  margin-bottom: 1.5rem;
-  line-height: 1.8;
-}
-
-.project-features {
-  margin-bottom: 1.5rem;
-}
-
-.project-features h4 {
-  font-size: 0.85rem;
-  font-family: var(--mono);
-  color: var(--primary-light);
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.feature-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.feature-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.feature-list li::before {
-  content: '→';
-  color: var(--primary-light);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.tech-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 1.5rem;
-}
-
-.tech-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: 6px;
-  font-size: 0.78rem;
-  font-family: var(--mono);
-  font-weight: 600;
-}
-
-.tech-flutter { background: rgba(70, 130, 180, 0.2); color: #64b5f6; border: 1px solid rgba(100, 181, 246, 0.3); }
-.tech-firebase { background: rgba(255, 152, 0, 0.2); color: #ffb74d; border: 1px solid rgba(255, 183, 77, 0.3); }
-.tech-cloudinary { background: rgba(68, 144, 221, 0.2); color: #90caf9; border: 1px solid rgba(144, 202, 249, 0.3); }
-.tech-dart { background: rgba(0, 188, 212, 0.2); color: #4dd0e1; border: 1px solid rgba(77, 208, 225, 0.3); }
-.tech-next { background: rgba(200, 200, 200, 0.15); color: #e0e0e0; border: 1px solid rgba(200, 200, 200, 0.2); }
-.tech-ts { background: rgba(49, 120, 198, 0.2); color: #64b5f6; border: 1px solid rgba(100, 181, 246, 0.3); }
-.tech-react { background: rgba(97, 218, 251, 0.15); color: #61dafb; border: 1px solid rgba(97, 218, 251, 0.3); }
-.tech-python { background: rgba(52, 152, 219, 0.2); color: #74b9ff; border: 1px solid rgba(116, 185, 255, 0.3); }
-.tech-node { background: rgba(104, 159, 56, 0.2); color: #a5d6a7; border: 1px solid rgba(165, 214, 167, 0.3); }
-
-.project-links {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-/* PROJECTS GRID */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  /* Padding/Margin trick prevents the hover box-shadow from being clipped */
+  padding: 1.5rem 0.5rem; 
+  margin: -1.5rem -0.5rem; 
+  
+  /* Hide scrollbars for a clean look */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
+.projects-carousel::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* CARD STYLES (Animations Preserved) */
 .project-card {
+  flex: 0 0 340px; /* Locks all cards to the exact same width */
+  scroll-snap-align: center;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -850,8 +685,10 @@ a:hover { color: var(--accent); }
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  height: auto; /* Allows flexbox to make all cards equal height */
 }
 
+/* The animated bottom line */
 .project-card::after {
   content: '';
   position: absolute;
@@ -865,6 +702,7 @@ a:hover { color: var(--accent); }
   transition: transform 0.3s;
 }
 
+/* The hover glow and float effect */
 .project-card:hover {
   border-color: rgba(108, 99, 255, 0.4);
   transform: translateY(-4px);
@@ -875,6 +713,7 @@ a:hover { color: var(--accent); }
   transform: scaleX(1);
 }
 
+/* INNER CARD ELEMENTS */
 .project-card-header {
   display: flex;
   justify-content: space-between;
@@ -915,13 +754,15 @@ a:hover { color: var(--accent); }
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: var(--text);
+  display: flex;
+  align-items: center;
 }
 
 .project-card-desc {
   font-size: 0.875rem;
   color: var(--text-muted);
   line-height: 1.7;
-  flex: 1;
+  flex: 1; /* This forces the tags to the bottom uniformly */
   margin-bottom: 1rem;
 }
 
@@ -930,6 +771,14 @@ a:hover { color: var(--accent); }
   flex-wrap: wrap;
   gap: 0.35rem;
   margin-top: auto;
+}
+
+/* ===== MOBILE ADJUSTMENT FOR CAROUSEL ===== */
+@media (max-width: 600px) {
+  .project-card {
+    flex: 0 0 85vw; /* Cards take up 85% of screen width on phones */
+    scroll-snap-align: start;
+  }
 }
 
 /* ===== CONTACT ===== */
