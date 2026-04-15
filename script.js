@@ -342,3 +342,25 @@ tiltCards.forEach(card => {
     card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
   });
 });
+
+
+// ===== SCROLL TO TOP BUTTON =====
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+// Listen for scrolling to show/hide the button
+window.addEventListener('scroll', () => {
+  // Show button when scrolled down 400 pixels
+  if (window.scrollY > 400) {
+    scrollTopBtn.classList.add('show');
+  } else {
+    scrollTopBtn.classList.remove('show');
+  }
+});
+
+// Scroll smoothly to the top when clicked
+scrollTopBtn?.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
