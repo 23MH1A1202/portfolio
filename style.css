@@ -178,6 +178,8 @@ a:hover { color: var(--accent); }
 
 .tag {
   display: inline-block;
+  align-items: center;
+  gap: 0.3rem; /* Adds perfect spacing between icon and text */
   padding: 0.25rem 0.75rem;
   background: rgba(108, 99, 255, 0.15);
   border: 1px solid var(--border);
@@ -187,6 +189,11 @@ a:hover { color: var(--accent); }
   color: var(--primary-light);
   transition: all 0.2s;
 }
+
+.tag i {
+  font-size: 0.95rem; /* Makes the tag icons slightly larger than the text */
+}
+
 .tag:hover {
   background: rgba(108, 99, 255, 0.3);
   border-color: var(--primary);
