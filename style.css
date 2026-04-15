@@ -866,51 +866,54 @@ body.no-scroll {
 
 /* ===== PROJECTS ===== */
 
-/* CAROUSEL BUTTONS */
+/* CAROUSEL BUTTONS (MINIMAL DESIGN) */
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background: var(--bg-card);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--border);
-  color: var(--primary-light);
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
+  
+  /* Minimalist reset */
+  background: transparent; 
+  border: none; 
+  color: var(--text);
+  
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
+  
+  /* Large, elegant thin arrows */
+  font-size: 3rem; 
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  opacity: 0; /* Hidden by default */
-  pointer-events: none; /* Can't be clicked when hidden */
+  opacity: 0; 
+  pointer-events: none; 
+  
+  /* Soft drop shadow ensures the arrow is visible over any image/text */
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
-/* Class added by JS to show the button */
 .carousel-btn.show {
-  opacity: 1;
+  opacity: 0.4; /* Very subtle when just resting there */
   pointer-events: all;
 }
 
 .carousel-btn:hover {
-  background: var(--primary);
-  color: #fff;
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 0 20px var(--glow);
+  opacity: 1; /* Brightens up when you hover */
+  color: var(--primary-light);
+  transform: translateY(-50%) scale(1.15); /* Slight pop effect */
 }
 
-.prev-btn { left: -15px; }
-.next-btn { right: -15px; }
+/* Positioned just outside the cards */
+.prev-btn { left: -25px; }
+.next-btn { right: -25px; }
 
-/* Move buttons slightly inward on mobile phones */
+/* Keep them tucked in on mobile screens */
 @media (max-width: 600px) {
-  .prev-btn { left: 5px; }
-  .next-btn { right: 5px; }
+  .prev-btn { left: -10px; }
+  .next-btn { right: -10px; }
 }
 
 #projects {
