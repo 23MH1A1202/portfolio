@@ -3,18 +3,28 @@ const navbar = document.getElementById('navbar');
 const navToggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
 
+function closeNav() {
+  navLinks.classList.remove('open');
+  navbar.classList.remove('nav-open');
+}
+
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 50);
   updateActiveNav();
+  // Close mobile nav on scroll
+  if (navLinks.classList.contains('open')) {
+    closeNav();
+  }
 });
 
 navToggle?.addEventListener('click', () => {
   navLinks.classList.toggle('open');
+  navbar.classList.toggle('nav-open', navLinks.classList.contains('open'));
 });
 
 // Close nav on link click (mobile)
 document.querySelectorAll('.nav-links a').forEach(link => {
-  link.addEventListener('click', () => navLinks.classList.remove('open'));
+  link.addEventListener('click', closeNav);
 });
 
 // ===== ACTIVE NAV =====
