@@ -104,6 +104,9 @@ const observer = new IntersectionObserver(
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+      } else {
+        // REMOVES the class when out of view so it animates again!
+        entry.target.classList.remove('visible');
       }
     });
   },
@@ -200,40 +203,88 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 
-// ===== PROJECTS CAROUSEL AUTO-SCROLL =====
+// ===== PROJECTS CAROUSEL AUTO-SCROLL & BUTTONS =====
 const carousel = document.getElementById('projectsCarousel');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
 let isCarouselPaused = false;
+let autoScrollTimer;
+
+// Function to hide/show arrows based on scroll position
+function updateCarouselButtons() {
+  if (!carousel || !prevBtn || !nextBtn) return;
+  
+  // Max amount you can scroll to the right
+  const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+
+  // Hide Left button if at the very start
+  if (carousel.scrollLeft <= 10) {
+    prevBtn.classList.remove('show');
+  } else {
+    prevBtn.classList.add('show');
+  }
+
+  // Hide Right button if at the very end
+  if (carousel.scrollLeft >= maxScrollLeft - 10) {
+    nextBtn.classList.remove('show');
+  } else {
+    nextBtn.classList.add('show');
+  }
+}
 
 if (carousel) {
-  // Pause auto-scroll when user interacts (mouse or touch)
+  // Pause auto-scroll on hover/touch
   carousel.addEventListener('mouseenter', () => isCarouselPaused = true);
   carousel.addEventListener('mouseleave', () => isCarouselPaused = false);
-  
   carousel.addEventListener('touchstart', () => isCarouselPaused = true);
   carousel.addEventListener('touchend', () => {
-    // Resume scrolling 2 seconds after touch ends
     setTimeout(() => isCarouselPaused = false, 2000);
   });
 
-  setInterval(() => {
-    if (!isCarouselPaused) {
-      // Find the width of one card + the gap (1.5rem = 24px)
-      const card = carousel.querySelector('.project-card');
-      if (!card) return;
-      
-      const scrollStep = card.offsetWidth + 24; 
-      
-      // If we've reached the end of the scrollable area, jump back to start
-      if (carousel.scrollLeft + carousel.offsetWidth >= carousel.scrollWidth - 10) {
-        carousel.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        // Otherwise, scroll right by one card
-        carousel.scrollBy({ left: scrollStep, behavior: 'smooth' });
+  // Check button visibility whenever the user or code scrolls
+  carousel.addEventListener('scroll', updateCarouselButtons);
+  // Initial check on load
+  updateCarouselButtons();
+
+  // Manual Button Clicks
+  prevBtn?.addEventListener('click', () => {
+    const cardWidth = carousel.querySelector('.project-card').offsetWidth + 24;
+    carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+    resetAutoScroll(); // Restart timer so it doesn't jump immediately after click
+  });
+
+  nextBtn?.addEventListener('click', () => {
+    const cardWidth = carousel.querySelector('.project-card').offsetWidth + 24;
+    carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+    resetAutoScroll();
+  });
+
+  // Auto-scroll loop
+  function startAutoScroll() {
+    autoScrollTimer = setInterval(() => {
+      if (!isCarouselPaused) {
+        const card = carousel.querySelector('.project-card');
+        if (!card) return;
+        const scrollStep = card.offsetWidth + 24; 
+        
+        // If at the end, jump back to start, else scroll right
+        if (carousel.scrollLeft + carousel.offsetWidth >= carousel.scrollWidth - 10) {
+          carousel.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          carousel.scrollBy({ left: scrollStep, behavior: 'smooth' });
+        }
       }
-    }
-  }, 3500); // Scrolls every 3.5 seconds
-}
-// ===== FOCUS GLOW EFFECT =====
+    }, 3500);
+  }
+
+  function resetAutoScroll() {
+    clearInterval(autoScrollTimer);
+    startAutoScroll();
+  }
+
+  // Start the loop
+  startAutoScroll();
+}// ===== FOCUS GLOW EFFECT =====
 // Automatically highlights cards when they scroll into the viewport
 const glowObserver = new IntersectionObserver(
   (entries) => {
