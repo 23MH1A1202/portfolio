@@ -1119,7 +1119,7 @@ footer {
   #contact {
     padding: 3rem 0; 
   }
-}
+
   /* Mobile nav: use visibility/transform instead of display:none so animation works */
   .nav-links {
     display: flex;
@@ -1182,3 +1182,4 @@ footer {
   .projects-grid { grid-template-columns: 1fr; }
   .about-stats { grid-template-columns: 1fr 1fr; }
 }
+
