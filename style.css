@@ -457,7 +457,7 @@ a:hover { color: var(--accent); }
 
 /* ===== ABOUT ===== */
 #about {
-  padding: 6rem 0;
+  padding: 4rem 0;
   background: linear-gradient(180deg, var(--bg) 0%, var(--bg-secondary) 100%);
 }
 
@@ -566,7 +566,7 @@ a:hover { color: var(--accent); }
 
 /* ===== SKILLS ===== */
 #skills {
-  padding: 6rem 0;
+  padding: 4rem 0;
 }
 
 .skills-grid {
@@ -635,7 +635,7 @@ a:hover { color: var(--accent); }
 
 /* ===== PROJECTS ===== */
 #projects {
-  padding: 6rem 0;
+  padding: 4rem 0;
   background: linear-gradient(180deg, var(--bg) 0%, var(--bg-secondary) 100%);
 }
 
@@ -926,7 +926,7 @@ a:hover { color: var(--accent); }
 
 /* ===== CONTACT ===== */
 #contact {
-  padding: 6rem 0;
+  padding: 4rem 0;
 }
 
 .contact-wrapper {
@@ -1105,7 +1105,13 @@ footer {
 @media (max-width: 600px) {
   .section-title { font-size: 1.75rem; }
   .hero-name { font-size: 2.5rem; }
-
+  #about, 
+  #skills, 
+  #projects, 
+  #contact {
+    padding: 3rem 0; 
+  }
+}
   /* Mobile nav: use visibility/transform instead of display:none so animation works */
   .nav-links {
     display: flex;
