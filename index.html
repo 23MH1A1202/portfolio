@@ -280,193 +280,85 @@
     <p class="section-title animate-fade-up">Projects</p>
     <p class="section-subtitle animate-fade-up">Things I've built with passion and purpose</p>
 
-    <!-- ===== FEATURED: SMARTSHARE ===== -->
-    <div class="featured-project animate-fade-up">
-      <span class="featured-label">⭐ Featured Project</span>
+    <div class="projects-carousel-wrapper animate-fade-up">
+      <div class="projects-carousel" id="projectsCarousel">
 
-      <div class="project-card-featured">
-        <div class="featured-inner">
-          <!-- Visual side -->
-          <div class="project-visual">
-            <div class="project-visual-icon">🔗</div>
-            <div class="project-visual-text">SmartShare</div>
-            <div class="mock-screen">
-              <div class="mock-line"></div>
-              <div class="mock-line"></div>
-              <div class="mock-line"></div>
+        <div class="project-card">
+          <div class="project-card-header">
+            <div class="project-card-icon">🔗</div>
+            <div class="project-card-links">
+              <a href="https://smartshare.alsagar.tech/" target="_blank" rel="noopener noreferrer" class="icon-link" title="Live App">🚀</a>
             </div>
           </div>
+          <h3 class="project-card-title">SmartShare <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px; margin-left:5px; vertical-align:middle;">⭐ Featured</span></h3>
+          <p class="project-card-desc">
+            A fast, account-free file sharing web app with two modes: direct device-to-device transfer via WebRTC and cloud vault sharing with expiry times.
+          </p>
+          <div class="project-card-tags">
+            <span class="tag">HTML/JS</span>
+            <span class="tag">Firebase</span>
+            <span class="tag">WebRTC</span>
+            <span class="tag">Tailwind</span>
+          </div>
+        </div>
 
-          <!-- Content side -->
-          <div class="project-content">
-            <h2 class="project-title">🔗 SmartShare</h2>
-            <p class="project-overview">
-              A fast, account-free file sharing web app with two modes: direct device-to-device
-              transfer via WebRTC (files never touch a server) and cloud vault sharing with
-              expiry times and download limits. Supports drag &amp; drop, multi-file zipping,
-              QR codes, and a custom domain.
-            </p>
-
-            <div class="tech-stack">
-              <span class="tech-badge tech-flutter">🌐 HTML/CSS/JS</span>
-              <span class="tech-badge tech-firebase">🔥 Firebase</span>
-              <span class="tech-badge tech-dart">📡 WebRTC/PeerJS</span>
-              <span class="tech-badge" style="background:rgba(6,182,212,0.15);color:#06b6d4;">🎨 TailwindCSS</span>
-            </div>
-
-            <div class="project-features">
-              <h4>Key Features</h4>
-              <ul class="feature-list">
-                <li>
-                  <strong>Direct (P2P) Transfer</strong> – Device-to-device sharing using
-                  PeerJS + WebRTC. Files never leave your devices.
-                </li>
-                <li>
-                  <strong>Cloud Vault</strong> – Upload to Firebase Storage with configurable
-                  expiry (10 min / 1 hr / 4 hr) and download limits.
-                </li>
-                <li>
-                  <strong>Share via Code, QR, or Link</strong> – Receivers can use any of
-                  the three methods to download files.
-                </li>
-                <li>
-                  <strong>Multi-file &amp; Drag-and-Drop</strong> – Send multiple files at
-                  once, automatically zipped using JSZip.
-                </li>
-                <li>
-                  <strong>PWA + Custom Domain</strong> – Installable app available at
-                  smartshare.alsagar.tech.
-                </li>
-              </ul>
-            </div>
-
-            <div class="project-links">
-              <a
-                href="https://smartshare.alsagar.tech/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-primary"
-              >
-                View Project
-              </a>
+        <div class="project-card">
+          <div class="project-card-header">
+            <div class="project-card-icon">🔍</div>
+            <div class="project-card-links">
+              <a href="https://23mh1a1202.github.io/student_photos/" target="_blank" rel="noopener noreferrer" class="icon-link" title="Live App">🔗</a>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== MORE PROJECTS GRID ===== -->
-    <div class="projects-grid">
-
-      <!-- Student Photos PWA -->
-      <div class="project-card animate-fade-up">
-        <div class="project-card-header">
-          <div class="project-card-icon">🔍</div>
-          <div class="project-card-links">
-            <a href="https://23mh1a1202.github.io/student_photos/" target="_blank" rel="noopener noreferrer" class="icon-link" title="Live App">
-              🔗
-            </a>
+          <h3 class="project-card-title">Student Photos</h3>
+          <p class="project-card-desc">
+            A mobile-friendly PWA that lets you search and view student photos by roll number. Features branch detection, confetti animation, and full offline support.
+          </p>
+          <div class="project-card-tags">
+            <span class="tag">PWA</span>
+            <span class="tag">HTML/CSS/JS</span>
+            <span class="tag">Offline</span>
           </div>
         </div>
-        <h3 class="project-card-title">Student Photos</h3>
-        <p class="project-card-desc">
-          A mobile-friendly PWA that lets you search and view student photos from Aditya Group
-          of Engineering Colleges by roll number or prefix. Features branch detection, confetti
-          animation on photo found, pagination, and full offline support.
-        </p>
-        <div class="project-card-tags">
-          <span class="tag">PWA</span>
-          <span class="tag">HTML/CSS/JS</span>
-          <span class="tag">Service Worker</span>
-          <span class="tag">Offline</span>
-        </div>
-        <div style="margin-top:0.75rem;">
-          <a href="https://23mh1a1202.github.io/student_photos/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:0.8rem; padding:0.4rem 0.9rem;">
-            View Project
-          </a>
-        </div>
-      </div>
 
-      <!-- Sagar Attendance -->
-      <div class="project-card animate-fade-up">
-        <div class="project-card-header">
-          <div class="project-card-icon">📊</div>
-          <div class="project-card-links">
-            <span style="font-size:0.72rem; color:var(--text-muted); background:rgba(255,165,0,0.15); color:#f59e0b; padding:2px 7px; border-radius:999px; font-weight:600;">💤 Hibernating</span>
+        <div class="project-card">
+          <div class="project-card-header">
+            <div class="project-card-icon">📊</div>
+            <div class="project-card-links">
+              <span style="font-size:0.72rem; color:#f59e0b; background:rgba(255,165,0,0.15); padding:2px 7px; border-radius:999px; font-weight:600;">💤 Hibernating</span>
+            </div>
+          </div>
+          <h3 class="project-card-title">Sagar Attendance</h3>
+          <p class="project-card-desc">
+            A web app to track student attendance with real-time push notifications. Scrapes attendance using Playwright (headless Chromium) and stores data in Firebase.
+          </p>
+          <div class="project-card-tags">
+            <span class="tag">Node.js</span>
+            <span class="tag">Playwright</span>
+            <span class="tag">Firebase</span>
           </div>
         </div>
-        <h3 class="project-card-title">Sagar Attendance</h3>
-        <p class="project-card-desc">
-          A personal web app to track student attendance from the ACET portal with real-time
-          push notifications. Scrapes attendance using Playwright (headless Chromium), stores
-          data in Firebase Firestore, and sends browser push alerts during college hours.
-          Currently in hibernation due to cloud hosting costs.
-        </p>
-        <div class="project-card-tags">
-          <span class="tag">Node.js</span>
-          <span class="tag">Playwright</span>
-          <span class="tag">Firebase</span>
-          <span class="tag">Web Push</span>
-          <span class="tag">Docker</span>
-        </div>
-      </div>
 
-      <!-- DocuKeep -->
-      <div class="project-card animate-fade-up">
-        <div class="project-card-header">
-          <div class="project-card-icon">📁</div>
-          <div class="project-card-links">
-            <a href="https://drive.google.com/drive/folders/1uBTA6v6d7Di_k5hlqC8ds32hfIBG5JNe?usp=drive_link" target="_blank" rel="noopener noreferrer" class="icon-link" title="Download App">
-              ⬇️
-            </a>
+        <div class="project-card">
+          <div class="project-card-header">
+            <div class="project-card-icon">📁</div>
+            <div class="project-card-links">
+              <a href="https://drive.google.com/drive/folders/1uBTA6v6d7Di_k5hlqC8ds32hfIBG5JNe?usp=drive_link" target="_blank" rel="noopener noreferrer" class="icon-link" title="Download App">⬇️</a>
+            </div>
+          </div>
+          <h3 class="project-card-title">DocuKeep</h3>
+          <p class="project-card-desc">
+            A Flutter mobile app for organizing and storing important documents. Backed by Firebase Auth & Cloudinary. Features category-based organization and real-time sync.
+          </p>
+          <div class="project-card-tags">
+            <span class="tag">Flutter</span>
+            <span class="tag">Dart</span>
+            <span class="tag">Firebase</span>
           </div>
         </div>
-        <h3 class="project-card-title">DocuKeep</h3>
-        <p class="project-card-desc">
-          A Flutter mobile app for organizing, storing, and accessing important documents on
-          the go. Backed by Firebase Firestore &amp; Authentication and Cloudinary for document
-          storage. Features category-based organization, Google Sign-In, and real-time sync
-          across devices.
-        </p>
-        <div class="project-card-tags">
-          <span class="tag">Flutter</span>
-          <span class="tag">Dart</span>
-          <span class="tag">Firebase</span>
-          <span class="tag">Cloudinary</span>
-        </div>
-        <div style="margin-top:0.75rem;">
-          <a href="https://drive.google.com/drive/folders/1uBTA6v6d7Di_k5hlqC8ds32hfIBG5JNe?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="font-size:0.8rem; padding:0.4rem 0.9rem;">
-            ⬇️ Download App
-          </a>
-        </div>
-      </div>
 
-      <!-- This Portfolio -->
-      <div class="project-card animate-fade-up">
-        <div class="project-card-header">
-          <div class="project-card-icon">✨</div>
-          <div class="project-card-links">
-            <a href="https://github.com/23MH1A1202/portfolio" target="_blank" rel="noopener noreferrer" class="icon-link" title="GitHub">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-        <h3 class="project-card-title">Developer Portfolio</h3>
-        <p class="project-card-desc">
-          This very portfolio website! Built from scratch with pure HTML, CSS, and vanilla
-          JavaScript. Features a modern dark theme, smooth animations, a typing effect,
-          scroll-triggered reveals, and a fully responsive layout.
-        </p>
-        <div class="project-card-tags">
-          <span class="tag">HTML5</span>
-          <span class="tag">CSS3</span>
-          <span class="tag">JavaScript</span>
-          <span class="tag">Responsive</span>
-        </div>
-      </div>
+       
 
+      </div>
     </div>
   </div>
 </section>
