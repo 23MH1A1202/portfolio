@@ -124,15 +124,43 @@ if (statsSection) counterObserver.observe(statsSection);
 
 // ===== CONTACT FORM =====
 const form = document.getElementById('contactForm');
-form?.addEventListener('submit', e => {
-  e.preventDefault();
+form?.addEventListener('submit', async e => {
+  e.preventDefault(); // Stop the default page redirect
+  
   const btn = form.querySelector('button[type="submit"]');
-  btn.textContent = '✅ Message Sent!';
+  const originalText = btn.textContent; 
+  
+  // Show a loading state
+  btn.textContent = 'Sending... ⏳';
   btn.disabled = true;
+
+  try {
+    // Send the data to your Formspree endpoint silently
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: new FormData(form),
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      // Success! Show your original animation
+      btn.textContent = '✅ Message Sent!';
+      form.reset();
+    } else {
+      // Formspree returned an error
+      btn.textContent = '❌ Oops! Try Again.';
+    }
+  } catch (error) {
+    // Network error
+    btn.textContent = '❌ Network Error';
+  }
+
+  // Reset the button back to normal after 3 seconds
   setTimeout(() => {
-    btn.textContent = 'Send Message';
+    btn.textContent = 'Send Message 🚀';
     btn.disabled = false;
-    form.reset();
   }, 3000);
 });
 
