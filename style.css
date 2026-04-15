@@ -1,3 +1,16 @@
+/* Find the html block and add scroll-snap-type */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  scroll-snap-type: y mandatory; /* ADD THIS */
+}
+
+/* ADD this section rule right below the html/body blocks */
+section {
+  scroll-snap-align: start; /* Makes the scroll stop exactly at the top of the section */
+  scroll-margin-top: 80px;  /* Ensures your navbar doesn't cover the title when snapped */
+}
+
 /* ===== RESET & BASE ===== */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -755,6 +768,54 @@ body.no-scroll {
 }
 
 /* ===== PROJECTS ===== */
+
+/* CAROUSEL BUTTONS */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  color: var(--primary-light);
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  opacity: 0; /* Hidden by default */
+  pointer-events: none; /* Can't be clicked when hidden */
+}
+
+/* Class added by JS to show the button */
+.carousel-btn.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.carousel-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 0 20px var(--glow);
+}
+
+.prev-btn { left: -15px; }
+.next-btn { right: -15px; }
+
+/* Move buttons slightly inward on mobile phones */
+@media (max-width: 600px) {
+  .prev-btn { left: 5px; }
+  .next-btn { right: 5px; }
+}
+
 #projects {
   padding: 3rem 0;
   background: linear-gradient(180deg, var(--bg) 0%, var(--bg-secondary) 100%);
