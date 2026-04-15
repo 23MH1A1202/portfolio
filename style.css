@@ -567,7 +567,7 @@ body.no-scroll {
 
 /* ===== ABOUT ===== */
 #about {
-  padding: 4rem 0;
+  padding: 3rem 0;
   background: linear-gradient(180deg, var(--bg) 0%, var(--bg-secondary) 100%);
 }
 
@@ -685,7 +685,7 @@ body.no-scroll {
 .skills-grid .skill-card:nth-child(6) { transition-delay: 0.5s; }
 
 #skills {
-  padding: 4rem 0;
+  padding: 3rem 0;
 }
 
 .skills-grid {
@@ -756,7 +756,7 @@ body.no-scroll {
 
 /* ===== PROJECTS ===== */
 #projects {
-  padding: 4rem 0;
+  padding: 3rem 0;
   background: linear-gradient(180deg, var(--bg) 0%, var(--bg-secondary) 100%);
 }
 
@@ -924,7 +924,7 @@ body.no-scroll {
 
 /* ===== CONTACT ===== */
 #contact {
-  padding: 4rem 0;
+  padding: 3rem 0;
 }
 
 .contact-wrapper {
@@ -1107,7 +1107,7 @@ footer {
   #skills, 
   #projects, 
   #contact {
-    padding: 3rem 0; 
+    padding: 2rem 0; 
   }
 
   /* Mobile nav: use visibility/transform instead of display:none so animation works */
