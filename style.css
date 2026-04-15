@@ -172,6 +172,14 @@ a:hover { color: var(--accent); }
   display: flex;
   gap: 2rem;
   list-style: none;
+  
+  visibility: visible;
+  position: static;
+  transform: none;
+  width: auto;
+  height: auto;
+  background: transparent;
+  padding: 0;
 }
 
 .nav-links a {
@@ -1118,16 +1126,18 @@ footer {
     visibility: hidden;
     flex-direction: column;
     position: fixed;
-    top: 0; right: 0; bottom: 0;
-    width: 100%;
-    height:100vh;
-    padding-top: 6rem;
+    top: 0; 
+    right: 0; /* Anchors the menu to the right side */
+    bottom: 0;
+    width: 50%; /* Sets it to exactly half the screen */
+    height: 100vh;
+    padding: 6rem 1.5rem 2rem; /* Adjusted side padding for smaller width */
     background: var(--bg-secondary);
-    border-left: 1px solid var(--border);
-    padding: 5rem 2rem 2rem;
+    border-left: 1px solid var(--border); /* Adds a line separating it from the background */
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5); /* Makes the menu 'pop' off the page */
     gap: 1.5rem;
     z-index: 1001;
-    transform: translateX(100%);
+    transform: translateX(100%); /* Hides it off-screen to the right */
     transition: transform 0.3s ease, visibility 0.3s ease;
   }
   .nav-links.open {
