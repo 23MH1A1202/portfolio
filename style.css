@@ -1149,7 +1149,7 @@ footer {
   .float-badge:nth-child(7) { top: 38%;    left: -12px; }
   .float-badge:nth-child(8) { bottom: -22px; left: 8px; }
 
-  /* Give hero extra bottom padding so bottom badges and scroll don't clip */
+  /* Give hero extra bottom padding so bottom badges don't clip */
   #hero { padding-bottom: 3rem; }
 
   .featured-inner { padding: 1.5rem; }
