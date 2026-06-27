@@ -36,8 +36,8 @@ portfolio/
 
 | Project | Tech | Status |
 |---------|------|--------|
-| **DocuKeep** | Flutter · Firebase · Cloudinary · Dart | ⭐ Featured |
-| Instant Share | Mobile · Cross-Platform | Included |
+| **SmartShare** | Mobile · Cross-Platform | ⭐Featured |
+| DocuKeep | Flutter · Firebase · Cloudinary · Dart | Included |
 | Full Stack Web Apps | Next.js · TypeScript · Tailwind | Included |
 | Firebase Cloud Projects | Firebase · Firestore · Cloud Functions | Included |
 | Developer Portfolio | HTML · CSS · JavaScript | Included |
