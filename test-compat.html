@@ -1,0 +1,11 @@
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+<script>
+  try {
+    firebase.initializeApp({ projectId: "test" });
+    const db = firebase.firestore("test-db-id");
+    console.log(db);
+  } catch (e) {
+    console.error(e);
+  }
+</script>

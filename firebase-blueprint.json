@@ -1,0 +1,20 @@
+{
+  "entities": {
+    "PortfolioData": {
+      "title": "PortfolioData",
+      "description": "Stores the entire portfolio details",
+      "type": "object",
+      "properties": {
+        "projects": { "type": "array" },
+        "skills": { "type": "array" },
+        "contact": { "type": "object" }
+      }
+    }
+  },
+  "firestore": {
+    "portfolio/data": {
+      "schema": "PortfolioData",
+      "description": "Single document holding the portfolio data"
+    }
+  }
+}

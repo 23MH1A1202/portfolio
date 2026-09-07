@@ -400,12 +400,24 @@ scrollTopBtn?.addEventListener('click', () => {
   });
 });
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
 // ===== DYNAMIC DATA FETCHING =====
 async function loadDynamicData() {
   try {
-    const res = await fetch('/api/data');
-    if (!res.ok) return;
-    const data = await res.json();
+    const configRes = await fetch('/firebase-applet-config.json');
+    if (!configRes.ok) return;
+    const firebaseConfig = await configRes.json();
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+    
+    const docRef = doc(db, 'portfolio', 'data');
+    const docSnap = await getDoc(docRef);
+    
+    if (!docSnap.exists()) return;
+    const data = docSnap.data();
     
     // Render Skills
     if (data.skills && data.skills.length > 0) {
