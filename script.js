@@ -399,3 +399,150 @@ scrollTopBtn?.addEventListener('click', () => {
     behavior: 'smooth'
   });
 });
+
+// ===== DYNAMIC DATA FETCHING =====
+async function loadDynamicData() {
+  try {
+    const res = await fetch('/api/data');
+    if (!res.ok) return;
+    const data = await res.json();
+    
+    // Render Skills
+    if (data.skills && data.skills.length > 0) {
+      const skillsGrid = document.querySelector('.skills-grid');
+      if (skillsGrid) {
+        skillsGrid.innerHTML = ''; // Clear existing
+        data.skills.forEach(skill => {
+          const card = document.createElement('div');
+          card.className = 'skill-card animate-fade-up';
+          
+          let tagsHtml = '';
+          if (skill.tags) {
+            skill.tags.forEach(tag => {
+              tagsHtml += `<span class="tag"><i class='bx ${tag.icon}'></i> ${tag.name}</span>`;
+            });
+          }
+          
+          card.innerHTML = `
+            <div class="skill-icon"><i class='bx ${skill.icon}'></i></div>
+            <div class="skill-name">${skill.name}</div>
+            <div class="skill-desc">${skill.description}</div>
+            <div class="skill-tags">
+              ${tagsHtml}
+            </div>
+          `;
+          skillsGrid.appendChild(card);
+          if (typeof observer !== 'undefined') observer.observe(card);
+          if (typeof glowObserver !== 'undefined') glowObserver.observe(card);
+          
+          // Re-attach tilt effect for new skill cards
+          if (window.innerWidth > 900) {
+            card.addEventListener('mousemove', e => {
+              const rect = card.getBoundingClientRect();
+              const x = e.clientX - rect.left; 
+              const y = e.clientY - rect.top;  
+              const centerX = rect.width / 2;
+              const centerY = rect.height / 2;
+              const rotateX = ((y - centerY) / centerY) * -8;
+              const rotateY = ((x - centerX) / centerX) * 8;
+              card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px) scale(1.02)`;
+              card.style.transition = 'transform 0.1s ease-out';
+            });
+            card.addEventListener('mouseleave', () => {
+              card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)`;
+              card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
+            });
+          }
+        });
+      }
+    }
+
+    // Render Contact Details
+    if (data.contact) {
+      const emailLink = document.getElementById('emailLink');
+      const emailText = document.getElementById('emailText');
+      if (emailLink && data.contact.email) {
+        emailLink.href = `mailto:${data.contact.email}`;
+        if (emailText) emailText.textContent = data.contact.email;
+      }
+      
+      const linkedinLink = document.getElementById('linkedinLink');
+      if (linkedinLink && data.contact.linkedin) {
+        linkedinLink.href = data.contact.linkedin;
+      }
+
+      // Github link in contact section
+      const githubLink = document.querySelector('.contact-links a[href*="github.com"]');
+      if (githubLink && data.contact.github) {
+        githubLink.href = data.contact.github;
+        const textDiv = githubLink.querySelector('div > div:nth-child(2)');
+        if (textDiv && data.contact.githubText) {
+          textDiv.textContent = data.contact.githubText;
+        }
+      }
+    }
+
+    // Render Projects
+    if (data.projects && data.projects.length > 0) {
+      const carousel = document.getElementById('projectsCarousel');
+      if (!carousel) return;
+      
+      carousel.innerHTML = ''; // Clear existing static projects
+      
+      data.projects.forEach(project => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        
+        let headerLinks = '';
+        if (project.link && project.linkText) {
+          headerLinks = `<a href="${project.link}" target="_blank" rel="noopener noreferrer" class="icon-link" title="${project.linkText}"><i class='bx ${project.linkIcon || 'bx-link-external'}'></i> ${project.linkText}</a>`;
+        } else if (project.status) {
+          headerLinks = `<span style="font-size:0.72rem; color:#f59e0b; background:rgba(255,165,0,0.15); padding:2px 7px; border-radius:999px; font-weight:600;"><i class='bx bx-moon'></i> ${project.status}</span>`;
+        }
+        
+        let tagsHtml = '';
+        if (project.tags) {
+          project.tags.forEach(tag => {
+            tagsHtml += `<span class="tag"><i class='bx ${tag.icon}'></i> ${tag.name}</span>`;
+          });
+        }
+        
+        let featuredHtml = project.featured 
+          ? `<span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px; margin-left:5px; vertical-align:middle;"><i class='bx bxs-star'></i> Featured</span>` 
+          : '';
+
+        card.innerHTML = `
+          <div class="project-image">
+            <img src="${project.image}" alt="${project.title} Preview">
+          </div>
+          <div class="project-card-header">
+            <div class="project-card-icon"><i class='bx ${project.icon}'></i></div>
+            <div class="project-card-links">
+              ${headerLinks}
+            </div>
+          </div>
+          <h3 class="project-card-title">${project.title} ${featuredHtml}</h3>
+          <p class="project-card-desc">${project.description}</p>
+          <div class="project-card-tags">
+            ${tagsHtml}
+          </div>
+        `;
+        
+        carousel.appendChild(card);
+        if (typeof glowObserver !== 'undefined') {
+          glowObserver.observe(card);
+        }
+      });
+      
+      // Update carousel buttons since content changed
+      if (typeof updateCarouselButtons === 'function') {
+        updateCarouselButtons();
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load dynamic data:', err);
+  }
+}
+
+// Call on load
+loadDynamicData();

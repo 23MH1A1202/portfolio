@@ -1,0 +1,19 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio migrated to AI Studio",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'No build required'",
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3"
+  }
+}

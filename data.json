@@ -1,0 +1,287 @@
+{
+  "projects": [
+    {
+      "title": "Developer Portfolio",
+      "image": "assets/Sagar_Portfolio.png",
+      "link": "https://github.com/23MH1A1202/portfolio",
+      "linkText": "Source Code",
+      "linkIcon": "bxl-github",
+      "status": "",
+      "description": "A highly optimized, fully responsive personal portfolio featuring custom CSS animations, 3D tilt effects, dark mode support, and a working contact form.",
+      "tags": [
+        {
+          "icon": "bxl-html5",
+          "name": "HTML"
+        },
+        {
+          "icon": "bxl-css3",
+          "name": "CSS"
+        },
+        {
+          "icon": "bxl-javascript",
+          "name": "Vanilla JS"
+        },
+        {
+          "icon": "bx-cube-alt",
+          "name": "Boxicons"
+        }
+      ],
+      "icon": "bx-code-alt",
+      "featured": false
+    },
+    {
+      "title": "SmartShare",
+      "image": "assets/smartshare.png",
+      "link": "https://smartshare.alsagar.tech/",
+      "linkText": "View Project",
+      "linkIcon": "bx-link-external",
+      "status": "",
+      "description": "A fast, account-free file sharing web app with two modes: direct device-to-device transfer via WebRTC and cloud vault sharing with expiry times.",
+      "tags": [
+        {
+          "icon": "bxl-html5",
+          "name": "HTML/JS"
+        },
+        {
+          "icon": "bxl-firebase",
+          "name": "Firebase"
+        },
+        {
+          "icon": "bx-network-chart",
+          "name": "WebRTC"
+        },
+        {
+          "icon": "bxl-tailwind-css",
+          "name": "Tailwind"
+        }
+      ],
+      "icon": "bx-share-alt",
+      "featured": true
+    },
+    {
+      "title": "Student Photos",
+      "image": "assets/studentphotos.png",
+      "link": "https://23mh1a1202.github.io/student_photos/",
+      "linkText": "View Project",
+      "linkIcon": "bx-link-external",
+      "status": "",
+      "description": "A mobile-friendly PWA that lets you search and view student photos by roll number. Features branch detection, confetti animation, and full offline support.",
+      "tags": [
+        {
+          "icon": "bx-mobile",
+          "name": "PWA"
+        },
+        {
+          "icon": "bxl-javascript",
+          "name": "HTML/CSS/JS"
+        },
+        {
+          "icon": "bx-cloud-download",
+          "name": "Offline"
+        }
+      ],
+      "icon": "bx-search-alt",
+      "featured": false
+    },
+    {
+      "title": "Sagar Attendance",
+      "image": "assets/attendance.png",
+      "link": "",
+      "linkText": "",
+      "linkIcon": "",
+      "status": "Hibernating",
+      "description": "A web app to track student attendance with real-time push notifications. Scrapes attendance using Playwright (headless Chromium) and stores data in Firebase.",
+      "tags": [
+        {
+          "icon": "bxl-nodejs",
+          "name": "Node.js"
+        },
+        {
+          "icon": "bx-bot",
+          "name": "Playwright"
+        },
+        {
+          "icon": "bxl-firebase",
+          "name": "Firebase"
+        }
+      ],
+      "icon": "bx-bar-chart-square",
+      "featured": false
+    },
+    {
+      "title": "DocuKeep",
+      "image": "assets/docukeep1.jpg",
+      "link": "https://drive.google.com/drive/folders/1uBTA6v6d7Di_k5hlqC8ds32hfIBG5JNe?usp=drive_link",
+      "linkText": "Download App",
+      "linkIcon": "bx-download",
+      "status": "",
+      "description": "A Flutter mobile app for organizing and storing important documents. Backed by Firebase Auth & Cloudinary. Features category-based organization and real-time sync.",
+      "tags": [
+        {
+          "icon": "bxl-flutter",
+          "name": "Flutter"
+        },
+        {
+          "icon": "bx-code-block",
+          "name": "Dart"
+        },
+        {
+          "icon": "bxl-firebase",
+          "name": "Firebase"
+        }
+      ],
+      "icon": "bx-folder-open",
+      "featured": false
+    }
+  ],
+  "skills": [
+    {
+      "name": "HTML · CSS · JavaScript",
+      "icon": "bx-code-block",
+      "description": "Building responsive, accessible web interfaces with vanilla web technologies and modern CSS animations.",
+      "tags": [
+        {
+          "icon": "bxl-html5",
+          "name": "HTML5"
+        },
+        {
+          "icon": "bxl-css3",
+          "name": "CSS3"
+        },
+        {
+          "icon": "bxl-javascript",
+          "name": "Vanilla JS"
+        },
+        {
+          "icon": "bx-devices",
+          "name": "Responsive"
+        }
+      ]
+    },
+    {
+      "name": "Progressive Web Apps",
+      "icon": "bx-mobile",
+      "description": "Offline-capable, installable PWAs with service workers, web app manifests, and background sync.",
+      "tags": [
+        {
+          "icon": "bx-cog",
+          "name": "Service Worker"
+        },
+        {
+          "icon": "bx-file-blank",
+          "name": "Web Manifest"
+        },
+        {
+          "icon": "bx-cloud-download",
+          "name": "Offline Cache"
+        },
+        {
+          "icon": "bx-bell",
+          "name": "Push Notifications"
+        }
+      ]
+    },
+    {
+      "name": "Firebase",
+      "icon": "bxl-firebase",
+      "description": "Real-time data sync, authentication, cloud storage, and browser push notifications.",
+      "tags": [
+        {
+          "icon": "bxl-firebase",
+          "name": "Firestore"
+        },
+        {
+          "icon": "bx-check-shield",
+          "name": "Auth"
+        },
+        {
+          "icon": "bx-data",
+          "name": "Storage"
+        },
+        {
+          "icon": "bx-broadcast",
+          "name": "Web Push"
+        }
+      ]
+    },
+    {
+      "name": "Node.js & Backend",
+      "icon": "bxl-nodejs",
+      "description": "Server-side logic, REST APIs, scheduled tasks, and headless browser automation for scraping and data collection.",
+      "tags": [
+        {
+          "icon": "bxl-nodejs",
+          "name": "Node.js"
+        },
+        {
+          "icon": "bx-server",
+          "name": "Express"
+        },
+        {
+          "icon": "bx-bot",
+          "name": "Playwright"
+        },
+        {
+          "icon": "bx-time-five",
+          "name": "node-cron"
+        },
+        {
+          "icon": "bxl-docker",
+          "name": "Docker"
+        }
+      ]
+    },
+    {
+      "name": "Flutter & Dart",
+      "icon": "bxl-flutter",
+      "description": "Building cross-platform mobile apps from a single codebase with clean UIs and cloud integrations.",
+      "tags": [
+        {
+          "icon": "bxl-flutter",
+          "name": "Flutter"
+        },
+        {
+          "icon": "bx-code-block",
+          "name": "Dart"
+        },
+        {
+          "icon": "bxl-firebase",
+          "name": "Firebase"
+        },
+        {
+          "icon": "bx-cloud",
+          "name": "Cloudinary"
+        }
+      ]
+    },
+    {
+      "name": "Dev Tools & Practices",
+      "icon": "bx-wrench",
+      "description": "Version control, containerised deployments, and peer-to-peer real-time communication.",
+      "tags": [
+        {
+          "icon": "bxl-github",
+          "name": "Git & GitHub"
+        },
+        {
+          "icon": "bx-network-chart",
+          "name": "WebRTC / PeerJS"
+        },
+        {
+          "icon": "bxl-docker",
+          "name": "Docker"
+        },
+        {
+          "icon": "bx-globe",
+          "name": "GitHub Pages"
+        }
+      ]
+    }
+  ],
+  "contact": {
+    "github": "https://github.com/23MH1A1202",
+    "githubText": "github.com/23MH1A1202",
+    "email": "alalithasagar355@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/lalitha-sagar-ambati-71b9302a4/"
+  }
+}
