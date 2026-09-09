@@ -2,271 +2,1745 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard</title>
+  <title>Admin Dashboard · Lalitha Sagar Ambati</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Tailwind CSS & Boxicons -->
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-  <style>
-    body { background-color: #f8fafc; color: #0f172a; }
-    [v-cloak] { display: none; }
-  </style>
-
+  
+  <!-- Cropper.js -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-</head>
-<body class="p-8 font-sans">
-  <div id="app" class="max-w-7xl mx-auto" v-cloak>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
     
-    <!-- Login Screen -->
-    <div v-if="!user" class="flex flex-col items-center justify-center min-h-[50vh]">
-      <h1 class="text-3xl font-bold text-blue-600 mb-6">Admin Login</h1>
-      <p class="text-gray-600 mb-6 text-center max-w-md">Please sign in with your authorized Google account to manage your portfolio.</p>
-      <button @click="signIn" class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition flex items-center font-medium">
-        <i class='bx bxl-google mr-2 text-xl'></i> Sign in with Google
-      </button>
-      <p v-if="loginError" class="text-red-500 mt-4">{{ loginError }}</p>
-    </div>
+    body {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    
+    [v-cloak] { display: none; }
 
-    <!-- Dashboard -->
-    <div v-else>
-      <div class="flex justify-between items-center mb-8">
-        <div>
-          <h1 class="text-3xl font-bold text-blue-600">Admin Dashboard</h1>
-          <p class="text-sm text-gray-500 mt-1">Signed in as: {{ user.email }} <button @click="signOut" class="text-blue-500 hover:underline ml-2">Sign out</button></p>
+    /* Custom Form Styling */
+    .form-input-clean {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+      background-color: #ffffff;
+    }
+    .form-input-clean:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+    
+    /* PREVIEW STAGE & CARD STYLING (Pixel-perfect live portfolio match) */
+    .preview-stage-container {
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    /* Dark Theme Preview Stage */
+    .preview-theme-dark {
+      --primary: #3b82f6;
+      --primary-light: #60a5fa; 
+      --accent: #14b8a6;
+      --bg: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: rgba(30, 41, 59, 0.75);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(59, 130, 246, 0.25);
+      --glow: rgba(59, 130, 246, 0.35);
+      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0b1120 100%);
+      color: #f8fafc;
+    }
+
+    /* Light Theme Preview Stage */
+    .preview-theme-light {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --accent: #0d9488;
+      --bg: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.95);
+      --text: #0f172a;
+      --text-muted: #475569;
+      --border: rgba(37, 99, 235, 0.2);
+      --glow: rgba(37, 99, 235, 0.15);
+      background: radial-gradient(circle at 50% 0%, #ffffff 0%, #e2e8f0 100%);
+      color: #0f172a;
+    }
+
+    /* Exact Project Card from style.css */
+    .preview-project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    }
+    .preview-project-card:hover,
+    .preview-project-card.active-glow {
+      border-color: rgba(59, 130, 246, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px var(--glow);
+    }
+    .preview-project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .preview-project-image {
+      width: 100%;
+      height: 180px;
+      margin-bottom: 1.15rem;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .preview-project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.4s ease;
+    }
+    .preview-project-card:hover .preview-project-image img {
+      transform: scale(1.04);
+    }
+
+    .preview-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+    .preview-card-icon {
+      font-size: 2rem;
+      color: var(--primary-light);
+    }
+    .preview-icon-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      height: 32px;
+      padding: 0 0.8rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 500;
+      white-space: nowrap;
+      background: rgba(59, 130, 246, 0.05);
+      transition: all 0.2s;
+    }
+    .preview-icon-link:hover {
+      border-color: var(--primary);
+      color: var(--primary-light);
+      background: rgba(59, 130, 246, 0.15);
+    }
+
+    .preview-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.45rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .preview-card-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+    .preview-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+    }
+    .preview-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.22rem 0.65rem;
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--primary-light);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* Exact Skill Card Preview */
+    .preview-skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+    .preview-skill-card > *:not(.skill-watermark):not(::before) {
+      position: relative;
+      z-index: 2;
+    }
+    .preview-skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      z-index: 3;
+    }
+    .preview-skill-icon {
+      font-size: 2.25rem;
+      color: var(--primary-light);
+      margin-bottom: 0.75rem;
+    }
+    .preview-skill-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .preview-skill-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+    /* Exact Contact Card Preview from style.css */
+    .preview-contact-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+    .preview-contact-header {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .preview-contact-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+    .preview-contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .preview-contact-link-item {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.85rem 1.15rem;
+      background: rgba(30, 41, 59, 0.55);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: all 0.25s ease;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .preview-theme-light .preview-contact-link-item {
+      background: rgba(255, 255, 255, 0.85);
+    }
+    .preview-contact-link-item:hover {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.12);
+      transform: translateX(4px);
+      color: var(--text);
+      box-shadow: 0 4px 15px var(--glow);
+    }
+    .preview-contact-icon {
+      font-size: 1.35rem;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--primary-light);
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .preview-contact-link-item:hover .preview-contact-icon {
+      background: var(--primary);
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+    .preview-contact-title {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .preview-contact-sub {
+      font-size: 0.775rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      word-break: break-all;
+    }
+    .preview-about-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--border);
+    }
+    .preview-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.725rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: rgba(59, 130, 246, 0.08);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .preview-action-btn:hover {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--primary-light);
+      transform: translateY(-1px);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+    /* Modal & Dialog Styling */
+    .app-modal-backdrop {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
+    }
+    
+    .app-modal-dialog {
+      background-color: #ffffff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 820px;
+      max-height: calc(100vh - 24px);
+      max-height: calc(100dvh - 24px);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+      margin: auto;
+      position: relative;
+    }
+
+    .cropper-view-container {
+      flex: 1 1 auto;
+      position: relative;
+      background-color: #0b0f19;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      max-height: 56vh;
+      max-height: 56dvh;
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    .cropper-view-container img {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+    }
+
+    /* Constrain Cropper.js box inside container */
+    .cropper-view-container .cropper-container {
+      max-height: 56vh !important;
+      max-height: 56dvh !important;
+      max-width: 100% !important;
+    }
+
+    @media (max-width: 640px) {
+      .app-modal-backdrop {
+        padding: 6px;
+        align-items: flex-start;
+      }
+      .app-modal-dialog {
+        max-height: calc(100vh - 12px);
+        max-height: calc(100dvh - 12px);
+        border-radius: 12px;
+      }
+      .cropper-view-container {
+        min-height: 180px;
+        max-height: 48vh;
+        max-height: 48dvh;
+        padding: 4px;
+      }
+      .cropper-view-container .cropper-container {
+        max-height: 48vh !important;
+        max-height: 48dvh !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-800">
+  <div id="app" v-cloak class="min-h-screen flex flex-col">
+    
+    <!-- Top Global Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <!-- Logo / Title -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center text-white text-xl font-bold shadow-md">
+            <i class='bx bx-slider-alt'></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">Portfolio Admin Studio</h1>
+            </div>
+            <p v-if="user" class="text-xs text-slate-500 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+              {{ user.email }}
+            </p>
+            <p v-else class="text-xs text-slate-400">Manage projects, skills & contact details</p>
+          </div>
         </div>
-        <button @click="saveData" :disabled="saving" class="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition disabled:opacity-50 flex items-center">
-          <i v-if="saving" class='bx bx-loader-alt bx-spin mr-2'></i>
-          {{ saving ? 'Saving...' : 'Save Changes' }}
-        </button>
+
+        <!-- Header Actions -->
+        <div class="flex items-center gap-2 sm:gap-3" v-if="user">
+          <a href="/" target="_blank" class="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-blue-600 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-blue-300 transition">
+            <i class='bx bx-link-external'></i> View Live Portfolio
+          </a>
+
+          <!-- Save Status Indicator -->
+          <span v-if="hasUnsavedChanges" class="hidden md:inline-flex items-center gap-1 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 px-2 py-1 rounded-md">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span> Unsaved changes
+          </span>
+          <span v-else class="hidden md:inline-flex items-center gap-1 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-md">
+            <i class='bx bx-check'></i> Synced
+          </span>
+
+          <!-- Save Button -->
+          <button @click="saveData" :disabled="saving" class="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold px-4 sm:px-5 py-2 rounded-lg shadow-sm transition flex items-center gap-1.5 disabled:opacity-50 cursor-pointer">
+            <i v-if="saving" class='bx bx-loader-alt bx-spin text-base'></i>
+            <i v-else class='bx bx-cloud-upload text-base'></i>
+            <span>{{ saving ? 'Saving...' : 'Save to Firebase' }}</span>
+          </button>
+
+          <!-- Sign Out -->
+          <button @click="signOut" title="Sign Out" class="text-slate-500 hover:text-red-600 p-2 rounded-lg hover:bg-slate-100 transition">
+            <i class='bx bx-log-out text-xl'></i>
+          </button>
+        </div>
       </div>
 
-      <div v-if="loading" class="text-gray-500 py-10 text-center">Loading data from Firebase...</div>
+      <!-- Navigation Tabs (Only when authenticated) -->
+      <div v-if="user" class="border-t border-slate-200 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-4">
+          <button 
+            @click="activeTab = 'projects'" 
+            :class="['py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 flex items-center gap-2 transition cursor-pointer', 
+                     activeTab === 'projects' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700']">
+            <i class='bx bx-folder-open text-base'></i>
+            <span>Projects</span>
+            <span class="text-[11px] px-1.5 py-0.2 rounded-full font-bold" 
+                  :class="activeTab === 'projects' ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-600'">
+              {{ data.projects ? data.projects.length : 0 }}
+            </span>
+          </button>
+
+          <button 
+            @click="activeTab = 'skills'" 
+            :class="['py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 flex items-center gap-2 transition cursor-pointer', 
+                     activeTab === 'skills' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700']">
+            <i class='bx bx-code-block text-base'></i>
+            <span>Skills Stack</span>
+            <span class="text-[11px] px-1.5 py-0.2 rounded-full font-bold" 
+                  :class="activeTab === 'skills' ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-600'">
+              {{ data.skills ? data.skills.length : 0 }}
+            </span>
+          </button>
+
+          <button 
+            @click="activeTab = 'contact'" 
+            :class="['py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 flex items-center gap-2 transition cursor-pointer', 
+                     activeTab === 'contact' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700']">
+            <i class='bx bx-envelope text-base'></i>
+            <span>Contact & Socials</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       
-      <div v-else>
-        <!-- Contact Details -->
-        <div class="mb-10">
-          <h2 class="text-2xl font-bold mb-4 border-b pb-2">Contact Details</h2>
-          <div class="bg-white p-6 rounded-lg shadow-sm border">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">GitHub Link</label>
-                <input v-model="data.contact.github" type="text" class="w-full border rounded p-2">
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">GitHub Text (e.g., github.com/user)</label>
-                <input v-model="data.contact.githubText" type="text" class="w-full border rounded p-2">
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input v-model="data.contact.email" type="text" class="w-full border rounded p-2">
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">LinkedIn Link</label>
-                <input v-model="data.contact.linkedin" type="text" class="w-full border rounded p-2">
-              </div>
-            </div>
-          </div>
+      <!-- Login Screen -->
+      <div v-if="!user" class="max-w-md mx-auto my-12 bg-white p-8 rounded-2xl shadow-xl border border-slate-200 text-center">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-teal-400 mx-auto mb-4 flex items-center justify-center text-white text-3xl shadow-lg">
+          <i class='bx bx-shield-quarter'></i>
         </div>
+        <h2 class="text-2xl font-bold text-slate-900 mb-2">Portfolio Admin Access</h2>
+        <p class="text-sm text-slate-500 mb-6">Sign in with your authorized Google Account to manage your projects, skills, and portfolio content.</p>
         
-        <!-- Skills -->
-        <div class="mb-10">
-          <h2 class="text-2xl font-bold mb-4 border-b pb-2">Skills</h2>
-          
-          <div v-for="(skill, index) in data.skills" :key="'s'+index" class="bg-white rounded-lg shadow-sm border mb-6 relative overflow-hidden">
-            <button @click="removeSkill(index)" class="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10">
-              <i class="bx bx-trash text-xl"></i>
-            </button>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2">
-              <!-- Editor Left Side -->
-              <div class="col-span-1 p-6">
-                <div class="grid grid-cols-1 gap-4 mb-4">
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                    <input v-model="skill.name" type="text" class="w-full border rounded p-2">
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Icon (Boxicons class)</label>
-                    <div class="flex items-center">
-                      <div class="bg-gray-100 border border-r-0 rounded-l flex items-center justify-center w-10 h-10 text-gray-600">
-                        <i :class="['bx', skill.icon, 'text-xl']"></i>
-                      </div>
-                      <input v-model="skill.icon" type="text" class="w-full border rounded-r p-2 h-10" placeholder="e.g. bx-code-block">
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="mb-4">
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                  <textarea v-model="skill.description" rows="2" class="w-full border rounded p-2"></textarea>
-                </div>
-                
-                <div class="mb-2">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Tags</label>
-                  <div class="flex flex-wrap gap-2 mb-2">
-                    <div v-for="(tag, tIndex) in skill.tags" :key="'st'+tIndex" class="flex items-center bg-gray-100 border rounded pl-2">
-                      <i :class="['bx', tag.icon, 'text-gray-500 mr-1']"></i>
-                      <input v-model="tag.icon" placeholder="Icon class" class="w-24 bg-transparent text-xs outline-none py-1">
-                      <input v-model="tag.name" placeholder="Name" class="w-24 bg-transparent text-xs font-semibold outline-none py-1 border-l pl-2">
-                      <button @click="skill.tags.splice(tIndex, 1)" class="text-red-500 px-2 hover:bg-red-100 rounded-r"><i class="bx bx-x"></i></button>
-                    </div>
-                    <button @click="skill.tags.push({icon: '', name: ''})" class="text-sm bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">+ Add Tag</button>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Skill Live Preview Right Side -->
-              <div class="col-span-1 lg:border-l lg:pl-8 mt-6 lg:mt-0 flex flex-col items-center justify-center bg-gray-50 p-4 lg:p-6 rounded-b-lg lg:rounded-bl-none lg:rounded-r-lg">
-                <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4 text-center">Live Preview</p>
-                <div class="w-full max-w-sm flex justify-center">
-                <iframe :srcdoc="getSkillPreview(skill)" class="w-full max-w-[340px] h-[220px] border-0 bg-transparent rounded-lg shadow-sm overflow-hidden pointer-events-none"></iframe>
-              </div>
-              </div>
-            </div>
-          </div>
-          
-          <button @click="addSkill" class="w-full border-2 border-dashed border-gray-300 text-gray-500 hover:border-blue-500 hover:text-blue-500 py-4 rounded-lg flex items-center justify-center font-medium transition mb-10">
-            <i class="bx bx-plus text-xl mr-2"></i> Add New Skill
-          </button>
-        </div>
-
-        <!-- Projects -->
-        <h2 class="text-2xl font-bold mb-4 border-b pb-2">Projects</h2>
-        
-        <div v-for="(project, index) in data.projects" :key="'p'+index" class="bg-white rounded-lg shadow-sm border mb-6 relative overflow-hidden">
-          <button @click="removeProject(index)" class="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10">
-            <i class="bx bx-trash text-xl"></i>
-          </button>
-          
-          <div class="grid grid-cols-1 lg:grid-cols-2">
-            <!-- Editor Left Side -->
-            <div class="col-span-1 p-6">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                  <input v-model="project.title" type="text" class="w-full border rounded p-2">
-                </div>
-                
-                <div class="col-span-1 md:col-span-2">
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Project Screenshot</label>
-                  <div class="flex items-center gap-2">
-                    <input v-model="project.image" type="text" placeholder="URL or click Upload" class="flex-1 border rounded p-2 h-10">
-                    <button type="button" @click="openCropperTrigger(index, $event)" class="bg-gray-800 text-white hover:bg-gray-900 px-4 py-2 rounded h-10 text-sm whitespace-nowrap flex items-center shadow-sm">
-                      <i class="bx bx-cloud-upload text-lg mr-1"></i> Upload Image
-                    </button>
-                    <input type="file" accept="image/*" @change="onFileSelected($event, index)" class="hidden">
-                  </div>
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Link (leave empty if none)</label>
-                  <input v-model="project.link" type="text" class="w-full border rounded p-2">
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Link Text (e.g., View Project)</label>
-                  <input v-model="project.linkText" type="text" class="w-full border rounded p-2">
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Link Icon (Boxicons class)</label>
-                  <div class="flex items-center">
-                    <div class="bg-gray-100 border border-r-0 rounded-l flex items-center justify-center w-10 h-10 text-gray-600">
-                      <i :class="['bx', project.linkIcon, 'text-xl']"></i>
-                    </div>
-                    <input v-model="project.linkIcon" type="text" class="w-full border rounded-r p-2 h-10">
-                  </div>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Status (e.g., Hibernating)</label>
-                  <input v-model="project.status" type="text" class="w-full border rounded p-2">
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Card Icon (Boxicons class)</label>
-                  <div class="flex items-center">
-                    <div class="bg-gray-100 border border-r-0 rounded-l flex items-center justify-center w-10 h-10 text-gray-600">
-                      <i :class="['bx', project.icon, 'text-xl']"></i>
-                    </div>
-                    <input v-model="project.icon" type="text" class="w-full border rounded-r p-2 h-10">
-                  </div>
-                </div>
-                <div class="flex items-center pt-6">
-                  <input v-model="project.featured" type="checkbox" class="mr-2 h-5 w-5 text-blue-600">
-                  <label class="text-sm font-medium text-gray-700">Featured (Shows Star badge)</label>
-                </div>
-              </div>
-              
-              <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <textarea v-model="project.description" rows="3" class="w-full border rounded p-2"></textarea>
-              </div>
-              
-              <div class="mb-2">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Technologies (Tags)</label>
-                <div class="flex flex-wrap gap-2 mb-2">
-                  <div v-for="(tag, tIndex) in project.tags" :key="tIndex" class="flex items-center bg-gray-100 border rounded pl-2">
-                    <i :class="['bx', tag.icon, 'text-gray-500 mr-1']"></i>
-                    <input v-model="tag.icon" placeholder="Icon class" class="w-24 bg-transparent text-xs outline-none py-1">
-                    <input v-model="tag.name" placeholder="Name" class="w-24 bg-transparent text-xs font-semibold outline-none py-1 border-l pl-2">
-                    <button @click="project.tags.splice(tIndex, 1)" class="text-red-500 px-2 hover:bg-red-100 rounded-r"><i class="bx bx-x"></i></button>
-                  </div>
-                  <button @click="project.tags.push({icon: '', name: ''})" class="text-sm bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">+ Add Tag</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Project Live Preview Right Side -->
-            <div class="col-span-1 lg:border-l lg:pl-8 mt-6 lg:mt-0 flex flex-col items-center justify-center bg-gray-50 p-4 lg:p-6 rounded-b-lg lg:rounded-bl-none lg:rounded-r-lg">
-              <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4 text-center">Live Preview</p>
-              <div class="w-full max-w-[380px] bg-slate-900 p-2 sm:p-6 rounded-xl shadow-inner border border-slate-700 relative flex items-center justify-center overflow-hidden">
-                <iframe :srcdoc="getProjectPreview(project)" class="w-full h-[400px] sm:h-[480px] border-0 bg-transparent overflow-hidden pointer-events-none"></iframe>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <button @click="addProject" class="w-full border-2 border-dashed border-gray-300 text-gray-500 hover:border-blue-500 hover:text-blue-500 py-4 rounded-lg flex items-center justify-center font-medium transition">
-          <i class="bx bx-plus text-xl mr-2"></i> Add New Project
+        <button @click="signIn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+          <i class='bx bxl-google text-xl'></i>
+          <span>Sign in with Google</span>
         </button>
+
+        <p v-if="loginError" class="mt-4 text-xs text-red-600 bg-red-50 p-3 rounded-lg border border-red-200 text-left flex items-start gap-2">
+          <i class='bx bx-error-circle text-base mt-0.5 flex-shrink-0'></i>
+          <span>{{ loginError }}</span>
+        </p>
+
+        <div class="mt-8 pt-6 border-t border-slate-100 text-xs text-slate-400">
+          <a href="/" class="hover:text-blue-600 transition flex items-center justify-center gap-1">
+            <i class='bx bx-arrow-back'></i> Back to Portfolio
+          </a>
+        </div>
       </div>
-    </div>
-    <!-- Cropper Modal -->
-    <div v-if="showCropper" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-      <div class="bg-white rounded-xl w-full max-w-4xl flex flex-col max-h-[90vh] shadow-2xl">
-         <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-xl">
-            <h3 class="text-xl font-bold text-gray-800"><i class='bx bx-crop mr-2'></i>Crop Project Screenshot (16:9)</h3>
-            <button @click="closeCropper" class="text-gray-500 hover:text-red-500 transition"><i class='bx bx-x text-3xl'></i></button>
-         </div>
-         <div class="flex-1 overflow-hidden p-6 bg-gray-100 flex items-center justify-center min-h-[400px]">
-            <img id="cropperImage" :src="cropperSrc" class="max-w-full max-h-[60vh] object-contain shadow-md rounded">
-         </div>
-         <div class="p-4 border-t flex justify-end gap-3 bg-gray-50 rounded-b-xl">
-            <button @click="closeCropper" class="px-5 py-2.5 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition">Cancel</button>
-            <button @click="uploadCroppedImage" :disabled="uploadingImage" class="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition flex items-center shadow">
-               <i v-if="uploadingImage" class="bx bx-loader-alt bx-spin mr-2"></i>
-               {{ uploadingImage ? 'Uploading to Firebase...' : 'Crop & Upload' }}
+
+      <!-- Loading State -->
+      <div v-else-if="loading" class="py-20 text-center">
+        <i class='bx bx-loader-alt bx-spin text-4xl text-blue-600 mb-3'></i>
+        <p class="text-slate-500 font-medium">Loading portfolio data from Firestore...</p>
+      </div>
+
+      <!-- Authenticated Dashboard -->
+      <div v-else>
+
+        <!-- ================= PROJECTS TAB ================= -->
+        <div v-show="activeTab === 'projects'">
+          <!-- Actions Header -->
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900">Projects Management</h2>
+              <p class="text-xs text-slate-500">Configure cards, screenshot previews, demo links, and tech tags in real-time.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button @click="toggleAllCards" class="text-xs font-medium text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition">
+                <i :class="['bx', allExpanded ? 'bx-collapse-vertical' : 'bx-expand-vertical', 'mr-1']"></i>
+                {{ allExpanded ? 'Collapse All' : 'Expand All' }}
+              </button>
+              <button @click="addProject" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg shadow-sm transition flex items-center gap-1">
+                <i class='bx bx-plus text-base'></i> Add Project
+              </button>
+            </div>
+          </div>
+
+          <!-- Project Cards List -->
+          <div class="space-y-6">
+            <div 
+              v-for="(project, index) in data.projects" 
+              :key="'proj-' + index"
+              class="bg-white rounded-2xl border border-slate-200 shadow-sm transition duration-200 overflow-hidden"
+              :class="{'ring-2 ring-blue-500 border-blue-500': expandedProjects[index]}"
+            >
+              <!-- Card Header Row (Accordion Bar) -->
+              <div 
+                class="p-3.5 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 cursor-pointer select-none border-b border-slate-200"
+                @click="toggleProject(index)"
+              >
+                <!-- Title & Main Info Area -->
+                <div class="flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3 min-w-0 flex-1">
+                  <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                    <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-blue-100 text-blue-700 font-mono font-bold text-xs flex items-center justify-center flex-shrink-0">
+                      #{{ index + 1 }}
+                    </span>
+                    
+                    <!-- Thumbnail preview -->
+                    <div class="w-9 h-7 sm:w-10 sm:h-8 rounded bg-slate-200 overflow-hidden flex-shrink-0 border border-slate-300">
+                      <img v-if="project.image" :src="project.image" alt="Thumbnail" class="w-full h-full object-cover">
+                      <div v-else class="w-full h-full flex items-center justify-center text-slate-400 text-xs">
+                        <i class='bx bx-image'></i>
+                      </div>
+                    </div>
+
+                    <div class="min-w-0 flex-1">
+                      <h3 class="text-sm sm:text-base font-bold text-slate-900 truncate">
+                        {{ project.title || 'Untitled Project' }}
+                      </h3>
+                      <div class="flex items-center gap-1.5 mt-0.5 flex-wrap">
+                        <span v-if="project.featured" class="text-[9px] sm:text-[10px] bg-teal-100 text-teal-800 font-bold px-1.5 py-0.5 rounded-full flex items-center gap-0.5">
+                          <i class='bx bxs-star'></i> Featured
+                        </span>
+                        <span v-if="project.status" class="text-[9px] sm:text-[10px] bg-amber-100 text-amber-800 font-semibold px-1.5 py-0.5 rounded-full flex items-center gap-0.5">
+                          <i class='bx bx-moon'></i> {{ project.status }}
+                        </span>
+                        <span class="text-[11px] text-slate-400 truncate hidden sm:inline">
+                          {{ (project.tags || []).length }} tags
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Mobile Chevron Icon right next to title -->
+                  <div class="sm:hidden text-slate-400 p-1">
+                    <i :class="['bx text-xl', expandedProjects[index] ? 'bx-chevron-up' : 'bx-chevron-down']"></i>
+                  </div>
+                </div>
+
+                <!-- Reorder & Action Controls -->
+                <div class="flex items-center justify-end gap-1 flex-shrink-0 pt-2 sm:pt-0 border-t border-slate-200/70 sm:border-0" @click.stop>
+                  <!-- Move Up -->
+                  <button 
+                    @click="moveProject(index, -1)" 
+                    :disabled="index === 0"
+                    title="Move Up" 
+                    class="p-1 sm:p-1.5 rounded hover:bg-slate-200 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed text-xs sm:text-base">
+                    <i class='bx bx-chevron-up text-base sm:text-lg'></i>
+                  </button>
+                  <!-- Move Down -->
+                  <button 
+                    @click="moveProject(index, 1)" 
+                    :disabled="index === data.projects.length - 1"
+                    title="Move Down" 
+                    class="p-1 sm:p-1.5 rounded hover:bg-slate-200 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed text-xs sm:text-base">
+                    <i class='bx bx-chevron-down text-base sm:text-lg'></i>
+                  </button>
+                  <!-- Duplicate -->
+                  <button 
+                    @click="duplicateProject(index)" 
+                    title="Duplicate Project" 
+                    class="p-1 sm:p-1.5 rounded hover:bg-slate-200 text-slate-600 text-xs sm:text-base">
+                    <i class='bx bx-copy text-sm sm:text-base'></i>
+                  </button>
+                  <!-- Delete -->
+                  <button 
+                    @click="removeProject(index)" 
+                    title="Delete Project" 
+                    class="p-1 sm:p-1.5 rounded hover:bg-red-100 text-red-500 text-xs sm:text-base">
+                    <i class='bx bx-trash text-sm sm:text-base'></i>
+                  </button>
+                  <!-- Collapse / Expand Icon (Desktop) -->
+                  <button 
+                    @click="toggleProject(index)" 
+                    class="hidden sm:inline-flex p-1.5 rounded hover:bg-slate-200 text-slate-500 ml-1">
+                    <i :class="['bx text-xl', expandedProjects[index] ? 'bx-chevron-up' : 'bx-chevron-down']"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Expanded Card Editor Body (Side-by-side on lg screens) -->
+              <div v-show="expandedProjects[index]" class="p-4 sm:p-6 bg-white">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  
+                  <!-- Form Left Column (7 cols) -->
+                  <div class="lg:col-span-7 space-y-4">
+                    
+                    <!-- Title & Featured -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Project Title</label>
+                        <input v-model="project.title" @input="markUnsaved" type="text" placeholder="e.g. Developer Portfolio" class="form-input-clean font-semibold text-slate-900">
+                      </div>
+
+                      <div class="flex items-center sm:justify-center pt-2 sm:pt-6">
+                        <label class="inline-flex items-center gap-2 cursor-pointer">
+                          <input type="checkbox" v-model="project.featured" @change="markUnsaved" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                          <span class="text-xs font-semibold text-slate-700 flex items-center gap-1">
+                            <i class='bx bxs-star text-teal-500'></i> Featured
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- Screenshot / Image Upload Row -->
+                    <div>
+                      <div class="flex items-center justify-between mb-1 gap-2">
+                        <label class="block text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider">
+                          Project Screenshot (16:9)
+                        </label>
+                        <!-- Crop Current Image if present -->
+                        <button 
+                          v-if="project.image" 
+                          type="button" 
+                          @click="cropExistingImage(project.image, index)" 
+                          class="text-[10px] sm:text-xs text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1 hover:underline cursor-pointer shrink-0"
+                          title="Crop current project image in 16:9"
+                        >
+                          <i class='bx bx-crop text-sm'></i> <span class="hidden sm:inline">Crop Current Image</span><span class="sm:hidden">Crop</span>
+                        </button>
+                      </div>
+
+                      <div class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
+                        <div class="relative flex-1 min-w-0">
+                          <input 
+                            v-model="project.image" 
+                            @input="markUnsaved"
+                            type="text" 
+                            placeholder="assets/my_image.png or paste URL" 
+                            class="form-input-clean pr-8 w-full"
+                          >
+                          <button 
+                            v-if="project.image" 
+                            @click="project.image = ''; markUnsaved();" 
+                            title="Clear image"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-red-500 text-sm">
+                            <i class='bx bx-x'></i>
+                          </button>
+                        </div>
+
+                        <div class="flex gap-2 shrink-0">
+                          <!-- Crop from Assets Folder Button -->
+                          <button 
+                            type="button" 
+                            @click="openAssetPicker(index)" 
+                            class="flex-1 sm:flex-none justify-center bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-[11px] sm:text-xs font-semibold px-2.5 sm:px-3.5 py-2.5 rounded-lg shadow-xs transition flex items-center gap-1 sm:gap-1.5 whitespace-nowrap cursor-pointer"
+                            title="Choose an image already present in the assets folder to crop"
+                          >
+                            <i class='bx bx-images text-sm sm:text-base text-blue-600'></i> <span class="hidden sm:inline">Crop from Assets</span><span class="sm:hidden">Assets</span>
+                          </button>
+
+                          <!-- Upload Image Button -->
+                          <button 
+                            type="button" 
+                            @click="triggerUpload(index)" 
+                            class="flex-1 sm:flex-none justify-center bg-slate-800 hover:bg-slate-900 text-white text-[11px] sm:text-xs font-semibold px-3 sm:px-4 py-2.5 rounded-lg shadow-xs transition flex items-center gap-1 sm:gap-1.5 whitespace-nowrap cursor-pointer">
+                            <i class='bx bx-cloud-upload text-sm sm:text-base'></i> <span class="hidden sm:inline">Upload Image</span><span class="sm:hidden">Upload</span>
+                          </button>
+                        </div>
+                        <!-- Hidden input for file selection -->
+                        <input 
+                          :id="'fileInput_' + index" 
+                          type="file" 
+                          accept="image/*" 
+                          @change="onFileSelected($event, index)" 
+                          class="hidden"
+                        >
+                      </div>
+                      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-1.5 mt-1.5">
+                        <p class="text-[10px] sm:text-[11px] text-slate-400">
+                          Crop any image from your <code class="text-slate-600 font-mono bg-slate-100 px-1 py-0.5 rounded">assets/</code> folder or upload a new screenshot.
+                        </p>
+                        <div class="flex flex-wrap items-center gap-1 text-[11px] text-slate-500">
+                          <span class="text-slate-400">Quick:</span>
+                          <button 
+                            type="button"
+                            @click="selectAndCropAsset('assets/Sagar_Portfolio.png', index)"
+                            class="text-[10px] px-1.5 py-0.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded text-slate-600 border border-slate-200 transition cursor-pointer"
+                            title="Crop Sagar_Portfolio.png">
+                            Portfolio
+                          </button>
+                          <button 
+                            type="button"
+                            @click="selectAndCropAsset('assets/smartshare.png', index)"
+                            class="text-[10px] px-1.5 py-0.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded text-slate-600 border border-slate-200 transition cursor-pointer"
+                            title="Crop smartshare.png">
+                            SmartShare
+                          </button>
+                          <button 
+                            type="button"
+                            @click="selectAndCropAsset('assets/attendance.png', index)"
+                            class="text-[10px] px-1.5 py-0.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded text-slate-600 border border-slate-200 transition cursor-pointer"
+                            title="Crop attendance.png">
+                            Attendance
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Links Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Link URL</label>
+                        <input v-model="project.link" @input="markUnsaved" type="text" placeholder="https://github.com/..." class="form-input-clean">
+                      </div>
+                      <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Link Button Text</label>
+                        <input v-model="project.linkText" @input="markUnsaved" type="text" placeholder="e.g. Source Code, View Project" class="form-input-clean">
+                      </div>
+                    </div>
+
+                    <!-- Icons & Status Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <!-- Link Icon -->
+                      <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Link Icon</label>
+                        <div class="flex items-center">
+                          <div class="w-9 h-9 bg-slate-100 border border-r-0 border-slate-300 rounded-l-lg flex items-center justify-center text-slate-600 text-lg flex-shrink-0">
+                            <i :class="['bx', project.linkIcon || 'bx-link-external']"></i>
+                          </div>
+                          <input v-model="project.linkIcon" @input="markUnsaved" type="text" placeholder="bxl-github" class="form-input-clean rounded-l-none text-xs">
+                        </div>
+                        <div class="flex gap-1 mt-1">
+                          <button v-for="ic in ['bxl-github', 'bx-link-external', 'bx-download', 'bx-globe']" :key="ic" @click="project.linkIcon = ic; markUnsaved();" class="text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-1 rounded">
+                            <i :class="['bx', ic]"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Card Header Icon -->
+                      <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Card Icon</label>
+                        <div class="flex items-center">
+                          <div class="w-9 h-9 bg-slate-100 border border-r-0 border-slate-300 rounded-l-lg flex items-center justify-center text-slate-600 text-lg flex-shrink-0">
+                            <i :class="['bx', project.icon || 'bx-code-alt']"></i>
+                          </div>
+                          <input v-model="project.icon" @input="markUnsaved" type="text" placeholder="bx-code-alt" class="form-input-clean rounded-l-none text-xs">
+                        </div>
+                        <div class="flex gap-1 mt-1">
+                          <button v-for="ic in ['bx-code-alt', 'bx-share-alt', 'bx-search-alt', 'bx-folder-open', 'bx-bar-chart-square']" :key="ic" @click="project.icon = ic; markUnsaved();" class="text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-1 rounded">
+                            <i :class="['bx', ic]"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Status Badge -->
+                      <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Status (Optional)</label>
+                        <input v-model="project.status" @input="markUnsaved" type="text" placeholder="e.g. Hibernating, Beta" class="form-input-clean">
+                        <p class="text-[10px] text-slate-400 mt-1">Shows amber badge in header</p>
+                      </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                      <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Description</label>
+                      <textarea v-model="project.description" @input="markUnsaved" rows="3" placeholder="Describe the purpose, features, and architecture of this project..." class="form-input-clean resize-y text-xs sm:text-sm"></textarea>
+                    </div>
+
+                    <!-- Technologies / Tags -->
+                    <div>
+                      <div class="flex justify-between items-center mb-1.5">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Technologies & Tags</label>
+                        <!-- Quick Add Presets -->
+                        <div class="flex flex-wrap gap-1 text-[11px]">
+                          <span class="text-slate-400 mr-1">Quick Add:</span>
+                          <button 
+                            v-for="preset in tagPresets" 
+                            :key="preset.name" 
+                            @click="addTagPreset(project, preset)" 
+                            type="button" 
+                            class="bg-blue-50 text-blue-700 hover:bg-blue-100 px-1.5 py-0.5 rounded border border-blue-200 transition font-medium">
+                            + {{ preset.name }}
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Current Tags List -->
+                      <div class="space-y-2 mt-2">
+                        <div class="flex flex-wrap gap-2">
+                          <div 
+                            v-for="(tag, tIdx) in project.tags" 
+                            :key="'tag-' + tIdx" 
+                            class="flex items-center bg-slate-50 border border-slate-200 rounded-lg pl-2 pr-1 py-1 shadow-2xs">
+                            <i :class="['bx', tag.icon || 'bx-tag', 'text-blue-500 mr-1 text-sm']"></i>
+                            <input v-model="tag.icon" @input="markUnsaved" placeholder="Icon" class="w-16 bg-transparent text-[11px] font-mono outline-none">
+                            <input v-model="tag.name" @input="markUnsaved" placeholder="Name" class="w-20 bg-transparent text-xs font-semibold outline-none border-l border-slate-200 pl-1.5">
+                            <button @click="project.tags.splice(tIdx, 1); markUnsaved();" title="Remove tag" class="text-slate-400 hover:text-red-500 ml-1 p-0.5">
+                              <i class='bx bx-x text-sm'></i>
+                            </button>
+                          </div>
+                          
+                          <button 
+                            @click="project.tags.push({icon: 'bx-tag', name: ''}); markUnsaved();" 
+                            type="button" 
+                            class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 font-medium transition flex items-center gap-1">
+                            <i class='bx bx-plus'></i> Custom Tag
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- ================= RIGHT COLUMN: NATIVE LIVE PREVIEW ================= -->
+                  <div class="lg:col-span-5 lg:sticky lg:top-24">
+                    
+                    <!-- Preview Controls Bar -->
+                    <div class="flex items-center justify-between mb-2">
+                      <div class="flex items-center gap-1.5 text-xs font-bold text-slate-700 uppercase tracking-wider">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                        <span>Interactive Live Preview</span>
+                      </div>
+
+                      <!-- Theme Toggle for Preview -->
+                      <div class="flex items-center bg-slate-200 p-0.5 rounded-lg text-xs">
+                        <button 
+                          @click="previewThemes[index] = 'dark'" 
+                          :class="['px-2 py-0.5 rounded-md font-semibold transition', (previewThemes[index] || 'dark') === 'dark' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900']">
+                          Dark
+                        </button>
+                        <button 
+                          @click="previewThemes[index] = 'light'" 
+                          :class="['px-2 py-0.5 rounded-md font-semibold transition', previewThemes[index] === 'light' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900']">
+                          Light
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Live Rendered Project Card Stage (NO IFRAME!) -->
+                    <div 
+                      class="preview-stage-container p-4 sm:p-6"
+                      :class="previewThemes[index] === 'light' ? 'preview-theme-light' : 'preview-theme-dark'"
+                    >
+                      <div class="preview-project-card active-glow max-w-[360px] mx-auto">
+                        
+                        <!-- Screenshot Preview -->
+                        <div class="preview-project-image">
+                          <img 
+                            v-if="project.image" 
+                            :src="project.image" 
+                            :alt="project.title || 'Preview'"
+                            @error="onPreviewImageError($event)"
+                          >
+                          <div v-else class="w-full h-full flex flex-col items-center justify-center text-slate-400 p-4 text-center">
+                            <i class='bx bx-image-add text-3xl mb-1 text-slate-500'></i>
+                            <span class="text-xs">No screenshot set</span>
+                            <span class="text-[10px] text-slate-500 mt-0.5">Click 'Upload Image' to add</span>
+                          </div>
+                        </div>
+
+                        <!-- Card Header (Icon & Link / Status) -->
+                        <div class="preview-card-header">
+                          <div class="preview-card-icon">
+                            <i :class="['bx', project.icon || 'bx-code-alt']"></i>
+                          </div>
+                          
+                          <div class="flex items-center gap-1.5">
+                            <span 
+                              v-if="project.status" 
+                              style="font-size:0.72rem; color:#f59e0b; background:rgba(255,165,0,0.15); padding:2px 8px; border-radius:999px; font-weight:600; display:inline-flex; align-items:center; gap:4px;">
+                              <i class='bx bx-moon'></i> {{ project.status }}
+                            </span>
+                            <a 
+                              v-if="project.link" 
+                              :href="project.link" 
+                              target="_blank" 
+                              class="preview-icon-link" 
+                              :title="project.linkText || 'Visit'">
+                              <i :class="['bx', project.linkIcon || 'bx-link-external']"></i>
+                              <span>{{ project.linkText || 'Link' }}</span>
+                            </a>
+                          </div>
+                        </div>
+
+                        <!-- Card Title & Featured Badge -->
+                        <h3 class="preview-card-title">
+                          {{ project.title || 'Untitled Project' }}
+                          <span 
+                            v-if="project.featured" 
+                            style="font-size:0.7rem; color:#14b8a6; border:1px solid #14b8a6; padding:2px 6px; border-radius:4px; margin-left:4px; vertical-align:middle; display:inline-flex; align-items:center; gap:2px;">
+                            <i class='bx bxs-star'></i> Featured
+                          </span>
+                        </h3>
+
+                        <!-- Card Description -->
+                        <p class="preview-card-desc">
+                          {{ project.description || 'Describe the problems solved, performance optimizations, and technology stack used for this project...' }}
+                        </p>
+
+                        <!-- Card Tags -->
+                        <div class="preview-card-tags">
+                          <span 
+                            v-for="(tag, tgIdx) in project.tags" 
+                            :key="'p-tag-' + tgIdx" 
+                            class="preview-tag">
+                            <i v-if="tag.icon" :class="['bx', tag.icon]"></i>
+                            <span>{{ tag.name || 'Tech' }}</span>
+                          </span>
+                          <span v-if="!project.tags || project.tags.length === 0" class="text-xs text-slate-500 italic">
+                            No tech tags configured
+                          </span>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <p class="text-[11px] text-slate-400 mt-2 text-center">
+                      <i class='bx bx-check-double text-emerald-500'></i> Renders live with the exact CSS, colors, and fonts of your portfolio.
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Add Project Button -->
+          <div class="mt-8">
+            <button 
+              @click="addProject" 
+              class="w-full border-2 border-dashed border-slate-300 hover:border-blue-500 hover:bg-blue-50 text-slate-600 hover:text-blue-600 py-4 rounded-xl flex items-center justify-center gap-2 font-semibold transition cursor-pointer">
+              <i class='bx bx-plus-circle text-2xl'></i>
+              <span>Create Another Project Card</span>
             </button>
-         </div>
+          </div>
+        </div>
+
+        <!-- ================= SKILLS TAB ================= -->
+        <div v-show="activeTab === 'skills'">
+          <!-- Skills Header -->
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900">Skills & Tech Stack</h2>
+              <p class="text-xs text-slate-500">Configure your primary technical domains, tooling descriptions, and specialized tags.</p>
+            </div>
+            <button @click="addSkill" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg shadow-sm transition flex items-center gap-1">
+              <i class='bx bx-plus text-base'></i> Add Skill Domain
+            </button>
+          </div>
+
+          <!-- Skills Cards List -->
+          <div class="space-y-6">
+            <div 
+              v-for="(skill, index) in data.skills" 
+              :key="'skill-' + index"
+              class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"
+            >
+              <div class="p-3.5 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-slate-50 border-b border-slate-200">
+                <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                  <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-teal-100 text-teal-800 font-mono font-bold text-xs flex items-center justify-center flex-shrink-0">
+                    #{{ index + 1 }}
+                  </span>
+                  <div class="flex items-center gap-2 min-w-0">
+                    <i :class="['bx text-lg sm:text-xl text-blue-600 shrink-0', skill.icon || 'bx-code-block']"></i>
+                    <h3 class="text-sm sm:text-base font-bold text-slate-900 truncate">
+                      {{ skill.name || 'Untitled Skill' }}
+                    </h3>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-1 flex-shrink-0 pt-1.5 sm:pt-0 border-t border-slate-200/70 sm:border-0">
+                  <button @click="moveSkill(index, -1)" :disabled="index === 0" title="Move Up" class="p-1 sm:p-1.5 rounded hover:bg-slate-200 text-slate-600 disabled:opacity-30 text-xs sm:text-base">
+                    <i class='bx bx-chevron-up text-base sm:text-lg'></i>
+                  </button>
+                  <button @click="moveSkill(index, 1)" :disabled="index === data.skills.length - 1" title="Move Down" class="p-1 sm:p-1.5 rounded hover:bg-slate-200 text-slate-600 disabled:opacity-30 text-xs sm:text-base">
+                    <i class='bx bx-chevron-down text-base sm:text-lg'></i>
+                  </button>
+                  <button @click="removeSkill(index)" title="Delete Skill" class="p-1 sm:p-1.5 rounded hover:bg-red-100 text-red-500 text-xs sm:text-base">
+                    <i class='bx bx-trash text-sm sm:text-base'></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Skill Form (7 cols) -->
+                <div class="lg:col-span-7 space-y-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Domain Name</label>
+                      <input v-model="skill.name" @input="markUnsaved" type="text" placeholder="e.g. Progressive Web Apps" class="form-input-clean font-semibold">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Domain Icon</label>
+                      <div class="flex items-center">
+                        <div class="w-9 h-9 bg-slate-100 border border-r-0 border-slate-300 rounded-l-lg flex items-center justify-center text-slate-600 text-lg flex-shrink-0">
+                          <i :class="['bx', skill.icon || 'bx-code-block']"></i>
+                        </div>
+                        <input v-model="skill.icon" @input="markUnsaved" type="text" placeholder="bx-code-block" class="form-input-clean rounded-l-none text-xs">
+                      </div>
+                      <div class="flex gap-1 mt-1">
+                        <button v-for="ic in ['bx-code-block', 'bx-mobile', 'bxl-firebase', 'bxl-nodejs', 'bx-devices', 'bx-server']" :key="ic" @click="skill.icon = ic; markUnsaved();" class="text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-1 rounded">
+                          <i :class="['bx', ic]"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Description</label>
+                    <textarea v-model="skill.description" @input="markUnsaved" rows="3" placeholder="Describe the capabilities, frameworks, and principles you utilize..." class="form-input-clean resize-y text-xs sm:text-sm"></textarea>
+                  </div>
+
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Tags & Tooling</label>
+                    <div class="flex flex-wrap gap-2">
+                      <div 
+                        v-for="(tag, tIdx) in skill.tags" 
+                        :key="'sk-tag-' + tIdx" 
+                        class="flex items-center bg-slate-50 border border-slate-200 rounded-lg pl-2 pr-1 py-1">
+                        <i :class="['bx', tag.icon || 'bx-tag', 'text-teal-600 mr-1 text-sm']"></i>
+                        <input v-model="tag.icon" @input="markUnsaved" placeholder="Icon" class="w-16 bg-transparent text-[11px] font-mono outline-none">
+                        <input v-model="tag.name" @input="markUnsaved" placeholder="Name" class="w-20 bg-transparent text-xs font-semibold outline-none border-l border-slate-200 pl-1.5">
+                        <button @click="skill.tags.splice(tIdx, 1); markUnsaved();" class="text-slate-400 hover:text-red-500 ml-1 p-0.5">
+                          <i class='bx bx-x text-sm'></i>
+                        </button>
+                      </div>
+                      <button 
+                        @click="skill.tags.push({icon: 'bx-check', name: ''}); markUnsaved();" 
+                        type="button" 
+                        class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 font-medium transition flex items-center gap-1">
+                        <i class='bx bx-plus'></i> Add Tag
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Skill Native Live Preview (5 cols) -->
+                <div class="lg:col-span-5">
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                      <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                      <span>Live Skill Card Preview</span>
+                    </div>
+                    <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+                      <button 
+                        type="button"
+                        @click="previewThemes['skill_' + index] = 'dark'"
+                        :class="['px-2 py-0.5 text-xs font-medium rounded-md flex items-center gap-1 transition cursor-pointer',
+                                 previewThemes['skill_' + index] !== 'light' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900']"
+                      >
+                        <i class='bx bx-moon text-xs'></i> Dark
+                      </button>
+                      <button 
+                        type="button"
+                        @click="previewThemes['skill_' + index] = 'light'"
+                        :class="['px-2 py-0.5 text-xs font-medium rounded-md flex items-center gap-1 transition cursor-pointer',
+                                 previewThemes['skill_' + index] === 'light' ? 'bg-white text-blue-600 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900']"
+                      >
+                        <i class='bx bx-sun text-xs'></i> Light
+                      </button>
+                    </div>
+                  </div>
+
+                  <div 
+                    class="preview-stage-container p-6"
+                    :class="previewThemes['skill_' + index] === 'light' ? 'preview-theme-light' : 'preview-theme-dark'"
+                  >
+                    <div class="preview-skill-card max-w-[340px] mx-auto">
+                      <div class="skill-watermark" aria-hidden="true">
+                        <i :class="['bx', skill.icon || 'bx-code-block']"></i>
+                      </div>
+                      <div class="preview-skill-icon">
+                        <i :class="['bx', skill.icon || 'bx-code-block']"></i>
+                      </div>
+                      <div class="preview-skill-name">{{ skill.name || 'Skill Domain' }}</div>
+                      <div class="preview-skill-desc">{{ skill.description || 'Describe the technologies and capabilities of this domain...' }}</div>
+                      <div class="flex flex-wrap gap-1.5">
+                        <span v-for="(tag, stIdx) in skill.tags" :key="stIdx" class="preview-tag">
+                          <i v-if="tag.icon" :class="['bx', tag.icon]"></i>
+                          <span>{{ tag.name || 'Tool' }}</span>
+                        </span>
+                        <span v-if="!skill.tags || skill.tags.length === 0" class="text-xs text-slate-500 italic">
+                          No tooling tags added
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-2 text-center flex items-center justify-center gap-1">
+                    <i class="bx bx-check-double text-emerald-500"></i> Renders live with the exact CSS, colors, and fonts of your portfolio.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8">
+            <button 
+              @click="addSkill" 
+              class="w-full border-2 border-dashed border-slate-300 hover:border-blue-500 hover:bg-blue-50 text-slate-600 hover:text-blue-600 py-4 rounded-xl flex items-center justify-center gap-2 font-semibold transition cursor-pointer">
+              <i class='bx bx-plus-circle text-2xl'></i>
+              <span>Add Another Skill Domain</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= CONTACT TAB ================= -->
+        <div v-show="activeTab === 'contact'">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left: Contact Configuration Form (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+              <div class="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="pb-4 mb-6 border-b border-slate-100">
+                  <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i class='bx bx-envelope text-blue-600'></i>
+                    <span>Contact & Social Presence</span>
+                  </h2>
+                  <p class="text-xs text-slate-500 mt-0.5">Configure your primary communication channels and public profiles displayed across the portfolio.</p>
+                </div>
+
+                <div class="space-y-5">
+                  <!-- Email Field -->
+                  <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80">
+                    <div class="flex items-center justify-between mb-1.5">
+                      <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Primary Email Address</label>
+                      <a :href="'mailto:' + data.contact.email" v-if="data.contact.email" class="text-[11px] text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1 font-medium">
+                        <i class='bx bx-send'></i> Test Mailto
+                      </a>
+                    </div>
+                    <div class="flex items-center shadow-xs">
+                      <div class="w-10 h-10 bg-white border border-r-0 border-slate-300 rounded-l-lg flex items-center justify-center text-blue-600 text-xl flex-shrink-0">
+                        <i class='bx bx-envelope'></i>
+                      </div>
+                      <input v-model="data.contact.email" @input="markUnsaved" type="email" placeholder="youremail@example.com" class="form-input-clean rounded-l-none">
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1">
+                      <i class='bx bx-info-circle'></i> Powers direct inquiries and the "Email" card in your "Get in Touch" section.
+                    </p>
+                  </div>
+
+                  <!-- GitHub Profile Field -->
+                  <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80">
+                    <div class="flex items-center justify-between mb-1.5">
+                      <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">GitHub Profile URL</label>
+                      <a :href="data.contact.github" v-if="data.contact.github" target="_blank" rel="noopener noreferrer" class="text-[11px] text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1 font-medium">
+                        <i class='bx bx-link-external'></i> Open GitHub
+                      </a>
+                    </div>
+                    <div class="flex items-center shadow-xs">
+                      <div class="w-10 h-10 bg-white border border-r-0 border-slate-300 rounded-l-lg flex items-center justify-center text-slate-800 text-xl flex-shrink-0">
+                        <i class='bx bxl-github'></i>
+                      </div>
+                      <input v-model="data.contact.github" @input="markUnsaved" type="text" placeholder="https://github.com/yourhandle" class="form-input-clean rounded-l-none">
+                    </div>
+                  </div>
+
+                  <!-- GitHub Display Handle -->
+                  <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">GitHub Display Label / Handle</label>
+                    <div class="flex items-center shadow-xs">
+                      <div class="w-10 h-10 bg-white border border-r-0 border-slate-300 rounded-l-lg flex items-center justify-center text-slate-600 text-xl flex-shrink-0">
+                        <i class='bx bx-id-card'></i>
+                      </div>
+                      <input v-model="data.contact.githubText" @input="markUnsaved" type="text" placeholder="github.com/yourhandle" class="form-input-clean rounded-l-none">
+                    </div>
+                    <div class="flex items-center gap-2 mt-2">
+                      <span class="text-[11px] text-slate-500 font-medium">Auto helper:</span>
+                      <button 
+                        type="button" 
+                        @click="extractGithubHandle" 
+                        class="text-[11px] px-2.5 py-1 bg-white border border-slate-300 hover:border-blue-400 hover:text-blue-600 text-slate-600 rounded-md cursor-pointer transition flex items-center gap-1">
+                        <i class='bx bx-magic-wand'></i> Auto-fill from GitHub URL
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- LinkedIn Profile Field -->
+                  <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80">
+                    <div class="flex items-center justify-between mb-1.5">
+                      <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">LinkedIn Profile URL</label>
+                      <a :href="data.contact.linkedin" v-if="data.contact.linkedin" target="_blank" rel="noopener noreferrer" class="text-[11px] text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1 font-medium">
+                        <i class='bx bx-link-external'></i> Open LinkedIn
+                      </a>
+                    </div>
+                    <div class="flex items-center shadow-xs">
+                      <div class="w-10 h-10 bg-white border border-r-0 border-slate-300 rounded-l-lg flex items-center justify-center text-[#0a66c2] text-xl flex-shrink-0">
+                        <i class='bx bxl-linkedin-square'></i>
+                      </div>
+                      <input v-model="data.contact.linkedin" @input="markUnsaved" type="text" placeholder="https://linkedin.com/in/yourhandle" class="form-input-clean rounded-l-none">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Integration Notes / Tips -->
+              <div class="p-5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200/70 text-slate-700">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center flex-shrink-0 text-lg shadow-sm">
+                    <i class='bx bx-check-shield'></i>
+                  </div>
+                  <div class="text-xs space-y-1">
+                    <div class="font-bold text-slate-900">Automatic Portfolio Sync</div>
+                    <p class="text-slate-600 leading-relaxed">
+                      Changes saved here instantly update the <strong>Get In Touch</strong> contact cards and profile buttons across your live portfolio without editing any code.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Interactive Live Preview Stage (5 cols, sticky) -->
+            <div class="lg:col-span-5 lg:sticky lg:top-24 space-y-4">
+              <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm">
+                
+                <!-- Live Preview Controls Header -->
+                <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
+                  <div class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                    <span>Live Contact Card Preview</span>
+                  </div>
+                  
+                  <!-- Theme Toggle Switcher -->
+                  <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+                    <button 
+                      type="button"
+                      @click="contactPreviewTheme = 'dark'"
+                      :class="['px-2.5 py-1 text-xs font-medium rounded-md flex items-center gap-1 transition cursor-pointer',
+                               contactPreviewTheme === 'dark' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900']"
+                    >
+                      <i class='bx bx-moon text-xs'></i> Dark
+                    </button>
+                    <button 
+                      type="button"
+                      @click="contactPreviewTheme = 'light'"
+                      :class="['px-2.5 py-1 text-xs font-medium rounded-md flex items-center gap-1 transition cursor-pointer',
+                               contactPreviewTheme === 'light' ? 'bg-white text-blue-600 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900']"
+                    >
+                      <i class='bx bx-sun text-xs'></i> Light
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Preview Stage Canvas (Matches exact style.css contact section) -->
+                <div 
+                  class="preview-stage-container p-4 sm:p-6"
+                  :class="contactPreviewTheme === 'light' ? 'preview-theme-light' : 'preview-theme-dark'"
+                >
+                  <!-- Let's Connect Card (The Exact Contact Card from the site) -->
+                  <div class="preview-contact-box">
+                    <div class="preview-contact-header">
+                      <span>Let's Connect</span>
+                      <i class='bx bx-group text-blue-400'></i>
+                    </div>
+                    <p class="preview-contact-desc">
+                      Whether you're looking to collaborate on a project, have a question about my work, or just want to say hi — my inbox is always open.
+                    </p>
+
+                    <!-- Contact Link Cards Stack -->
+                    <div class="preview-contact-links">
+                      <!-- GitHub Link Card -->
+                      <a 
+                        :href="data.contact.github || '#'" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        class="preview-contact-link-item"
+                        title="GitHub Profile"
+                      >
+                        <span class="preview-contact-icon">
+                          <i class='bx bxl-github'></i>
+                        </span>
+                        <div class="min-w-0 flex-1">
+                          <div class="preview-contact-title">GitHub</div>
+                          <div class="preview-contact-sub truncate">{{ data.contact.githubText || 'github.com/23MH1A1202' }}</div>
+                        </div>
+                        <i class='bx bx-chevron-right text-slate-400 text-lg ml-auto opacity-70'></i>
+                      </a>
+
+                      <!-- Email Link Card -->
+                      <a 
+                        :href="'mailto:' + (data.contact.email || '')" 
+                        class="preview-contact-link-item"
+                        title="Send an Email"
+                      >
+                        <span class="preview-contact-icon">
+                          <i class='bx bx-envelope'></i>
+                        </span>
+                        <div class="min-w-0 flex-1">
+                          <div class="preview-contact-title">Email</div>
+                          <div class="preview-contact-sub truncate">{{ data.contact.email || 'alalithasagar355@gmail.com' }}</div>
+                        </div>
+                        <i class='bx bx-chevron-right text-slate-400 text-lg ml-auto opacity-70'></i>
+                      </a>
+
+                      <!-- LinkedIn Link Card -->
+                      <a 
+                        :href="data.contact.linkedin || '#'" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        class="preview-contact-link-item"
+                        title="LinkedIn Profile"
+                      >
+                        <span class="preview-contact-icon">
+                          <i class='bx bxl-linkedin-square'></i>
+                        </span>
+                        <div class="min-w-0 flex-1">
+                          <div class="preview-contact-title">LinkedIn</div>
+                          <div class="preview-contact-sub truncate">Connect with me professionally</div>
+                        </div>
+                        <i class='bx bx-chevron-right text-slate-400 text-lg ml-auto opacity-70'></i>
+                      </a>
+                    </div>
+
+                    <!-- About Card Quick Action Shortcuts Preview -->
+                    <div class="preview-about-actions">
+                      <div class="w-full text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                        Profile Action Shortcuts (About Section)
+                      </div>
+                      <a :href="data.contact.github || '#'" target="_blank" class="preview-action-btn">
+                        <i class='bx bxl-github'></i> GitHub
+                      </a>
+                      <a :href="data.contact.linkedin || '#'" target="_blank" class="preview-action-btn">
+                        <i class='bx bxl-linkedin'></i> LinkedIn
+                      </a>
+                      <a :href="'mailto:' + (data.contact.email || '')" class="preview-action-btn">
+                        <i class='bx bx-envelope'></i> Contact Me
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <p class="text-[11px] text-slate-400 mt-2.5 text-center flex items-center justify-center gap-1">
+                  <i class='bx bx-check-double text-emerald-500'></i> Renders live with the exact CSS, colors, and fonts of your portfolio.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- 16:9 Image Cropper Modal -->
+    <div v-if="showCropper" class="app-modal-backdrop" @click.self="closeCropper">
+      <div class="app-modal-dialog">
+        
+        <!-- Cropper Modal Header -->
+        <div class="px-4 py-3 sm:px-6 sm:py-3.5 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+          <div class="flex items-center gap-2 min-w-0">
+            <i class='bx bx-crop text-lg sm:text-xl text-blue-600 shrink-0'></i>
+            <h3 class="text-sm sm:text-base font-bold text-slate-900 truncate">Crop Screenshot (16:9)</h3>
+          </div>
+          <div class="flex items-center gap-1.5 sm:gap-2 shrink-0 ml-2">
+            <button 
+              type="button" 
+              @click="openAssetPickerFromCropper" 
+              class="text-xs text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2.5 py-1.5 rounded-lg font-medium flex items-center gap-1 transition cursor-pointer"
+              title="Switch to an image from the assets folder"
+            >
+              <i class='bx bx-images text-blue-600 text-sm'></i> <span class="hidden sm:inline">Switch to Asset</span><span class="sm:hidden">Assets</span>
+            </button>
+            <button @click="closeCropper" class="text-slate-400 hover:text-red-500 transition cursor-pointer p-1.5 rounded-lg hover:bg-slate-100">
+              <i class='bx bx-x text-xl sm:text-2xl'></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cropper Canvas Area -->
+        <div class="cropper-view-container">
+          <img id="cropperImage" :src="cropperSrc" class="max-w-full max-h-full object-contain">
+        </div>
+
+        <!-- Cropper Controls & Actions -->
+        <div class="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2.5 bg-slate-50 shrink-0">
+          <!-- Aspect ratio info / controls -->
+          <div class="flex items-center gap-2 text-xs text-slate-500 w-full sm:w-auto justify-center sm:justify-start">
+            <span class="font-semibold text-slate-700">Ratio:</span>
+            <span class="bg-blue-100 text-blue-700 font-mono font-bold px-2 py-0.5 rounded">16 : 9</span>
+            <span class="text-[11px] text-slate-400">· Drag edges to adjust frame</span>
+          </div>
+
+          <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+            <button 
+              type="button"
+              @click="closeCropper" 
+              class="flex-1 sm:flex-none justify-center px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold rounded-lg transition cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button 
+              type="button"
+              @click="uploadCroppedImage" 
+              :disabled="uploadingImage" 
+              class="flex-1 sm:flex-none justify-center px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition flex items-center gap-1.5 shadow-sm cursor-pointer disabled:opacity-50"
+            >
+              <i v-if="uploadingImage" class='bx bx-loader-alt bx-spin text-base'></i>
+              <i v-else class='bx bx-check text-base'></i>
+              <span>{{ uploadingImage ? 'Applying...' : 'Apply Screenshot' }}</span>
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
+
+    <!-- Choose Image from Assets Folder Modal -->
+    <div v-if="showAssetPicker" class="app-modal-backdrop" @click.self="closeAssetPicker">
+      <div class="app-modal-dialog">
+        
+        <!-- Modal Header -->
+        <div class="px-4 py-3 sm:px-6 sm:py-3.5 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+          <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-lg sm:text-xl shrink-0">
+              <i class='bx bx-images'></i>
+            </div>
+            <div class="min-w-0">
+              <h3 class="text-sm sm:text-base font-bold text-slate-900 truncate">Select Image from Assets</h3>
+              <p class="text-[10px] sm:text-xs text-slate-500 truncate hidden sm:block">Pick an image already present in your project assets to crop in 16:9 ratio.</p>
+            </div>
+          </div>
+          <button @click="closeAssetPicker" class="text-slate-400 hover:text-red-500 transition cursor-pointer p-1.5 rounded-lg hover:bg-slate-100 shrink-0 ml-2">
+            <i class='bx bx-x text-xl sm:text-2xl'></i>
+          </button>
+        </div>
+
+        <!-- Modal Body (Assets Grid) -->
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-50/50 min-h-0">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            <div 
+              v-for="asset in availableAssets" 
+              :key="asset.path" 
+              class="bg-white rounded-xl border border-slate-200 p-3 flex flex-col shadow-xs hover:border-blue-300 hover:shadow-md transition group"
+            >
+              <!-- Thumbnail Frame with 16:9 box -->
+              <div class="relative w-full aspect-video bg-slate-900 rounded-lg overflow-hidden flex items-center justify-center mb-3">
+                <img :src="asset.path" :alt="asset.name" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <div class="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/5 transition"></div>
+                <span class="absolute bottom-1.5 left-1.5 px-2 py-0.5 bg-slate-900/85 backdrop-blur-xs text-white text-[10px] rounded font-mono truncate max-w-[90%]">
+                  {{ asset.filename }}
+                </span>
+              </div>
+
+              <div class="flex-1 flex flex-col justify-between">
+                <div class="mb-3">
+                  <h4 class="text-sm font-bold text-slate-900 line-clamp-1">{{ asset.name }}</h4>
+                  <p class="text-[11px] text-slate-400 font-mono mt-0.5 truncate">{{ asset.path }}</p>
+                </div>
+
+                <!-- Action Buttons for this Asset -->
+                <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+                  <button 
+                    type="button" 
+                    @click="selectAndCropAsset(asset.path)"
+                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-2.5 rounded-lg transition flex items-center justify-center gap-1 cursor-pointer shadow-xs"
+                    title="Crop this asset in 16:9 ratio"
+                  >
+                    <i class='bx bx-crop text-sm'></i> Crop in 16:9
+                  </button>
+                  <button 
+                    type="button" 
+                    @click="selectAssetDirectly(asset.path)"
+                    class="px-2.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition cursor-pointer"
+                    title="Use this image directly without cropping"
+                  >
+                    Use
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-2.5 bg-slate-50 text-xs text-slate-500 shrink-0">
+          <div class="flex items-center gap-1.5 min-w-0">
+            <i class='bx bx-folder text-amber-500 text-base shrink-0'></i>
+            <span class="truncate">Folder: <code class="font-mono text-slate-700 bg-slate-200/70 px-1 py-0.5 rounded">/assets/</code> <span class="hidden sm:inline">({{ availableAssets.length }} images found)</span></span>
+          </div>
+          <button @click="closeAssetPicker" class="w-full sm:w-auto px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-lg transition cursor-pointer">
+            Close
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Floating Toast Notification -->
+    <div 
+      v-if="toast.show" 
+      :class="[
+        'fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-lg border text-sm font-semibold transition-all transform duration-300',
+        toast.type === 'success' ? 'bg-slate-900 text-white border-slate-700 shadow-emerald-500/10' : 'bg-red-600 text-white border-red-700'
+      ]"
+    >
+      <i :class="['bx text-xl', toast.type === 'success' ? 'bx-check-circle text-emerald-400' : 'bx-error-circle text-white']"></i>
+      <span>{{ toast.message }}</span>
+    </div>
+
   </div>
 
-  <!-- Load Firebase config -->
-  <script src="/firebase-applet-config.json" id="firebase-config-json" type="application/json"></script>
+  <!-- Firebase Integration & Vue 3 App -->
   <script type="module">
-    import { createApp, ref, onMounted } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+    import { createApp, ref, reactive, onMounted } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut as fbSignOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-    import { getStorage, ref as storageRef, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
 
-    // Load Firebase Config dynamically
+    // Default Portfolio Data fallback to guarantee no blank states
+    const defaultPortfolioData = {
+      contact: {
+        email: "lalithasagarambati@gmail.com",
+        github: "https://github.com/23MH1A1202",
+        githubText: "github.com/23MH1A1202",
+        linkedin: "https://www.linkedin.com/in/lalithasagarambati/"
+      },
+      projects: [
+        {
+          title: "Developer Portfolio",
+          image: "assets/Sagar_Portfolio.png",
+          link: "https://github.com/23MH1A1202/port",
+          linkText: "Source Code",
+          linkIcon: "bxl-github",
+          icon: "bx-code-alt",
+          status: "",
+          featured: false,
+          description: "A highly optimized, fully responsive personal portfolio featuring custom CSS animations, 3D tilt effects, dark mode support, and a working contact form.",
+          tags: [
+            { icon: "bxl-html5", name: "HTML" },
+            { icon: "bxl-css3", name: "CSS" },
+            { icon: "bxl-javascript", name: "Vanilla JS" },
+            { icon: "bx-cube-alt", name: "Boxicons" }
+          ]
+        },
+        {
+          title: "SmartShare",
+          image: "assets/smartshare.png",
+          link: "https://smartshare.alsagar.tech/",
+          linkText: "View Project",
+          linkIcon: "bx-link-external",
+          icon: "bx-share-alt",
+          status: "",
+          featured: true,
+          description: "A fast, account-free file sharing web app with two modes: direct device-to-device transfer via WebRTC and cloud vault sharing with expiry times.",
+          tags: [
+            { icon: "bxl-html5", name: "HTML/JS" },
+            { icon: "bxl-firebase", name: "Firebase" },
+            { icon: "bx-network-chart", name: "WebRTC" },
+            { icon: "bxl-tailwind-css", name: "Tailwind" }
+          ]
+        },
+        {
+          title: "Student Photos",
+          image: "assets/studentphotos.png",
+          link: "https://23mh1a1202.github.io/student_photos/",
+          linkText: "View Project",
+          linkIcon: "bx-link-external",
+          icon: "bx-search-alt",
+          status: "",
+          featured: false,
+          description: "A mobile-friendly PWA that lets you search and view student photos by roll number. Features branch detection, confetti animation, and full offline support.",
+          tags: [
+            { icon: "bx-mobile", name: "PWA" },
+            { icon: "bxl-javascript", name: "HTML/CSS/JS" },
+            { icon: "bx-cloud-download", name: "Offline" }
+          ]
+        },
+        {
+          title: "Sagar Attendance",
+          image: "assets/attendance.png",
+          link: "",
+          linkText: "",
+          linkIcon: "",
+          icon: "bx-bar-chart-square",
+          status: "Hibernating",
+          featured: false,
+          description: "A web app to track student attendance with real-time push notifications. Scrapes attendance using Playwright (headless Chromium) and stores data in Firebase.",
+          tags: [
+            { icon: "bxl-nodejs", name: "Node.js" },
+            { icon: "bx-bot", name: "Playwright" },
+            { icon: "bxl-firebase", name: "Firebase" }
+          ]
+        },
+        {
+          title: "DocuKeep",
+          image: "assets/docukeep1.jpg",
+          link: "https://drive.google.com/drive/folders/1uBTA6v6d7Di_k5hlqC8ds32hfIBG5JNe?usp=drive_link",
+          linkText: "Download App",
+          linkIcon: "bx-download",
+          icon: "bx-folder-open",
+          status: "",
+          featured: false,
+          description: "A Flutter mobile app for organizing and storing important documents. Backed by Firebase Auth & Cloudinary. Features category-based organization and real-time sync.",
+          tags: [
+            { icon: "bxl-flutter", name: "Flutter" },
+            { icon: "bx-code-block", name: "Dart" },
+            { icon: "bxl-firebase", name: "Firebase" }
+          ]
+        }
+      ],
+      skills: [
+        {
+          name: "HTML · CSS · JavaScript",
+          icon: "bx-code-block",
+          description: "Building responsive, accessible web interfaces with vanilla web technologies and modern CSS animations.",
+          tags: [
+            { icon: "bxl-html5", name: "HTML5" },
+            { icon: "bxl-css3", name: "CSS3" },
+            { icon: "bxl-javascript", name: "Vanilla JS" },
+            { icon: "bx-devices", name: "Responsive" }
+          ]
+        },
+        {
+          name: "Progressive Web Apps",
+          icon: "bx-mobile",
+          description: "Offline-capable, installable PWAs with service workers, web app manifests, and background sync.",
+          tags: [
+            { icon: "bx-cog", name: "Service Worker" },
+            { icon: "bx-file-blank", name: "Web Manifest" },
+            { icon: "bx-cloud-download", name: "Offline Cache" },
+            { icon: "bx-bell", name: "Push Notifications" }
+          ]
+        },
+        {
+          name: "Firebase",
+          icon: "bxl-firebase",
+          description: "Real-time data sync, authentication, cloud storage, and browser push notifications.",
+          tags: [
+            { icon: "bxl-firebase", name: "Firestore" },
+            { icon: "bx-check-shield", name: "Auth" },
+            { icon: "bx-data", name: "Storage" },
+            { icon: "bx-broadcast", name: "Web Push" }
+          ]
+        },
+        {
+          name: "Node.js & Automation",
+          icon: "bxl-nodejs",
+          description: "Server-side automation and scraping with Node.js and Playwright headless Chromium.",
+          tags: [
+            { icon: "bxl-nodejs", name: "Node.js" },
+            { icon: "bx-bot", name: "Playwright" },
+            { icon: "bx-server", name: "Express" },
+            { icon: "bx-terminal", name: "Scripts" }
+          ]
+        }
+      ]
+    };
+
     fetch('/firebase-applet-config.json')
       .then(res => res.json())
       .then(firebaseConfig => {
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
         const auth = getAuth(app);
-        const storage = getStorage(app);
 
         createApp({
           setup() {
@@ -274,43 +1748,229 @@
             const loading = ref(false);
             const saving = ref(false);
             const loginError = ref('');
-            const data = ref({ projects: [], skills: [], contact: {} });
+            const activeTab = ref('projects');
+            const hasUnsavedChanges = ref(false);
 
-            // Image Upload & Cropping State
+            // Data reactive model
+            const data = ref({
+              projects: JSON.parse(JSON.stringify(defaultPortfolioData.projects)),
+              skills: JSON.parse(JSON.stringify(defaultPortfolioData.skills)),
+              contact: JSON.parse(JSON.stringify(defaultPortfolioData.contact))
+            });
+
+            // UI Expand/Collapse states
+            const expandedProjects = ref({});
+            const allExpanded = ref(true);
+            const previewThemes = ref({});
+
+            // Tag Quick Presets
+            const tagPresets = [
+              { icon: 'bxl-html5', name: 'HTML5' },
+              { icon: 'bxl-css3', name: 'CSS3' },
+              { icon: 'bxl-javascript', name: 'JavaScript' },
+              { icon: 'bxl-flutter', name: 'Flutter' },
+              { icon: 'bxl-firebase', name: 'Firebase' },
+              { icon: 'bx-mobile', name: 'PWA' },
+              { icon: 'bxl-tailwind-css', name: 'Tailwind' },
+              { icon: 'bxl-nodejs', name: 'Node.js' },
+              { icon: 'bx-network-chart', name: 'WebRTC' },
+              { icon: 'bx-code-block', name: 'Dart' }
+            ];
+
+            // Cropper & Image Upload State
             const showCropper = ref(false);
             const cropperSrc = ref('');
             const uploadingImage = ref(false);
             let cropperInstance = null;
             const activeProjectIndex = ref(null);
 
-            const openCropper = (index) => {
-              const fileInput = document.querySelector('input[type="file"][data-idx="' + index + '"]') || Object.values(arguments[1] || {}).find(x => x && x.$el) || null;
-              // using a trick: Vue template refs inside v-for are arrays, we can just trigger native click on the DOM element next to the button
+            // Asset Picker State (images already present in assets/ folder)
+            const showAssetPicker = ref(false);
+            const availableAssets = ref([
+              { name: 'Sagar Portfolio Banner', filename: 'Sagar_Portfolio.png', path: 'assets/Sagar_Portfolio.png' },
+              { name: 'Attendance System', filename: 'attendance.png', path: 'assets/attendance.png' },
+              { name: 'DocuKeep Main', filename: 'docukeep.jpg', path: 'assets/docukeep.jpg' },
+              { name: 'DocuKeep Alternate', filename: 'docukeep1.jpg', path: 'assets/docukeep1.jpg' },
+              { name: 'Profile Photo', filename: 'profile.jpg', path: 'assets/profile.jpg' },
+              { name: 'SmartShare App', filename: 'smartshare.png', path: 'assets/smartshare.png' },
+              { name: 'Student Photos', filename: 'studentphotos.png', path: 'assets/studentphotos.png' }
+            ]);
+
+            const loadAssetsList = async () => {
+              try {
+                const res = await fetch('/api/assets');
+                if (res.ok) {
+                  const json = await res.json();
+                  if (json.assets && json.assets.length) {
+                    availableAssets.value = json.assets;
+                  }
+                }
+              } catch(e) {}
+            };
+            loadAssetsList();
+
+            // Toast Notifications
+            const toast = reactive({
+              show: false,
+              message: '',
+              type: 'success',
+              timeout: null
+            });
+
+            const showToast = (message, type = 'success') => {
+              if (toast.timeout) clearTimeout(toast.timeout);
+              toast.message = message;
+              toast.type = type;
+              toast.show = true;
+              toast.timeout = setTimeout(() => {
+                toast.show = false;
+              }, 3500);
+            };
+
+            const contactPreviewTheme = ref('dark');
+
+            const extractGithubHandle = () => {
+              if (!data.value.contact.github) return;
+              try {
+                const raw = data.value.contact.github.trim();
+                const cleaned = raw.replace(/^https?:\/\//i, '').replace(/\/$/, '');
+                data.value.contact.githubText = cleaned;
+                markUnsaved();
+                showToast('Updated GitHub display handle!', 'success');
+              } catch(e) {}
+            };
+
+            const markUnsaved = () => {
+              hasUnsavedChanges.value = true;
+            };
+
+            // Initialize all projects as expanded by default
+            const initExpanded = () => {
+              data.value.projects.forEach((_, idx) => {
+                if (expandedProjects.value[idx] === undefined) {
+                  expandedProjects.value[idx] = true;
+                }
+              });
+            };
+
+            const toggleProject = (index) => {
+              expandedProjects.value[index] = !expandedProjects.value[index];
+            };
+
+            const toggleAllCards = () => {
+              allExpanded.value = !allExpanded.value;
+              data.value.projects.forEach((_, idx) => {
+                expandedProjects.value[idx] = allExpanded.value;
+              });
+            };
+
+            const addTagPreset = (project, preset) => {
+              if (!project.tags) project.tags = [];
+              const exists = project.tags.some(t => t.name.toLowerCase() === preset.name.toLowerCase());
+              if (!exists) {
+                project.tags.push({ icon: preset.icon, name: preset.name });
+                markUnsaved();
+              }
+            };
+
+            // Image Upload Trigger (guaranteed to trigger file input)
+            const triggerUpload = (index) => {
+              const fileInput = document.getElementById('fileInput_' + index);
+              if (fileInput) {
+                fileInput.click();
+              }
+            };
+
+            const launchCropper = (src, index) => {
+              cropperSrc.value = src;
+              activeProjectIndex.value = index;
+              showCropper.value = true;
+
+              setTimeout(() => {
+                const imageElement = document.getElementById('cropperImage');
+                if (!imageElement) return;
+                if (cropperInstance) {
+                  cropperInstance.destroy();
+                  cropperInstance = null;
+                }
+                cropperInstance = new Cropper(imageElement, {
+                  aspectRatio: 16 / 9,
+                  viewMode: 1,
+                  autoCropArea: 0.95,
+                  responsive: true,
+                  restore: false,
+                  background: false,
+                  checkCrossOrigin: false,
+                  ready() {
+                    if (cropperInstance) {
+                      cropperInstance.resize();
+                    }
+                  }
+                });
+              }, 150);
             };
 
             const onFileSelected = (event, index) => {
-              const file = event.target.files[0];
+              const file = event.target.files && event.target.files[0];
               if (!file) return;
-              
+
               const reader = new FileReader();
               reader.onload = (e) => {
-                cropperSrc.value = e.target.result;
-                activeProjectIndex.value = index;
-                showCropper.value = true;
-                
-                // Initialize cropper after DOM update
-                setTimeout(() => {
-                  const imageElement = document.getElementById('cropperImage');
-                  if (cropperInstance) cropperInstance.destroy();
-                  cropperInstance = new Cropper(imageElement, {
-                    aspectRatio: 340 / 180, // strict 16:9 equivalent for the project cards
-                    viewMode: 1,
-                    autoCropArea: 1,
-                  });
-                }, 100);
+                launchCropper(e.target.result, index);
               };
               reader.readAsDataURL(file);
-              event.target.value = ''; // reset
+              event.target.value = '';
+            };
+
+            const cropExistingImage = async (imgUrl, index) => {
+              if (!imgUrl) return;
+              activeProjectIndex.value = index;
+              try {
+                if (imgUrl.startsWith('data:')) {
+                  launchCropper(imgUrl, index);
+                  return;
+                }
+                showToast('Loading image into cropper...', 'info');
+                const res = await fetch(imgUrl);
+                if (!res.ok) throw new Error('Could not load image');
+                const blob = await res.blob();
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  launchCropper(e.target.result, index);
+                };
+                reader.readAsDataURL(blob);
+              } catch(e) {
+                console.warn('Direct fetch failed, falling back to direct source:', e);
+                launchCropper(imgUrl, index);
+              }
+            };
+
+            const openAssetPicker = (index) => {
+              activeProjectIndex.value = index;
+              showAssetPicker.value = true;
+            };
+
+            const closeAssetPicker = () => {
+              showAssetPicker.value = false;
+            };
+
+            const selectAndCropAsset = (assetPath, index) => {
+              const targetIndex = (index !== undefined && index !== null) ? index : activeProjectIndex.value;
+              closeAssetPicker();
+              cropExistingImage(assetPath, targetIndex);
+            };
+
+            const selectAssetDirectly = (assetPath) => {
+              if (activeProjectIndex.value !== null && data.value.projects[activeProjectIndex.value]) {
+                data.value.projects[activeProjectIndex.value].image = assetPath;
+                markUnsaved();
+                showToast('Asset image applied to project!', 'success');
+              }
+              closeAssetPicker();
+            };
+
+            const openAssetPickerFromCropper = () => {
+              showAssetPicker.value = true;
             };
 
             const closeCropper = () => {
@@ -322,117 +1982,115 @@
               cropperSrc.value = '';
             };
 
-            const uploadCroppedImage = async () => {
+            const uploadCroppedImage = () => {
               if (!cropperInstance || activeProjectIndex.value === null) return;
-              
               uploadingImage.value = true;
+
               try {
-                // Get cropped canvas as base64 string
                 const canvas = cropperInstance.getCroppedCanvas({
-                  width: 680,
-                  height: 360,
+                  width: 720,
+                  height: 405,
                   imageSmoothingQuality: 'high'
                 });
-                const base64Image = canvas.toDataURL('image/jpeg', 0.85);
-                
-                // Upload to Firebase Storage
-                const fileName = 'projects/project_' + Date.now() + '.jpg';
-                const imageRef = storageRef(storage, fileName);
-                
-                await uploadString(imageRef, base64Image, 'data_url');
-                const downloadURL = await getDownloadURL(imageRef);
-                
-                // Update Vue state
-                data.value.projects[activeProjectIndex.value].image = downloadURL;
-                
+
+                const base64 = canvas.toDataURL('image/jpeg', 0.85);
+                data.value.projects[activeProjectIndex.value].image = base64;
+                markUnsaved();
                 closeCropper();
+                showToast('Screenshot cropped & applied to project!');
               } catch (e) {
-                console.error("Upload error:", e);
-                if (e.code === 'storage/unauthorized') {
-                  alert("Upload Denied: You need to enable Firebase Storage rules in the Firebase Console!\n\n1. Go to Firebase Console > Storage\n2. Click 'Get Started'\n3. Set rules to allow authenticated users to write.");
-                } else {
-                  alert("Failed to upload image: " + e.message);
-                }
+                console.error("Cropping error:", e);
+                showToast("Failed to process image: " + e.message, "error");
               } finally {
                 uploadingImage.value = false;
               }
             };
 
-            // Live Preview Generators
-            const getProjectPreview = (p) => {
-              return `
-                <html>
-                  <head>
-                    <link rel="stylesheet" href="/style.css">
-                    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-                    <style>
-                      body { 
-                        margin: 0; padding: 20px; 
-                        display: flex; align-items: center; justify-content: center; 
-                        background: transparent; 
-                        color: #f8fafc;
-                        /* force light mode to be dark mode for preview box if needed */
-                      }
-                      .project-card { margin: 0; width: 340px !important; flex: none !important; max-width: 100% !important; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transform: none !important; }
-                    </style>
-                  </head>
-                  <body>
-                    <div class="project-card glow-active">
-                      <div class="project-image">
-                        <img src="${p.image || 'https://via.placeholder.com/340x180?text=No+Image'}" alt="Preview">
-                      </div>
-                      <div class="project-card-header">
-                        <div class="project-card-icon"><i class='bx ${p.icon || 'bx-code'}'></i></div>
-                        <div class="project-card-links">
-                          ${p.status ? `<span style="font-size:0.72rem; color:#f59e0b; background:rgba(255,165,0,0.15); padding:2px 7px; border-radius:999px; font-weight:600;"><i class='bx bx-moon'></i> ${p.status}</span>` : ''}
-                          ${p.link ? `<a href="#" class="icon-link"><i class='bx ${p.linkIcon || 'bx-link'}'></i> ${p.linkText || 'Link'}</a>` : ''}
-                        </div>
-                      </div>
-                      <h3 class="project-card-title">
-                        ${p.title || 'Project Title'} 
-                        ${p.featured ? `<span style="font-size:0.7rem; color:#14b8a6; border:1px solid #14b8a6; padding:2px 6px; border-radius:4px; margin-left:5px; vertical-align:middle;"><i class='bx bxs-star'></i> Featured</span>` : ''}
-                      </h3>
-                      <p class="project-card-desc">${p.description || 'Description'}</p>
-                      <div class="project-card-tags">
-                        ${(p.tags || []).map(t => `<span class="tag"><i class='bx ${t.icon}'></i> ${t.name}</span>`).join('')}
-                      </div>
-                    </div>
-                  </body>
-                </html>
-              `;
+            const onPreviewImageError = (e) => {
+              e.target.style.display = 'none';
             };
 
-            const getSkillPreview = (s) => {
-              return `
-                <html>
-                  <head>
-                    <link rel="stylesheet" href="/style.css">
-                    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-                    <style>
-                      body { 
-                        margin: 0; padding: 20px; 
-                        display: flex; align-items: center; justify-content: center; 
-                        background: #0f172a; /* Force dark bg for contrast */
-                        border-radius: 12px;
-                      }
-                      .skill-card { margin: 0; width: 340px !important; flex: none !important; max-width: 100% !important; border: 1px solid rgba(255,255,255,0.1); }
-                    </style>
-                  </head>
-                  <body>
-                    <div class="skill-card animate-fade-up" style="opacity:1; transform:none;">
-                      <div class="skill-icon"><i class='bx ${s.icon || 'bx-code'}'></i></div>
-                      <div class="skill-name">${s.name || 'Skill Name'}</div>
-                      <div class="skill-desc">${s.description || 'Description goes here'}</div>
-                      <div class="skill-tags">
-                        ${(s.tags || []).map(t => `<span class="tag"><i class='bx ${t.icon}'></i> ${t.name}</span>`).join('')}
-                      </div>
-                    </div>
-                  </body>
-                </html>
-              `;
+            // Project list modifiers
+            const addProject = () => {
+              data.value.projects.push({
+                title: 'New Project',
+                image: '',
+                link: '',
+                linkText: 'View Project',
+                linkIcon: 'bx-link-external',
+                icon: 'bx-code-alt',
+                status: '',
+                featured: false,
+                description: 'Write a concise overview of what you built, problems solved, and tech used.',
+                tags: [{ icon: 'bxl-html5', name: 'HTML5' }]
+              });
+              const newIdx = data.value.projects.length - 1;
+              expandedProjects.value[newIdx] = true;
+              markUnsaved();
+              showToast('New project card added');
             };
 
+            const duplicateProject = (index) => {
+              const clone = JSON.parse(JSON.stringify(data.value.projects[index]));
+              clone.title = clone.title + ' (Copy)';
+              data.value.projects.splice(index + 1, 0, clone);
+              expandedProjects.value[index + 1] = true;
+              markUnsaved();
+              showToast('Project duplicated');
+            };
 
+            const removeProject = (index) => {
+              const title = data.value.projects[index].title || 'this project';
+              if (confirm(`Are you sure you want to delete "${title}"?`)) {
+                data.value.projects.splice(index, 1);
+                markUnsaved();
+                showToast('Project removed');
+              }
+            };
+
+            const moveProject = (index, dir) => {
+              const target = index + dir;
+              if (target < 0 || target >= data.value.projects.length) return;
+              const item = data.value.projects.splice(index, 1)[0];
+              data.value.projects.splice(target, 0, item);
+              
+              const expState = expandedProjects.value[index];
+              expandedProjects.value[index] = expandedProjects.value[target];
+              expandedProjects.value[target] = expState;
+              
+              markUnsaved();
+            };
+
+            // Skills modifiers
+            const addSkill = () => {
+              data.value.skills.push({
+                name: 'New Skill Domain',
+                icon: 'bx-code-block',
+                description: 'Describe this technical skill area and associated frameworks.',
+                tags: [{ icon: 'bx-check', name: 'Core' }]
+              });
+              markUnsaved();
+              showToast('New skill domain added');
+            };
+
+            const removeSkill = (index) => {
+              const name = data.value.skills[index].name || 'this skill';
+              if (confirm(`Delete "${name}"?`)) {
+                data.value.skills.splice(index, 1);
+                markUnsaved();
+                showToast('Skill domain removed');
+              }
+            };
+
+            const moveSkill = (index, dir) => {
+              const target = index + dir;
+              if (target < 0 || target >= data.value.skills.length) return;
+              const item = data.value.skills.splice(index, 1)[0];
+              data.value.skills.splice(target, 0, item);
+              markUnsaved();
+            };
+
+            // Auth & Firestore
             onMounted(() => {
               onAuthStateChanged(auth, (u) => {
                 user.value = u;
@@ -454,7 +2112,8 @@
 
             const signOut = async () => {
               await fbSignOut(auth);
-              data.value = { projects: [], skills: [], contact: {} };
+              data.value = JSON.parse(JSON.stringify(defaultPortfolioData));
+              hasUnsavedChanges.value = false;
             };
 
             const loadData = async () => {
@@ -463,14 +2122,16 @@
                 const docRef = doc(db, 'portfolio', 'data');
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
-                  const fetchedData = docSnap.data();
-                  if(fetchedData.projects) data.value.projects = fetchedData.projects;
-                  if(fetchedData.skills) data.value.skills = fetchedData.skills;
-                  if(fetchedData.contact) data.value.contact = fetchedData.contact;
+                  const fetched = docSnap.data();
+                  if (fetched.projects && fetched.projects.length > 0) data.value.projects = fetched.projects;
+                  if (fetched.skills && fetched.skills.length > 0) data.value.skills = fetched.skills;
+                  if (fetched.contact) data.value.contact = { ...data.value.contact, ...fetched.contact };
                 }
+                initExpanded();
+                hasUnsavedChanges.value = false;
               } catch (e) {
-                console.error('Failed to load data from Firebase', e);
-                alert("Error loading data. Are you authorized? " + e.message);
+                console.error('Failed to load data from Firebase:', e);
+                showToast("Note: Using local fallback data (" + e.message + ")", "error");
               } finally {
                 loading.value = false;
               }
@@ -480,68 +2141,78 @@
               saving.value = true;
               try {
                 const docRef = doc(db, 'portfolio', 'data');
-                
-                // Deep clone data to strip out vue proxies for firebase saving
                 const pureData = JSON.parse(JSON.stringify(data.value));
                 await setDoc(docRef, pureData);
-                
-                alert('Changes saved securely to Firebase!');
+                hasUnsavedChanges.value = false;
+                showToast('Portfolio changes saved securely to Firebase!', 'success');
               } catch (e) {
-                console.error(e);
-                alert('Error saving data: ' + e.message);
+                console.error('Error saving data:', e);
+                showToast('Error saving data: ' + e.message, 'error');
               } finally {
                 saving.value = false;
               }
             };
 
-            const openCropperTrigger = (index, event) => {
-              const input = event.target.nextElementSibling;
-              if (input) input.click();
-            };
-            const addProject = () => {
-              data.value.projects.push({
-                title: '', image: '', link: '', linkText: '', linkIcon: '', status: '', description: '', tags: [], icon: '', featured: false
-              });
-            };
-
-            const removeProject = (index) => {
-              if(confirm('Are you sure you want to delete this project?')) {
-                data.value.projects.splice(index, 1);
-              }
-            };
-
-            const addSkill = () => {
-              data.value.skills.push({ name: '', icon: '', description: '', tags: [] });
-            };
-
-            const removeSkill = (index) => {
-              if(confirm('Are you sure you want to delete this skill?')) {
-                data.value.skills.splice(index, 1);
-              }
-            };
-
             return {
               user,
-              showCropper, cropperSrc, uploadingImage, onFileSelected, closeCropper, uploadCroppedImage, getProjectPreview, getSkillPreview, openCropperTrigger,
               loading,
               saving,
               loginError,
+              activeTab,
+              hasUnsavedChanges,
               data,
+              expandedProjects,
+              allExpanded,
+              previewThemes,
+              tagPresets,
+              showCropper,
+              cropperSrc,
+              uploadingImage,
+              toast,
+              markUnsaved,
+              toggleProject,
+              toggleAllCards,
+              addTagPreset,
+              triggerUpload,
+              onFileSelected,
+              closeCropper,
+              uploadCroppedImage,
+              onPreviewImageError,
+              addProject,
+              duplicateProject,
+              removeProject,
+              moveProject,
+              addSkill,
+              removeSkill,
+              moveSkill,
               signIn,
               signOut,
               saveData,
-              addProject,
-              removeProject,
-              addSkill,
-              removeSkill
-            }
+              contactPreviewTheme,
+              extractGithubHandle,
+              showAssetPicker,
+              availableAssets,
+              openAssetPicker,
+              closeAssetPicker,
+              selectAndCropAsset,
+              selectAssetDirectly,
+              openAssetPickerFromCropper,
+              cropExistingImage,
+              launchCropper
+            };
           }
         }).mount('#app');
       })
       .catch(e => {
         console.error("Could not load firebase config", e);
-        document.body.innerHTML = "<h2 style='color:red; text-align:center; padding: 50px'>Failed to load Firebase Config</h2>";
+        document.body.innerHTML = `
+          <div style="text-align:center; padding: 60px 20px; font-family: sans-serif;">
+            <h2 style="color:#ef4444; font-size:22px; font-weight:bold;">Firebase Configuration Error</h2>
+            <p style="color:#64748b; margin-top:8px;">${e.message}</p>
+          </div>
+        `;
       });
   </script>
 </body>
 </html>
+

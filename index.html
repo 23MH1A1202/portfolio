@@ -96,8 +96,40 @@
     <div class="hero-visual">
       <div class="avatar-container">
         <div class="avatar-ring"></div>
-        <div class="avatar-placeholder">
-          <span><i class='bx bx-code-alt'></i></span>
+        <div class="avatar-placeholder dev-sphere" id="devSphere" title="Developer Code Core">
+          <!-- Cyber Ambient Background -->
+          <div class="sphere-glow"></div>
+          <div class="sphere-grid"></div>
+
+          <!-- Rotating Tech Orbit Rings -->
+          <div class="sphere-orbit-ring ring-1"></div>
+          <div class="sphere-orbit-ring ring-2"></div>
+
+          <!-- Ambient Floating Code Glyphs -->
+          <div class="sphere-particles" aria-hidden="true">
+            <span class="glyph g-1">&lt;/&gt;</span>
+            <span class="glyph g-2">{ }</span>
+            <span class="glyph g-3">=&gt;</span>
+            <span class="glyph g-4">async</span>
+            <span class="glyph g-5">0101</span>
+          </div>
+
+          <!-- Central Hologram Developer Core -->
+          <div class="sphere-core">
+            <div class="code-emblem">
+              <span class="bracket bracket-l">&lt;</span>
+              <span class="slash-accent">/</span>
+              <span class="bracket bracket-r">&gt;</span>
+            </div>
+            
+            <!-- Live Interactive Mini Terminal Pill -->
+            <div class="sphere-terminal">
+              <span class="term-status-dot"></span>
+              <span class="term-prompt">$</span>
+              <span class="term-cmd" id="sphereTermCmd">build.future()</span>
+              <span class="term-caret">_</span>
+            </div>
+          </div>
         </div>
         <div class="float-badge"><i class='bx bx-globe'></i> PWA</div>
         <div class="float-badge"><i class='bx bxl-firebase' style="color:#FFCA28"></i> Firebase</div>
@@ -122,28 +154,76 @@
 
     <div class="about-grid">
       <div class="about-image-wrap animate-fade-up">
-        <div class="about-card">
-          <div class="about-avatar"><i class='bx bx-user-circle'></i></div>
-          <h3 style="font-size:1.2rem; margin-bottom:0.25rem;">Lalitha Sagar Ambati</h3>
-          <p style="color:var(--text-muted); font-size:0.85rem;">B.Tech IT · Aditya College of Engg. & Tech.</p>
+        <div class="about-card glow-card" id="aboutCard">
+          <!-- Background Ambient Glow -->
+          <div class="about-card-glow"></div>
 
+
+          <!-- Circular Photo Frame -->
+          <div class="about-avatar-container">
+            <div class="about-avatar-frame">
+              <img src="https://info.aec.edu.in/acet/studentPhotos/23MH1A1202.jpg?v=2" 
+                   alt="Lalitha Sagar Ambati" 
+                   onerror="this.onerror=null; this.src='assets/profile.jpg';" 
+                   class="about-avatar-img">
+            </div>
+          </div>
+
+          <!-- Identity Details -->
+          <h3 class="about-card-name">Lalitha Sagar Ambati</h3>
+          
+          <div class="about-card-meta">
+            <div class="meta-item">
+              <i class='bx bxs-graduation'></i>
+              <span>B.Tech · Information Technology</span>
+            </div>
+            <div class="meta-item">
+              <i class='bx bxs-school'></i>
+              <span>Aditya College of Engg. &amp; Tech.</span>
+            </div>
+          </div>
+
+          <div class="about-tags-row">
+            <span class="about-pill"><i class='bx bx-id-card'></i> 23MH1A1202</span>
+            <span class="about-pill"><i class='bx bx-map-pin'></i> AP, India</span>
+            <span class="about-pill status-pill"><span class="live-dot"></span> Open to Work</span>
+          </div>
+
+          <!-- Dynamic Animated Stats -->
           <div class="about-stats">
             <div class="stat-item">
-              <div class="stat-number" data-target="3" data-suffix="+">0+</div>
+              <div class="stat-icon"><i class='bx bx-folder-open'></i></div>
+              <div class="stat-number" data-target="6" data-suffix="+">0+</div>
               <div class="stat-label">Projects Built</div>
             </div>
             <div class="stat-item">
+              <div class="stat-icon"><i class='bx bx-time-five'></i></div>
               <div class="stat-number" data-target="2" data-suffix="+">0+</div>
               <div class="stat-label">Years Coding</div>
             </div>
             <div class="stat-item">
+              <div class="stat-icon"><i class='bx bxs-hot'></i></div>
               <div class="stat-number" data-target="100" data-suffix="%">0%</div>
               <div class="stat-label">Passion Level</div>
             </div>
             <div class="stat-item">
-              <div class="stat-number" data-target="2" data-suffix="">0</div>
+              <div class="stat-icon"><i class='bx bx-devices'></i></div>
+              <div class="stat-number" data-target="3" data-suffix="+">0+</div>
               <div class="stat-label">Platforms Mastered</div>
             </div>
+          </div>
+
+          <!-- Quick Connect Shortcuts -->
+          <div class="about-card-actions">
+            <a href="https://github.com/23MH1A1202" target="_blank" rel="noopener noreferrer" class="about-action-btn" title="GitHub Profile">
+              <i class='bx bxl-github'></i> <span>GitHub</span>
+            </a>
+            <a href="https://www.linkedin.com/in/lalitha-sagar-ambati-71b9302a4/" target="_blank" rel="noopener noreferrer" class="about-action-btn" title="LinkedIn Profile">
+              <i class='bx bxl-linkedin'></i> <span>LinkedIn</span>
+            </a>
+            <a href="#contact" class="about-action-btn primary" title="Contact Me">
+              <i class='bx bx-paper-plane'></i> <span>Connect</span>
+            </a>
           </div>
         </div>
       </div>
@@ -202,7 +282,10 @@
 
     <div class="skills-grid">
 
-      <div class="skill-card animate-fade-up">
+      <div class="skill-card animate-fade-up" tabindex="0">
+        <div class="skill-watermark" aria-hidden="true">
+          <i class='bx bx-code-block'></i>
+        </div>
         <div class="skill-icon"><i class='bx bx-code-block'></i></div>
         <div class="skill-name">HTML · CSS · JavaScript</div>
         <div class="skill-desc">
@@ -217,7 +300,10 @@
         </div>
       </div>
 
-      <div class="skill-card animate-fade-up">
+      <div class="skill-card animate-fade-up" tabindex="0">
+        <div class="skill-watermark" aria-hidden="true">
+          <i class='bx bx-mobile'></i>
+        </div>
         <div class="skill-icon"><i class='bx bx-mobile'></i></div>
         <div class="skill-name">Progressive Web Apps</div>
         <div class="skill-desc">
@@ -232,7 +318,10 @@
         </div>
       </div>
 
-      <div class="skill-card animate-fade-up">
+      <div class="skill-card animate-fade-up" tabindex="0">
+        <div class="skill-watermark" aria-hidden="true">
+          <i class='bx bxl-firebase'></i>
+        </div>
         <div class="skill-icon"><i class='bx bxl-firebase'></i></div>
         <div class="skill-name">Firebase</div>
         <div class="skill-desc">
@@ -246,7 +335,10 @@
         </div>
       </div>
 
-      <div class="skill-card animate-fade-up">
+      <div class="skill-card animate-fade-up" tabindex="0">
+        <div class="skill-watermark" aria-hidden="true">
+          <i class='bx bxl-nodejs'></i>
+        </div>
         <div class="skill-icon"><i class='bx bxl-nodejs'></i></div>
         <div class="skill-name">Node.js &amp; Backend</div>
         <div class="skill-desc">
@@ -262,7 +354,10 @@
         </div>
       </div>
 
-      <div class="skill-card animate-fade-up">
+      <div class="skill-card animate-fade-up" tabindex="0">
+        <div class="skill-watermark" aria-hidden="true">
+          <i class='bx bxl-flutter'></i>
+        </div>
         <div class="skill-icon"><i class='bx bxl-flutter'></i></div>
         <div class="skill-name">Flutter &amp; Dart</div>
         <div class="skill-desc">
@@ -277,7 +372,10 @@
         </div>
       </div>
 
-      <div class="skill-card animate-fade-up">
+      <div class="skill-card animate-fade-up" tabindex="0">
+        <div class="skill-watermark" aria-hidden="true">
+          <i class='bx bx-wrench'></i>
+        </div>
         <div class="skill-icon"><i class='bx bx-wrench'></i></div>
         <div class="skill-name">Dev Tools &amp; Practices</div>
         <div class="skill-desc">

@@ -46,30 +46,22 @@ function setMoonIcon() {
 function setSunIcon() {
   themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
 }
-// ===== NAVBAR =====
+// ===== NAVBAR & SCROLL BEHAVIOR =====
 const navbar = document.getElementById('navbar');
 const navToggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
+const scrollTopBtn = document.getElementById('scrollTopBtn');
 
 function closeNav() {
-  navLinks.classList.remove('open');
-  navbar.classList.remove('nav-open');
-  navToggle.classList.remove('active'); // Turns the X back to a Hamburger
+  navLinks?.classList.remove('open');
+  navbar?.classList.remove('nav-open');
+  navToggle?.classList.remove('active'); // Turns the X back to a Hamburger
 }
 
 navToggle?.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-  navbar.classList.toggle('nav-open', navLinks.classList.contains('open'));
-  navToggle.classList.toggle('active'); // Turns Hamburger into an X
-});
-
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
-  updateActiveNav();
-  // Close mobile nav on scroll
-  if (navLinks.classList.contains('open')) {
-    closeNav();
-  }
+  navLinks?.classList.toggle('open');
+  navbar?.classList.toggle('nav-open', navLinks?.classList.contains('open'));
+  navToggle?.classList.toggle('active'); // Turns Hamburger into an X
 });
 
 // Close nav on link click (mobile)
@@ -77,19 +69,78 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', closeNav);
 });
 
-// ===== ACTIVE NAV =====
-function updateActiveNav() {
-  const sections = document.querySelectorAll('section[id]');
-  // Adjust scrollPos to be more sensitive (150 instead of 100)
-  const scrollPos = window.scrollY + 150; 
-  sections.forEach(sec => {
-    const link = document.querySelector(`.nav-links a[href="#${sec.id}"]`);
-    if (!link) return;
-    const top = sec.offsetTop;
-    const bottom = top + sec.offsetHeight;
-    link.classList.toggle('active', scrollPos >= top && scrollPos < bottom);
+// Cache section elements and navigation links for high-performance scroll updates
+let navItems = [];
+function cacheNavSections() {
+  navItems = Array.from(document.querySelectorAll('section[id]')).map(sec => ({
+    id: sec.id,
+    sec,
+    link: document.querySelector(`.nav-links a[href="#${sec.id}"]`)
+  })).filter(item => item.link);
+}
+cacheNavSections();
+
+// ===== ACTIVE NAV & SMOOTH SCROLL STATE =====
+function updateActiveNav(scrollY) {
+  // If at or close to the top, anchor active link on Home (#hero)
+  if (scrollY < 80) {
+    navItems.forEach(item => {
+      const isHero = item.id === 'hero';
+      if (item.link.classList.contains('active') !== isHero) {
+        item.link.classList.toggle('active', isHero);
+      }
+    });
+    return;
+  }
+
+  const scrollPos = scrollY + 140;
+  navItems.forEach(item => {
+    const top = item.sec.offsetTop;
+    const bottom = top + item.sec.offsetHeight;
+    const shouldBeActive = scrollPos >= top && scrollPos < bottom;
+    if (item.link.classList.contains('active') !== shouldBeActive) {
+      item.link.classList.toggle('active', shouldBeActive);
+    }
   });
 }
+
+// Throttled high-performance scroll handler using requestAnimationFrame
+let isScrolling = false;
+function handleScroll() {
+  const scrollY = window.scrollY;
+  // Threshold of 25px gives a crisp, seamless trigger right as user leaves top
+  const isScrolled = scrollY > 25;
+
+  if (navbar && navbar.classList.contains('scrolled') !== isScrolled) {
+    navbar.classList.toggle('scrolled', isScrolled);
+  }
+
+  updateActiveNav(scrollY);
+
+  if (scrollTopBtn) {
+    const showBtn = scrollY > 400;
+    if (scrollTopBtn.classList.contains('show') !== showBtn) {
+      scrollTopBtn.classList.toggle('show', showBtn);
+    }
+  }
+
+  // Close mobile nav on scroll if open
+  if (navLinks && navLinks.classList.contains('open')) {
+    closeNav();
+  }
+
+  isScrolling = false;
+}
+
+window.addEventListener('scroll', () => {
+  if (!isScrolling) {
+    isScrolling = true;
+    window.requestAnimationFrame(handleScroll);
+  }
+}, { passive: true });
+
+// Initial run to sync state on load
+handleScroll();
 
 // ===== TYPING EFFECT =====
 const roles = [
@@ -379,20 +430,8 @@ tiltCards.forEach(card => {
 });
 
 
-// ===== SCROLL TO TOP BUTTON =====
-const scrollTopBtn = document.getElementById('scrollTopBtn');
-
-// Listen for scrolling to show/hide the button
-window.addEventListener('scroll', () => {
-  // Show button when scrolled down 400 pixels
-  if (window.scrollY > 400) {
-    scrollTopBtn.classList.add('show');
-  } else {
-    scrollTopBtn.classList.remove('show');
-  }
-});
-
-// Scroll smoothly to the top when clicked
+// ===== SCROLL TO TOP BUTTON ACTION =====
+// Smoothly scrolls to top on click (visibility handled in unified handleScroll)
 scrollTopBtn?.addEventListener('click', () => {
   window.scrollTo({
     top: 0,
@@ -427,6 +466,7 @@ async function loadDynamicData() {
         data.skills.forEach(skill => {
           const card = document.createElement('div');
           card.className = 'skill-card animate-fade-up';
+          card.tabIndex = 0;
           
           let tagsHtml = '';
           if (skill.tags) {
@@ -436,6 +476,9 @@ async function loadDynamicData() {
           }
           
           card.innerHTML = `
+            <div class="skill-watermark" aria-hidden="true">
+              <i class='bx ${skill.icon || 'bx-code-block'}'></i>
+            </div>
             <div class="skill-icon"><i class='bx ${skill.icon}'></i></div>
             <div class="skill-name">${skill.name}</div>
             <div class="skill-desc">${skill.description}</div>
@@ -496,6 +539,12 @@ async function loadDynamicData() {
 
     // Render Projects
     if (data.projects && data.projects.length > 0) {
+      const projectStat = document.querySelector('.about-stats .stat-item:first-child .stat-number');
+      if (projectStat && data.projects.length > 6) {
+        projectStat.dataset.target = data.projects.length;
+        projectStat.textContent = data.projects.length + '+';
+      }
+
       const carousel = document.getElementById('projectsCarousel');
       if (!carousel) return;
       
@@ -550,6 +599,8 @@ async function loadDynamicData() {
       if (typeof updateCarouselButtons === 'function') {
         updateCarouselButtons();
       }
+      // Re-cache section boundaries after dynamic content renders
+      cacheNavSections();
     }
   } catch (err) {
     console.error('Failed to load dynamic data:', err);
@@ -558,3 +609,44 @@ async function loadDynamicData() {
 
 // Call on load
 loadDynamicData();
+
+// ===== HERO DEV SPHERE INTERACTIVE CYCLER =====
+(function initDevSphere() {
+  const sphereCmd = document.getElementById('sphereTermCmd');
+  const sphereEl = document.getElementById('devSphere');
+  if (!sphereCmd) return;
+
+  const commands = [
+    'build.future()',
+    'code.innovate()',
+    'create.apps()',
+    'ship.ideas()',
+    'while(true).learn()',
+    'pwa.deploy()'
+  ];
+  let cmdIndex = 0;
+
+  function cycleNextCommand() {
+    cmdIndex = (cmdIndex + 1) % commands.length;
+    sphereCmd.style.opacity = '0';
+    sphereCmd.style.transform = 'translateY(4px)';
+    sphereCmd.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+    
+    setTimeout(() => {
+      sphereCmd.textContent = commands[cmdIndex];
+      sphereCmd.style.opacity = '1';
+      sphereCmd.style.transform = 'translateY(0)';
+    }, 200);
+  }
+
+  // Auto cycle every 3.5s
+  let cycleInterval = setInterval(cycleNextCommand, 3500);
+
+  // Click to trigger next command immediately
+  sphereEl?.addEventListener('click', () => {
+    clearInterval(cycleInterval);
+    cycleNextCommand();
+    cycleInterval = setInterval(cycleNextCommand, 3500);
+  });
+})();
+
