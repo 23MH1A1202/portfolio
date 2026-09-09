@@ -717,3 +717,40 @@ loadDynamicData();
   });
 })();
 
+// ===== SCROLL PROGRESS BAR =====
+window.addEventListener('scroll', () => {
+  const scrollProgressBar = document.getElementById('scrollProgressBar');
+  if (scrollProgressBar) {
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = (scrollTop / scrollHeight) * 100;
+    scrollProgressBar.style.width = progress + '%';
+  }
+});
+
+// ===== CUSTOM CURSOR =====
+const customCursor = document.getElementById('customCursor');
+
+if (customCursor) {
+  // Use a slight translate adjustment so it perfectly centers on the real mouse
+  document.addEventListener('mousemove', (e) => {
+    customCursor.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+  });
+
+  // Re-run interactive elements query periodically if content is dynamic, 
+  // but for portfolio, running once on DOMContentLoaded is usually fine.
+  // We'll wrap in an event listener just to be safe.
+  document.addEventListener('DOMContentLoaded', () => {
+    const interactiveElements = document.querySelectorAll('a, button, input[type="submit"], input[type="text"], input[type="email"], textarea, .skill-card, .project-card, .contact-link-item, .nav-logo');
+    
+    interactiveElements.forEach((el) => {
+      el.addEventListener('mouseenter', () => {
+        customCursor.classList.add('hover');
+      });
+      el.addEventListener('mouseleave', () => {
+        customCursor.classList.remove('hover');
+      });
+    });
+  });
+}
+
