@@ -524,6 +524,17 @@
             <i class='bx bx-envelope text-base'></i>
             <span>Contact & Socials</span>
           </button>
+
+          <button 
+            @click="activeTab = 'resume'" 
+            :class="['py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 flex items-center gap-2 transition cursor-pointer', 
+                     activeTab === 'resume' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700']">
+            <i class='bx bxs-file-pdf text-base text-rose-500'></i>
+            <span>Resume PDF</span>
+            <span v-if="data.resume && data.resume.url" class="text-[10px] px-1.5 py-0.2 rounded-full font-bold bg-emerald-100 text-emerald-700">
+              Active
+            </span>
+          </button>
         </div>
       </div>
     </header>
@@ -1411,6 +1422,9 @@
                       <a :href="data.contact.linkedin || '#'" target="_blank" class="preview-action-btn">
                         <i class='bx bxl-linkedin'></i> LinkedIn
                       </a>
+                      <a :href="data.resume && data.resume.url ? data.resume.url : 'assets/resume.pdf'" target="_blank" class="preview-action-btn text-teal-600">
+                        <i class='bx bxs-file-pdf text-rose-500'></i> Resume
+                      </a>
                       <a :href="'mailto:' + (data.contact.email || '')" class="preview-action-btn">
                         <i class='bx bx-envelope'></i> Contact Me
                       </a>
@@ -1422,6 +1436,274 @@
                   <i class='bx bx-check-double text-emerald-500'></i> Renders live with the exact CSS, colors, and fonts of your portfolio.
                 </p>
               </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= RESUME PDF TAB ================= -->
+        <div v-show="activeTab === 'resume'">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left: Upload & Resume Settings Form (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+              
+              <!-- Card 1: Upload / Replace PDF -->
+              <div class="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="pb-4 mb-6 border-b border-slate-100 flex items-center justify-between">
+                  <div>
+                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                      <i class='bx bxs-file-pdf text-rose-500 text-xl'></i>
+                      <span>Upload & Replace Resume PDF</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Upload your updated resume PDF. It replaces the active file and updates the "Download Resume" buttons across your portfolio.</p>
+                  </div>
+                  <span class="hidden sm:inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                    <i class='bx bx-check-shield text-emerald-500'></i> PDF Ready
+                  </span>
+                </div>
+
+                <!-- Dropzone / Upload Area -->
+                <div 
+                  @dragover.prevent="resumeDragOver = true"
+                  @dragleave.prevent="resumeDragOver = false"
+                  @drop.prevent="onDropResume"
+                  :class="['border-2 border-dashed rounded-2xl p-8 text-center transition-all cursor-pointer relative overflow-hidden',
+                           resumeDragOver ? 'border-blue-500 bg-blue-50/60 scale-[1.01]' : 'border-slate-300 hover:border-blue-400 bg-slate-50/60 hover:bg-blue-50/20']"
+                  @click="triggerResumeUpload"
+                >
+                  <input 
+                    type="file" 
+                    ref="resumeFileInput" 
+                    accept="application/pdf,.pdf" 
+                    class="hidden" 
+                    @change="onFileResumeSelected"
+                  >
+
+                  <div v-if="uploadingResume" class="py-4">
+                    <div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                    <p class="text-sm font-bold text-slate-700">Uploading & saving resume PDF...</p>
+                    <p class="text-xs text-slate-400 mt-1">Please wait while the PDF file is securely uploaded.</p>
+                  </div>
+
+                  <div v-else>
+                    <div class="w-16 h-16 rounded-2xl bg-rose-50 text-rose-500 border border-rose-200 flex items-center justify-center text-3xl mx-auto mb-3 shadow-xs">
+                      <i class='bx bxs-cloud-upload'></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-800 mb-1">Click to browse or drag & drop your resume PDF</h3>
+                    <p class="text-xs text-slate-500 max-w-sm mx-auto mb-4">Supported format: PDF documents up to 20MB. Overwrites the live resume file automatically.</p>
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm transition cursor-pointer">
+                      <i class='bx bx-upload'></i> Select PDF File
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Currently Active File Summary -->
+                <div class="mt-6 p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl shrink-0">
+                      <i class='bx bxs-file-pdf'></i>
+                    </div>
+                    <div class="min-w-0">
+                      <div class="flex items-center gap-2">
+                        <p class="text-sm font-bold text-slate-800 truncate">{{ (data.resume && data.resume.name) || 'Ambati_Lalitha_Sagar_Resume.pdf' }}</p>
+                        <span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 shrink-0">Active</span>
+                      </div>
+                      <p class="text-xs text-slate-500 mt-0.5 flex items-center gap-3">
+                        <span><i class='bx bx-data text-slate-400'></i> {{ (data.resume && data.resume.sizeText) || '3.2 KB' }}</span>
+                        <span><i class='bx bx-time text-slate-400'></i> {{ (data.resume && data.resume.lastUpdated) || 'Updated' }}</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center gap-2 shrink-0">
+                    <a 
+                      :href="(data.resume && data.resume.url) || 'assets/resume.pdf'" 
+                      target="_blank" 
+                      class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition"
+                      title="Open in new tab"
+                    >
+                      <i class='bx bx-link-external text-sm'></i> Open
+                    </a>
+                    <a 
+                      :href="(data.resume && data.resume.url) || 'assets/resume.pdf'" 
+                      :download="(data.resume && data.resume.name) || 'Ambati_Lalitha_Sagar_Resume.pdf'" 
+                      class="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 transition shadow-xs"
+                      title="Download PDF"
+                    >
+                      <i class='bx bx-download text-sm'></i> Download
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Card 2: Configuration & Display Properties -->
+              <div class="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="pb-4 mb-6 border-b border-slate-100">
+                  <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i class='bx bx-slider-alt text-blue-600'></i>
+                    <span>Resume Link & Download Settings</span>
+                  </h2>
+                  <p class="text-xs text-slate-500 mt-0.5">Customize file download naming, custom hosting URLs (e.g. Google Drive / Dropbox), and button texts.</p>
+                </div>
+
+                <div class="space-y-5">
+                  <!-- File Name when downloaded -->
+                  <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Download Filename</label>
+                    <div class="flex items-center shadow-xs">
+                      <div class="w-10 h-10 bg-white border border-r-0 border-slate-300 rounded-l-lg flex items-center justify-center text-slate-600 text-xl flex-shrink-0">
+                        <i class='bx bx-rename'></i>
+                      </div>
+                      <input 
+                        v-model="data.resume.name" 
+                        @input="markUnsaved" 
+                        type="text" 
+                        placeholder="Ambati_Lalitha_Sagar_Resume.pdf" 
+                        class="form-input-clean rounded-l-none"
+                      >
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1">
+                      <i class='bx bx-info-circle'></i> The default filename suggested to recruiters and visitors when they click "Download Resume".
+                    </p>
+                  </div>
+
+                  <!-- Resume Source URL (Local path or external link) -->
+                  <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80">
+                    <div class="flex items-center justify-between mb-1.5">
+                      <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Resume File URL / Path</label>
+                      <button 
+                        type="button" 
+                        @click="copyResumeUrl" 
+                        class="text-[11px] text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1 font-medium cursor-pointer"
+                      >
+                        <i class='bx bx-copy'></i> Copy Link
+                      </button>
+                    </div>
+                    <div class="flex items-center shadow-xs">
+                      <div class="w-10 h-10 bg-white border border-r-0 border-slate-300 rounded-l-lg flex items-center justify-center text-slate-600 text-xl flex-shrink-0">
+                        <i class='bx bx-link'></i>
+                      </div>
+                      <input 
+                        v-model="data.resume.url" 
+                        @input="markUnsaved" 
+                        type="text" 
+                        placeholder="assets/resume.pdf" 
+                        class="form-input-clean rounded-l-none font-mono text-xs"
+                      >
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1">
+                      <i class='bx bx-info-circle'></i> Defaults to local uploaded file <code class="text-slate-600 font-semibold">assets/resume.pdf</code>, or paste an external public link (Google Drive, Dropbox, AWS S3).
+                    </p>
+                  </div>
+
+                  <!-- Button Display Text in About Section -->
+                  <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Button Label in About Section</label>
+                    <div class="flex items-center shadow-xs">
+                      <div class="w-10 h-10 bg-white border border-r-0 border-slate-300 rounded-l-lg flex items-center justify-center text-slate-600 text-xl flex-shrink-0">
+                        <i class='bx bx-text'></i>
+                      </div>
+                      <input 
+                        v-model="data.resume.buttonText" 
+                        @input="markUnsaved" 
+                        type="text" 
+                        placeholder="Download Resume" 
+                        class="form-input-clean rounded-l-none"
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Save Changes Button -->
+                  <div class="pt-2 flex justify-end">
+                    <button 
+                      @click="saveData" 
+                      :disabled="saving"
+                      class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold shadow-md hover:shadow-lg transition flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                    >
+                      <i class='bx' :class="saving ? 'bx-loader-alt animate-spin' : 'bx-save'"></i>
+                      <span>{{ saving ? 'Saving to Firebase...' : 'Save Resume Settings' }}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right: Live Portfolio Preview & PDF Reader (5 cols) -->
+            <div class="lg:col-span-5 space-y-6">
+              
+              <!-- Live Preview Card (Matching Portfolio Theme) -->
+              <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm sticky top-24">
+                <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+                  <div class="flex items-center gap-2">
+                    <i class='bx bx-desktop text-blue-600 text-lg'></i>
+                    <h3 class="text-sm font-bold text-slate-900">Live Button & Action Preview</h3>
+                  </div>
+                  <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                    Portfolio UI
+                  </span>
+                </div>
+
+                <!-- Simulation of About Section Buttons -->
+                <div class="p-5 rounded-2xl bg-slate-900 text-white shadow-inner mb-4">
+                  <p class="text-xs text-slate-400 font-medium mb-3">1. About Section CTA Button:</p>
+                  <div class="flex flex-wrap items-center gap-3">
+                    <a 
+                      :href="(data.resume && data.resume.url) || 'assets/resume.pdf'" 
+                      :download="(data.resume && data.resume.name) || 'Ambati_Lalitha_Sagar_Resume.pdf'" 
+                      target="_blank"
+                      class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition shadow-md"
+                    >
+                      <i class='bx bxs-file-pdf text-base text-rose-300'></i> 
+                      <span>{{ (data.resume && data.resume.buttonText) || 'Download Resume' }}</span>
+                    </a>
+                    <span class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-700 text-slate-300 text-xs font-medium">
+                      <i class='bx bx-envelope'></i> Get in Touch
+                    </span>
+                  </div>
+
+                  <p class="text-xs text-slate-400 font-medium mt-5 mb-2">2. Profile Card Shortcut Button:</p>
+                  <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 text-xs font-medium">
+                      <i class='bx bxl-linkedin text-blue-400'></i> LinkedIn
+                    </span>
+                    <a 
+                      :href="(data.resume && data.resume.url) || 'assets/resume.pdf'" 
+                      :download="(data.resume && data.resume.name) || 'Ambati_Lalitha_Sagar_Resume.pdf'" 
+                      target="_blank"
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-teal-500/40 bg-teal-500/10 text-teal-300 text-xs font-semibold"
+                    >
+                      <i class='bx bxs-file-pdf text-rose-400'></i> Resume
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Embedded PDF Preview or Quick Viewer -->
+                <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
+                  <div class="px-3 py-2 bg-slate-100 border-b border-slate-200 flex items-center justify-between text-xs text-slate-600 font-medium">
+                    <span class="flex items-center gap-1.5">
+                      <i class='bx bxs-file-pdf text-rose-500'></i> PDF Document Viewer
+                    </span>
+                    <a :href="(data.resume && data.resume.url) || 'assets/resume.pdf'" target="_blank" class="text-blue-600 hover:underline flex items-center gap-1">
+                      Full View <i class='bx bx-link-external text-[11px]'></i>
+                    </a>
+                  </div>
+                  <div class="relative w-full h-80 bg-slate-200 flex items-center justify-center">
+                    <iframe 
+                      :src="((data.resume && data.resume.url) || 'assets/resume.pdf') + '#toolbar=0&navpanes=0'" 
+                      class="w-full h-full border-0"
+                      title="Resume PDF Preview"
+                    ></iframe>
+                  </div>
+                </div>
+
+                <p class="text-[11px] text-slate-400 mt-2.5 text-center flex items-center justify-center gap-1">
+                  <i class='bx bx-check-circle text-emerald-500'></i> Instant synchronization with portfolio visitors.
+                </p>
+              </div>
+
             </div>
 
           </div>
@@ -1603,6 +1885,13 @@
         githubText: "github.com/23MH1A1202",
         linkedin: "https://www.linkedin.com/in/lalithasagarambati/"
       },
+      resume: {
+        url: "assets/resume.pdf",
+        name: "Ambati_Lalitha_Sagar_Resume.pdf",
+        buttonText: "Download Resume",
+        sizeText: "3.2 KB",
+        lastUpdated: "Sep 9, 2026"
+      },
       projects: [
         {
           title: "Developer Portfolio",
@@ -1755,8 +2044,14 @@
             const data = ref({
               projects: JSON.parse(JSON.stringify(defaultPortfolioData.projects)),
               skills: JSON.parse(JSON.stringify(defaultPortfolioData.skills)),
-              contact: JSON.parse(JSON.stringify(defaultPortfolioData.contact))
+              contact: JSON.parse(JSON.stringify(defaultPortfolioData.contact)),
+              resume: JSON.parse(JSON.stringify(defaultPortfolioData.resume))
             });
+
+            // Resume PDF Upload state
+            const resumeDragOver = ref(false);
+            const uploadingResume = ref(false);
+            const resumeFileInput = ref(null);
 
             // UI Expand/Collapse states
             const expandedProjects = ref({});
@@ -2116,6 +2411,102 @@
               hasUnsavedChanges.value = false;
             };
 
+            // Resume Upload & File Handling
+            const triggerResumeUpload = () => {
+              if (resumeFileInput.value) {
+                resumeFileInput.value.click();
+              }
+            };
+
+            const uploadResumeFile = async (file) => {
+              if (!file) return;
+              if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                showToast('Please select a valid PDF document (.pdf)', 'error');
+                return;
+              }
+              if (file.size > 20 * 1024 * 1024) {
+                showToast('File size exceeds 20MB limit', 'error');
+                return;
+              }
+
+              uploadingResume.value = true;
+              try {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                  try {
+                    const base64 = e.target.result;
+                    const res = await fetch('/api/upload-resume', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        base64,
+                        filename: file.name
+                      })
+                    });
+
+                    if (!res.ok) {
+                      throw new Error('Upload failed on server');
+                    }
+
+                    const resData = await res.json();
+                    
+                    const kbSize = (file.size / 1024).toFixed(1) + ' KB';
+                    const mbSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                    const displaySize = file.size > 1024 * 1024 ? mbSize : kbSize;
+
+                    if (!data.value.resume) data.value.resume = {};
+                    data.value.resume.url = resData.url + '?v=' + Date.now();
+                    data.value.resume.name = file.name;
+                    data.value.resume.sizeText = displaySize;
+                    data.value.resume.lastUpdated = new Date().toLocaleDateString(undefined, { 
+                      month: 'short', 
+                      day: 'numeric', 
+                      year: 'numeric' 
+                    });
+
+                    markUnsaved();
+                    showToast('Resume PDF uploaded and saved successfully!', 'success');
+                  } catch (err) {
+                    console.error('Resume upload error:', err);
+                    showToast('Error uploading resume: ' + err.message, 'error');
+                  } finally {
+                    uploadingResume.value = false;
+                    if (resumeFileInput.value) resumeFileInput.value.value = '';
+                  }
+                };
+                reader.onerror = () => {
+                  uploadingResume.value = false;
+                  showToast('Failed to read PDF file', 'error');
+                };
+                reader.readAsDataURL(file);
+              } catch (err) {
+                uploadingResume.value = false;
+                showToast('Upload error: ' + err.message, 'error');
+              }
+            };
+
+            const onFileResumeSelected = (e) => {
+              const file = e.target.files && e.target.files[0];
+              if (file) uploadResumeFile(file);
+            };
+
+            const onDropResume = (e) => {
+              resumeDragOver.value = false;
+              const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+              if (file) uploadResumeFile(file);
+            };
+
+            const copyResumeUrl = async () => {
+              try {
+                const url = (data.value.resume && data.value.resume.url) ? data.value.resume.url : 'assets/resume.pdf';
+                const fullUrl = url.startsWith('http') ? url : window.location.origin + '/' + url.replace(/^\//, '');
+                await navigator.clipboard.writeText(fullUrl);
+                showToast('Resume URL copied to clipboard!', 'success');
+              } catch (err) {
+                showToast('Resume URL: ' + ((data.value.resume && data.value.resume.url) || 'assets/resume.pdf'));
+              }
+            };
+
             const loadData = async () => {
               loading.value = true;
               try {
@@ -2126,7 +2517,22 @@
                   if (fetched.projects && fetched.projects.length > 0) data.value.projects = fetched.projects;
                   if (fetched.skills && fetched.skills.length > 0) data.value.skills = fetched.skills;
                   if (fetched.contact) data.value.contact = { ...data.value.contact, ...fetched.contact };
+                  if (fetched.resume) data.value.resume = { ...data.value.resume, ...fetched.resume };
                 }
+                
+                // Also query server for current assets/resume.pdf metadata
+                fetch('/api/resume-info')
+                  .then(r => r.json())
+                  .then(info => {
+                    if (info.exists && data.value.resume) {
+                      const kb = (info.size / 1024).toFixed(1) + ' KB';
+                      if (!data.value.resume.sizeText || data.value.resume.sizeText === '3.2 KB') {
+                        data.value.resume.sizeText = kb;
+                      }
+                    }
+                  })
+                  .catch(() => {});
+
                 initExpanded();
                 hasUnsavedChanges.value = false;
               } catch (e) {
@@ -2198,7 +2604,14 @@
               selectAssetDirectly,
               openAssetPickerFromCropper,
               cropExistingImage,
-              launchCropper
+              launchCropper,
+              resumeDragOver,
+              uploadingResume,
+              resumeFileInput,
+              triggerResumeUpload,
+              onFileResumeSelected,
+              onDropResume,
+              copyResumeUrl
             };
           }
         }).mount('#app');

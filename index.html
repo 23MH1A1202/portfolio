@@ -41,12 +41,12 @@
   <div class="nav-container">
     <a href="#hero" class="nav-logo">&lt;Sagar/&gt;</a>
     <ul class="nav-links" id="navLinks">
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+      <li><a href="#hero"><i class='bx bx-home-alt nav-icon'></i><span>Home</span></a></li>
+      <li><a href="#about"><i class='bx bx-user nav-icon'></i><span>About</span></a></li>
+      <li><a href="#skills"><i class='bx bx-code-alt nav-icon'></i><span>Skills</span></a></li>
+      <li><a href="#projects"><i class='bx bx-folder nav-icon'></i><span>Projects</span></a></li>
+      <li><a href="#contact"><i class='bx bx-envelope nav-icon'></i><span>Contact</span></a></li>
+    </ul>
       
       <div class="nav-actions">
         <button id="themeToggle" class="theme-toggle" aria-label="Toggle Theme">
@@ -221,6 +221,9 @@
             <a href="https://www.linkedin.com/in/lalitha-sagar-ambati-71b9302a4/" target="_blank" rel="noopener noreferrer" class="about-action-btn" title="LinkedIn Profile">
               <i class='bx bxl-linkedin'></i> <span>LinkedIn</span>
             </a>
+            <a href="assets/resume.pdf" id="cardResumeBtn" download="Ambati_Lalitha_Sagar_Resume.pdf" target="_blank" class="about-action-btn resume-btn" title="Download Resume PDF">
+              <i class='bx bxs-file-pdf'></i> <span>Resume</span>
+            </a>
             <a href="#contact" class="about-action-btn primary" title="Contact Me">
               <i class='bx bx-paper-plane'></i> <span>Connect</span>
             </a>
@@ -269,6 +272,15 @@
             <span class="highlight-icon"><i class='bx bxl-nodejs'></i></span>
             <span>Server-side automation &amp; scraping with Node.js &amp; Playwright</span>
           </div>
+        </div>
+
+        <div class="about-cta-row">
+          <a href="assets/resume.pdf" id="aboutResumeBtn" download="Ambati_Lalitha_Sagar_Resume.pdf" target="_blank" class="btn btn-primary" title="Download Resume">
+            <i class='bx bxs-file-pdf'></i> Download Resume
+          </a>
+          <a href="#contact" class="btn btn-outline">
+            <i class='bx bx-envelope'></i> Get in Touch
+          </a>
         </div>
       </div>
     </div>
@@ -410,7 +422,7 @@
           <div class="project-card-header">
             <div class="project-card-icon"><i class='bx bx-code-alt'></i></div>
             <div class="project-card-links">
-              <a href="https://github.com/23MH1A1202/portfolio" target="_blank" rel="noopener noreferrer" class="icon-link" title="Source Code"><i class='bx bxl-github'></i> Source Code</a>
+              <a href="https://github.com/23MH1A1202/portfolio" target="_blank" rel="noopener noreferrer" class="icon-link" title="Source Code"><i class='bx bxl-github'></i> <span>Source Code</span></a>
             </div>
           </div>
           <h3 class="project-card-title">Developer Portfolio</h3>
@@ -432,7 +444,7 @@
           <div class="project-card-header">
             <div class="project-card-icon"><i class='bx bx-share-alt'></i></div>
             <div class="project-card-links">
-              <a href="https://smartshare.alsagar.tech/" target="_blank" rel="noopener noreferrer" class="icon-link" title="Live App"><i class='bx bx-link-external'></i> View Project</a>
+              <a href="https://smartshare.alsagar.tech/" target="_blank" rel="noopener noreferrer" class="icon-link" title="Live App"><i class='bx bx-link-external'></i> <span>View Project</span></a>
             </div>
           </div>
           <h3 class="project-card-title">SmartShare <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px; margin-left:5px; vertical-align:middle;"><i class='bx bxs-star'></i> Featured</span></h3>
@@ -454,7 +466,7 @@
           <div class="project-card-header">
             <div class="project-card-icon"><i class='bx bx-search-alt'></i></div>
             <div class="project-card-links">
-              <a href="https://23mh1a1202.github.io/student_photos/" target="_blank" rel="noopener noreferrer" class="icon-link" title="Live App"><i class='bx bx-link-external'></i> View Project</a>
+              <a href="https://23mh1a1202.github.io/student_photos/" target="_blank" rel="noopener noreferrer" class="icon-link" title="Live App"><i class='bx bx-link-external'></i> <span>View Project</span></a>
             </div>
           </div>
           <h3 class="project-card-title">Student Photos</h3>
@@ -496,7 +508,7 @@
           <div class="project-card-header">
             <div class="project-card-icon"><i class='bx bx-folder-open'></i></div>
             <div class="project-card-links">
-              <a href="https://drive.google.com/drive/folders/1uBTA6v6d7Di_k5hlqC8ds32hfIBG5JNe?usp=drive_link" target="_blank" rel="noopener noreferrer" class="icon-link" title="Download App"><i class='bx bx-download'></i> Download App</a>
+              <a href="https://drive.google.com/drive/folders/1uBTA6v6d7Di_k5hlqC8ds32hfIBG5JNe?usp=drive_link" target="_blank" rel="noopener noreferrer" class="icon-link" title="Download App"><i class='bx bx-download'></i> <span>Download App</span></a>
             </div>
           </div>
           <h3 class="project-card-title">DocuKeep</h3>
@@ -573,6 +585,10 @@
       </div>
 
       <div class="contact-form animate-fade-up">
+        <div class="contact-form-header">
+          <h3 class="contact-form-title">Send a Message <i class='bx bx-send'></i></h3>
+          <p class="contact-form-subtitle">Have a question, or just want to say hi? Drop a message!</p>
+        </div>
         <form id="contactForm" action="https://formspree.io/f/xeeveoep" method="POST">
           <div class="form-group">
             <label for="name">Your Name</label>

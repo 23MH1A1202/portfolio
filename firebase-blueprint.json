@@ -7,7 +7,8 @@
       "properties": {
         "projects": { "type": "array" },
         "skills": { "type": "array" },
-        "contact": { "type": "object" }
+        "contact": { "type": "object" },
+        "resume": { "type": "object" }
       }
     }
   },

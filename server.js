@@ -9,6 +9,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json({ limit: '30mb' }));
+
 // API to list images available in assets folder
 app.get('/api/assets', (req, res) => {
   const assetsDir = path.join(__dirname, 'assets');
@@ -24,6 +26,46 @@ app.get('/api/assets', (req, res) => {
     res.json({ assets: images });
   } catch (err) {
     res.status(500).json({ error: 'Failed to read assets directory' });
+  }
+});
+
+// API to upload resume PDF
+app.post('/api/upload-resume', (req, res) => {
+  try {
+    const { base64, filename } = req.body;
+    if (!base64) {
+      return res.status(400).json({ error: 'No resume data provided' });
+    }
+    const cleanBase64 = base64.replace(/^data:[^;]+;base64,/, '');
+    const buffer = Buffer.from(cleanBase64, 'base64');
+    const targetPath = path.join(__dirname, 'assets', 'resume.pdf');
+    fs.writeFileSync(targetPath, buffer);
+    res.json({ 
+      success: true, 
+      url: 'assets/resume.pdf',
+      filename: filename || 'resume.pdf',
+      size: buffer.length,
+      updatedAt: new Date().toISOString()
+    });
+  } catch (err) {
+    console.error('Resume upload error:', err);
+    res.status(500).json({ error: 'Failed to save resume file' });
+  }
+});
+
+// API to get current resume info
+app.get('/api/resume-info', (req, res) => {
+  const targetPath = path.join(__dirname, 'assets', 'resume.pdf');
+  if (fs.existsSync(targetPath)) {
+    const stats = fs.statSync(targetPath);
+    res.json({
+      exists: true,
+      url: 'assets/resume.pdf',
+      size: stats.size,
+      updatedAt: stats.mtime.toISOString()
+    });
+  } else {
+    res.json({ exists: false });
   }
 });
 

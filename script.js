@@ -69,6 +69,13 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', closeNav);
 });
 
+// Close mobile nav when clicking outside of it
+document.addEventListener('click', (e) => {
+  if (navLinks?.classList.contains('open') && !navLinks.contains(e.target) && !navToggle?.contains(e.target)) {
+    closeNav();
+  }
+});
+
 // Cache section elements and navigation links for high-performance scroll updates
 let navItems = [];
 function cacheNavSections() {
@@ -418,13 +425,13 @@ tiltCards.forEach(card => {
     const rotateX = ((y - centerY) / centerY) * -8;
     const rotateY = ((x - centerX) / centerX) * 8;
 
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px) scale(1.02)`;
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
     card.style.transition = 'transform 0.1s ease-out'; // Fast response while moving
   });
 
   card.addEventListener('mouseleave', () => {
     // Snap back to original position smoothly
-    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)`;
+    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
     card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
   });
 });
@@ -500,11 +507,11 @@ async function loadDynamicData() {
               const centerY = rect.height / 2;
               const rotateX = ((y - centerY) / centerY) * -8;
               const rotateY = ((x - centerX) / centerX) * 8;
-              card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px) scale(1.02)`;
+              card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
               card.style.transition = 'transform 0.1s ease-out';
             });
             card.addEventListener('mouseleave', () => {
-              card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)`;
+              card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
               card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
             });
           }
@@ -537,6 +544,23 @@ async function loadDynamicData() {
       }
     }
 
+    // Render Resume Link if configured
+    if (data.resume && data.resume.url) {
+      const resumeBtns = document.querySelectorAll('#cardResumeBtn, #aboutResumeBtn');
+      resumeBtns.forEach(btn => {
+        btn.href = data.resume.url;
+        if (data.resume.name) {
+          btn.download = data.resume.name;
+        }
+      });
+      if (data.resume.buttonText) {
+        const aboutBtn = document.getElementById('aboutResumeBtn');
+        if (aboutBtn) {
+          aboutBtn.innerHTML = `<i class='bx bxs-file-pdf'></i> ${data.resume.buttonText}`;
+        }
+      }
+    }
+
     // Render Projects
     if (data.projects && data.projects.length > 0) {
       const projectStat = document.querySelector('.about-stats .stat-item:first-child .stat-number');
@@ -556,7 +580,7 @@ async function loadDynamicData() {
         
         let headerLinks = '';
         if (project.link && project.linkText) {
-          headerLinks = `<a href="${project.link}" target="_blank" rel="noopener noreferrer" class="icon-link" title="${project.linkText}"><i class='bx ${project.linkIcon || 'bx-link-external'}'></i> ${project.linkText}</a>`;
+          headerLinks = `<a href="${project.link}" target="_blank" rel="noopener noreferrer" class="icon-link" title="${project.linkText}"><i class='bx ${project.linkIcon || 'bx-link-external'}'></i> <span>${project.linkText}</span></a>`;
         } else if (project.status) {
           headerLinks = `<span style="font-size:0.72rem; color:#f59e0b; background:rgba(255,165,0,0.15); padding:2px 7px; border-radius:999px; font-weight:600;"><i class='bx bx-moon'></i> ${project.status}</span>`;
         }

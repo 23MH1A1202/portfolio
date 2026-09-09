@@ -309,6 +309,10 @@ a:hover { color: var(--accent); }
   padding: 0;
 }
 
+.nav-links .nav-icon {
+  display: none;
+}
+
 .nav-links a {
   color: var(--text-muted);
   font-size: 0.9rem;
@@ -967,6 +971,17 @@ body.light-mode .term-cmd {
   overflow: hidden;
   box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.4), 0 0 25px rgba(59, 130, 246, 0.08);
   transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.about-card * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .about-card:hover {
@@ -1291,6 +1306,34 @@ body.light-mode .term-cmd {
   color: #ffffff;
 }
 
+.about-action-btn.resume-btn {
+  background: rgba(20, 184, 166, 0.12);
+  border-color: rgba(20, 184, 166, 0.35);
+  color: var(--accent);
+}
+
+.about-action-btn.resume-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(20, 184, 166, 0.35);
+}
+
+.about-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .about-cta-row {
+    justify-content: center;
+  }
+}
+
 /* Hero Section Avatar Photo */
 .hero-avatar-img {
   width: 100%;
@@ -1368,9 +1411,20 @@ body.light-mode .term-cmd {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 1.75rem;
-  transition: all 0.3s;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   position: relative;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.skill-card * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Ensure all text content and icons in skill-card stay above the watermark */
@@ -1651,12 +1705,13 @@ body.light-mode .preview-skill-card.glow-active .skill-watermark {
 }
 
 .icon-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.45rem;
   min-width: 32px;      /* Changed from width to min-width */
   height: 32px;
-  padding: 0 0.8rem;    /* Added padding for the text */
+  padding: 0 0.85rem;   /* Added padding for the text */
   border-radius: 8px;
   border: 1px solid var(--border);
   color: var(--text-muted);
@@ -1664,6 +1719,13 @@ body.light-mode .preview-skill-card.glow-active .skill-watermark {
   font-size: 0.8rem;    /* Adjusted size to fit the card header */
   font-weight: 500;     /* Added slight weight for readability */
   white-space: nowrap;  /* Prevents text from wrapping to a second line */
+}
+
+.icon-link i {
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon-link:hover {
@@ -1763,6 +1825,33 @@ body.light-mode .preview-skill-card.glow-active .skill-watermark {
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 2rem;
+}
+
+.contact-form-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-form-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact-form-title i {
+  color: var(--primary-light);
+  font-size: 1.25rem;
+}
+
+.contact-form-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
 }
 
 .form-group {
@@ -1983,23 +2072,70 @@ footer {
     top: 0; 
     right: 0; /* Anchors the menu to the right side */
     bottom: 0;
-    width: 60%; /* Sets it to exactly half the screen */
+    width: 65%;
+    max-width: 280px;
     height: 100vh;
-    padding: 6rem 1.5rem 2rem; /* Adjusted side padding for smaller width */
+    padding: 5.5rem 1.25rem 2.5rem;
     background: var(--bg-secondary);
     border-left: 1px solid var(--border); /* Adds a line separating it from the background */
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5); /* Makes the menu 'pop' off the page */
-    gap: 1.5rem;
+    box-shadow: -12px 0 35px rgba(0, 0, 0, 0.45); /* Makes the menu 'pop' off the page */
+    gap: 0.5rem;
     z-index: 1001;
     transform: translateX(100%); /* Hides it off-screen to the right */
-    transition: transform 0.3s ease, visibility 0.3s ease;
-    /* ADDED: Rounded corners on the left side */
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
+    /* Rounded corners on the left side */
     border-top-left-radius: 24px;
     border-bottom-left-radius: 24px;
+    overflow-y: auto;
   }
   .nav-links.open {
     visibility: visible;
     transform: translateX(0);
+  }
+  .nav-links li {
+    width: 100%;
+    list-style: none;
+  }
+  .nav-links a {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+  }
+  .nav-links a::after {
+    display: none;
+  }
+  .nav-links .nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: var(--primary-light);
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: var(--text);
+    background: rgba(59, 130, 246, 0.12);
+  }
+  .nav-links a:hover .nav-icon,
+  .nav-links a.active .nav-icon {
+    color: var(--primary);
+    transform: scale(1.15);
+  }
+  body.light-mode .nav-links a:hover,
+  body.light-mode .nav-links a.active {
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--primary);
   }
   .nav-toggle { display: flex; z-index: 1002; }
 
