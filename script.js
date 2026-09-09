@@ -597,7 +597,7 @@ async function loadDynamicData() {
           : '';
 
         card.innerHTML = `
-          <div class="project-image">
+          <div class="project-image" style="background-image: url('${project.image}');">
             <img src="${project.image}" alt="${project.title} Preview">
           </div>
           <div class="project-card-header">
