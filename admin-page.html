@@ -2443,57 +2443,40 @@
 
               uploadingResume.value = true;
               try {
-                const reader = new FileReader();
-                reader.onload = async (e) => {
-                  try {
-                    const base64 = e.target.result;
-                    const res = await fetch('/api/upload-resume', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        base64,
-                        filename: file.name
-                      })
-                    });
+                const res = await fetch('/api/upload-resume?filename=' + encodeURIComponent(file.name), {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/octet-stream' },
+                  body: file
+                });
 
-                    if (!res.ok) {
-                      throw new Error('Upload failed on server');
-                    }
+                if (!res.ok) {
+                  throw new Error('Upload failed on server');
+                }
 
-                    const resData = await res.json();
-                    
-                    const kbSize = (file.size / 1024).toFixed(1) + ' KB';
-                    const mbSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
-                    const displaySize = file.size > 1024 * 1024 ? mbSize : kbSize;
+                const resData = await res.json();
+                
+                const kbSize = (file.size / 1024).toFixed(1) + ' KB';
+                const mbSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                const displaySize = file.size > 1024 * 1024 ? mbSize : kbSize;
 
-                    if (!data.value.resume) data.value.resume = {};
-                    data.value.resume.url = resData.url + '?v=' + Date.now();
-                    data.value.resume.name = file.name;
-                    data.value.resume.sizeText = displaySize;
-                    data.value.resume.lastUpdated = new Date().toLocaleDateString(undefined, { 
-                      month: 'short', 
-                      day: 'numeric', 
-                      year: 'numeric' 
-                    });
+                if (!data.value.resume) data.value.resume = {};
+                data.value.resume.url = resData.url + '?v=' + Date.now();
+                data.value.resume.name = file.name;
+                data.value.resume.sizeText = displaySize;
+                data.value.resume.lastUpdated = new Date().toLocaleDateString(undefined, { 
+                  month: 'short', 
+                  day: 'numeric', 
+                  year: 'numeric' 
+                });
 
-                    markUnsaved();
-                    showToast('Resume PDF uploaded and saved successfully!', 'success');
-                  } catch (err) {
-                    console.error('Resume upload error:', err);
-                    showToast('Error uploading resume: ' + err.message, 'error');
-                  } finally {
-                    uploadingResume.value = false;
-                    if (resumeFileInput.value) resumeFileInput.value.value = '';
-                  }
-                };
-                reader.onerror = () => {
-                  uploadingResume.value = false;
-                  showToast('Failed to read PDF file', 'error');
-                };
-                reader.readAsDataURL(file);
+                markUnsaved();
+                showToast('Resume PDF uploaded and saved successfully!', 'success');
               } catch (err) {
+                console.error('Resume upload error:', err);
+                showToast('Error uploading resume: ' + err.message, 'error');
+              } finally {
                 uploadingResume.value = false;
-                showToast('Upload error: ' + err.message, 'error');
+                if (resumeFileInput.value) resumeFileInput.value.value = '';
               }
             };
 

@@ -9,7 +9,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json({ limit: '30mb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // API to list images available in assets folder
 app.get('/api/assets', (req, res) => {
@@ -32,7 +33,34 @@ app.get('/api/assets', (req, res) => {
 // API to upload resume PDF
 app.post('/api/upload-resume', (req, res) => {
   try {
-    const { base64, filename } = req.body;
+    const filename = req.query.filename || (req.body && req.body.filename) || 'resume.pdf';
+
+    if (req.is('application/octet-stream') || req.headers['content-type'] === 'application/octet-stream') {
+      const targetPath = path.join(__dirname, 'assets', 'resume.pdf');
+      const writeStream = fs.createWriteStream(targetPath);
+      
+      req.pipe(writeStream);
+      
+      writeStream.on('finish', () => {
+        let size = 0;
+        try { size = fs.statSync(targetPath).size; } catch(e) {}
+        res.json({
+          success: true,
+          url: 'assets/resume.pdf',
+          filename: filename,
+          size: size,
+          updatedAt: new Date().toISOString()
+        });
+      });
+
+      writeStream.on('error', (err) => {
+        console.error('Upload write error:', err);
+        res.status(500).json({ error: 'Upload write failed' });
+      });
+      return;
+    }
+
+    const { base64, filename: bodyFilename } = req.body;
     if (!base64) {
       return res.status(400).json({ error: 'No resume data provided' });
     }
@@ -43,7 +71,7 @@ app.post('/api/upload-resume', (req, res) => {
     res.json({ 
       success: true, 
       url: 'assets/resume.pdf',
-      filename: filename || 'resume.pdf',
+      filename: bodyFilename || 'resume.pdf',
       size: buffer.length,
       updatedAt: new Date().toISOString()
     });
