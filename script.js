@@ -4,13 +4,56 @@ document.body.classList.add('no-scroll');
 
 window.addEventListener('load', () => {
   const preloader = document.getElementById('preloader');
+  const preloaderText = document.querySelector('.preloader-text');
   
-  // Wait for the 2.2 seconds (matches the CSS animation duration) 
-  // before sliding the preloader up and unlocking the scroll
+  // Sequence: Hello -> Namaskaram -> Namaste -> Vanakkam -> Konnichiwa -> Ni Hao -> Welcome -> By, -> Sagar
+  const words = ['Hello', 'నమస్కారం', 'नमस्ते', 'வணக்கம்', 'こんにちは', '你好', 'Welcome',  "I'm Sagar"];
+  let currentWordIndex = 0;
+  let isDeleting = true; // Start by deleting 'Hello'
+  let txt = 'Hello'; // Initial text
+  let typingSpeed = 100;
+  
+  // Let the initial CSS animations finish (slideUpFade), then start deleting
   setTimeout(() => {
-    preloader.classList.add('hidden');
-    document.body.classList.remove('no-scroll');
-  }, 2200); 
+    typeLoop();
+  }, 1000);
+
+  function typeLoop() {
+    const currentWord = words[currentWordIndex];
+    
+    if (isDeleting) {
+      txt = currentWord.substring(0, txt.length - 1);
+      typingSpeed = 50; // fast delete
+    } else {
+      txt = currentWord.substring(0, txt.length + 1);
+      typingSpeed = 80; // type speed
+    }
+    
+    preloaderText.textContent = txt;
+    
+    // Finished deleting
+    if (isDeleting && txt === '') {
+      isDeleting = false;
+      currentWordIndex++;
+      typingSpeed = 200; // pause before typing next
+    } 
+    // Finished typing current word
+    else if (!isDeleting && txt === currentWord) {
+      // If we typed the final word ("Sagar")
+      if (currentWordIndex === words.length - 1) {
+        setTimeout(() => {
+          preloader.classList.add('hidden');
+          document.body.classList.remove('no-scroll');
+        }, 800); // Hold on final word for a bit before hiding
+        return; 
+      } else {
+        isDeleting = true;
+        typingSpeed = 500; // Pause at end of word before deleting again
+      }
+    }
+    
+    setTimeout(typeLoop, typingSpeed);
+  }
 });
 
 
