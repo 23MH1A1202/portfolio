@@ -63,7 +63,11 @@ const themeIcon = document.getElementById('themeIcon');
 
 // 1. Check if user already chose a theme in a previous visit
 const savedTheme = localStorage.getItem('portfolio-theme');
-if (savedTheme === 'light') {
+if (savedTheme === 'dark') {
+  document.body.classList.remove('light-mode');
+  setSunIcon(); // Show sun when in dark mode
+} else {
+  // Light mode is the default, make sure the icon matches
   document.body.classList.add('light-mode');
   setMoonIcon(); // Show moon when in light mode
 }
