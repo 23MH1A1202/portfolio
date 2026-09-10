@@ -16,17 +16,17 @@ window.addEventListener('load', () => {
   // Let the initial CSS animations finish (slideUpFade), then start deleting
   setTimeout(() => {
     typeLoop();
-  }, 1000);
+  }, 500);
 
   function typeLoop() {
     const currentWord = words[currentWordIndex];
     
     if (isDeleting) {
       txt = currentWord.substring(0, txt.length - 1);
-      typingSpeed = 50; // fast delete
+      typingSpeed = 20; // super fast delete
     } else {
       txt = currentWord.substring(0, txt.length + 1);
-      typingSpeed = 80; // type speed
+      typingSpeed = 40; // faster type speed
     }
     
     preloaderText.textContent = txt;
@@ -35,7 +35,7 @@ window.addEventListener('load', () => {
     if (isDeleting && txt === '') {
       isDeleting = false;
       currentWordIndex++;
-      typingSpeed = 200; // pause before typing next
+      typingSpeed = 100; // shorter pause before typing next
     } 
     // Finished typing current word
     else if (!isDeleting && txt === currentWord) {
@@ -44,11 +44,11 @@ window.addEventListener('load', () => {
         setTimeout(() => {
           preloader.classList.add('hidden');
           document.body.classList.remove('no-scroll');
-        }, 800); // Hold on final word for a bit before hiding
+        }, 400); // Hold on final word for a bit before hiding
         return; 
       } else {
         isDeleting = true;
-        typingSpeed = 500; // Pause at end of word before deleting again
+        typingSpeed = 250; // Shorter pause at end of word before deleting again
       }
     }
     
