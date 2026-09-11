@@ -507,8 +507,19 @@ async function loadDynamicData() {
     const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
     
     const docRef = doc(db, 'portfolio', 'data');
-    const docSnap = await getDoc(docRef);
     
+    // Add error handling around the getDoc call specifically for the offline error
+    let docSnap;
+    try {
+      docSnap = await getDoc(docRef);
+    } catch (error) {
+       if(error instanceof Error && error.message.includes('client is offline')) {
+           console.warn("Firestore client is offline, skipping dynamic data load.");
+           return;
+       }
+       throw error;
+    }
+
     if (!docSnap.exists()) return;
     const data = docSnap.data();
     
