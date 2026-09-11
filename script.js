@@ -6,8 +6,8 @@ window.addEventListener('load', () => {
   const preloader = document.getElementById('preloader');
   const preloaderText = document.querySelector('.preloader-text');
   
-  // Sequence: Hello -> Namaskaram -> Namaste -> Vanakkam -> Konnichiwa -> Ni Hao -> Welcome -> By, -> Sagar
-  const words = ['Hello', 'నమస్కారం', 'नमस्ते', 'வணக்கம்', 'こんにちは', '你好', 'Welcome',  "I'm Sagar"];
+  // Sequence: Hello -> Namaskaram -> Namaste -> Vanakkam ->  Ni Hao -> Konnichiwa -> Welcome -> I'm Sagar
+  const words = ['Hello', 'నమస్కారం', 'नमस्ते', 'வணக்கம்', '你好', 'こんにちは', 'Welcome',  "I'm Sagar"];
   let currentWordIndex = 0;
   let isDeleting = true; // Start by deleting 'Hello'
   let txt = 'Hello'; // Initial text
