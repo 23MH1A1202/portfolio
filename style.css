@@ -251,7 +251,6 @@ a:hover { color: var(--accent); }
 
 .tag i {
   font-size: 0.95rem; /* Makes the tag icons slightly larger than the text */
-  transition: color 0.3s ease;
 }
 
 .tag:hover {
@@ -1608,32 +1607,6 @@ body.light-mode .preview-skill-card.glow-active .skill-watermark {
   gap: 0.4rem;
   margin-top: 1rem;
 }
-
-/* ===== TAG ICONS HOVER REVEAL EFFECT ===== */
-/* Reveal original brand/fun colors when the skill card is hovered, focused, or centered on mobile */
-.skill-card:hover .tag i.bxl-html5, .skill-card.glow-active .tag i.bxl-html5, .skill-card:focus-within .tag i.bxl-html5 { color: #E34F26; }
-.skill-card:hover .tag i.bxl-css3, .skill-card.glow-active .tag i.bxl-css3, .skill-card:focus-within .tag i.bxl-css3 { color: #1572B6; }
-.skill-card:hover .tag i.bxl-javascript, .skill-card.glow-active .tag i.bxl-javascript, .skill-card:focus-within .tag i.bxl-javascript { color: #F7DF1E; }
-.skill-card:hover .tag i.bx-devices, .skill-card.glow-active .tag i.bx-devices, .skill-card:focus-within .tag i.bx-devices { color: #3B82F6; }
-.skill-card:hover .tag i.bx-cog, .skill-card.glow-active .tag i.bx-cog, .skill-card:focus-within .tag i.bx-cog { color: #8B5CF6; }
-.skill-card:hover .tag i.bx-file-blank, .skill-card.glow-active .tag i.bx-file-blank, .skill-card:focus-within .tag i.bx-file-blank { color: #10B981; }
-.skill-card:hover .tag i.bx-cloud-download, .skill-card.glow-active .tag i.bx-cloud-download, .skill-card:focus-within .tag i.bx-cloud-download { color: #0EA5E9; }
-.skill-card:hover .tag i.bx-bell, .skill-card.glow-active .tag i.bx-bell, .skill-card:focus-within .tag i.bx-bell { color: #F59E0B; }
-.skill-card:hover .tag i.bxl-firebase, .skill-card.glow-active .tag i.bxl-firebase, .skill-card:focus-within .tag i.bxl-firebase { color: #FFCA28; }
-.skill-card:hover .tag i.bx-check-shield, .skill-card.glow-active .tag i.bx-check-shield, .skill-card:focus-within .tag i.bx-check-shield { color: #10B981; }
-.skill-card:hover .tag i.bx-data, .skill-card.glow-active .tag i.bx-data, .skill-card:focus-within .tag i.bx-data { color: #6366F1; }
-.skill-card:hover .tag i.bx-broadcast, .skill-card.glow-active .tag i.bx-broadcast, .skill-card:focus-within .tag i.bx-broadcast { color: #EF4444; }
-.skill-card:hover .tag i.bxl-nodejs, .skill-card.glow-active .tag i.bxl-nodejs, .skill-card:focus-within .tag i.bxl-nodejs { color: #339933; }
-.skill-card:hover .tag i.bx-server, .skill-card.glow-active .tag i.bx-server, .skill-card:focus-within .tag i.bx-server { color: #8B5CF6; }
-.skill-card:hover .tag i.bx-bot, .skill-card.glow-active .tag i.bx-bot, .skill-card:focus-within .tag i.bx-bot { color: #D946EF; }
-.skill-card:hover .tag i.bx-time-five, .skill-card.glow-active .tag i.bx-time-five, .skill-card:focus-within .tag i.bx-time-five { color: #14B8A6; }
-.skill-card:hover .tag i.bxl-docker, .skill-card.glow-active .tag i.bxl-docker, .skill-card:focus-within .tag i.bxl-docker { color: #2496ED; }
-.skill-card:hover .tag i.bxl-flutter, .skill-card.glow-active .tag i.bxl-flutter, .skill-card:focus-within .tag i.bxl-flutter { color: #54C5F8; }
-.skill-card:hover .tag i.bx-code-block, .skill-card.glow-active .tag i.bx-code-block, .skill-card:focus-within .tag i.bx-code-block { color: #0175C2; }
-.skill-card:hover .tag i.bx-cloud, .skill-card.glow-active .tag i.bx-cloud, .skill-card:focus-within .tag i.bx-cloud { color: #3448C5; }
-.skill-card:hover .tag i.bxl-github, .skill-card.glow-active .tag i.bxl-github, .skill-card:focus-within .tag i.bxl-github { color: var(--text); }
-.skill-card:hover .tag i.bx-network-chart, .skill-card.glow-active .tag i.bx-network-chart, .skill-card:focus-within .tag i.bx-network-chart { color: #EC4899; }
-.skill-card:hover .tag i.bx-globe, .skill-card.glow-active .tag i.bx-globe, .skill-card:focus-within .tag i.bx-globe { color: #60A5FA; }
 
 /* ===== PROJECTS ===== */
 
