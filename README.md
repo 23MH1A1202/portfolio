@@ -1,61 +1,69 @@
-# 🚀 Developer Portfolio
+# 🚀 Developer Portfolio - Ambati Lalitha Sagar
 
-A modern, responsive single-page portfolio website showcasing my projects, skills, and experience as a Flutter & Full Stack Developer.
+A modern, responsive, full-stack portfolio website showcasing the projects, skills, and experience of Ambati Lalitha Sagar, a B.Tech IT student at Aditya College of Engineering and Technology.
 
 ## ✨ Features
 
-- **Dark theme** with glassmorphism accents
-- **Typing animation** cycling through roles
-- **Scroll-triggered animations** via Intersection Observer
-- **Animated project cards** with tech badges
-- **Featured DocuKeep project** with full detail
-- **Contact form** with client-side feedback
-- **Fully responsive** – mobile, tablet, desktop
-- **Zero dependencies** – pure HTML, CSS & JavaScript
+- **Express.js Backend** - Serves the site and handles potential API requests.
+- **Firebase Integration** - Uses Firestore for dynamic data loading and Firebase Auth for secure admin access.
+- **Light/Dark Theme** - Default light mode with seamless dark mode toggling, persisted via `localStorage`.
+- **Multi-language Preloader** - Custom typing animation cycling through greetings in different languages.
+- **Dynamic Content** - Fetches portfolio data dynamically from Firestore.
+- **Progressive Web App (PWA)** - Ready to be installed on devices and capable of working offline.
+- **Responsive Design** - Optimized for mobile, tablet, and desktop viewports using custom CSS.
+- **Interactive UI** - Scroll-triggered animations, a custom cursor, and animated project cards.
 
-## 📁 Structure
+## 📁 Project Structure
 
-```
+```text
 portfolio/
-├── index.html   # Main single-page portfolio
-├── style.css    # All styles (dark theme, animations, responsive)
-├── script.js    # Interactivity (typing, scroll fx, counter, form)
-└── README.md
+├── server.js                        # Express backend server
+├── index.html                       # Main portfolio landing page
+├── admin-page.html                  # Admin dashboard for updating dynamic data
+├── style.css                        # Global styles and responsive design
+├── script.js                        # Frontend interactivity and Firebase logic
+├── firebase-applet-config.json      # Client-side Firebase configuration
+├── firestore.rules                  # Firestore security rules
+└── package.json                     # Node.js dependencies and scripts
 ```
 
 ## 🛠 Tech Stack
 
-| Layer    | Technology              |
-|----------|------------------------|
-| Markup   | HTML5                   |
-| Styling  | CSS3 (custom variables, grid, flex) |
-| Logic    | Vanilla JavaScript (ES6+) |
-| Fonts    | Google Fonts (Inter, JetBrains Mono) |
+| Layer        | Technology                                     |
+| ------------ | ---------------------------------------------- |
+| **Frontend** | HTML5, CSS3, Vanilla JavaScript (ES6+)         |
+| **Backend**  | Node.js, Express.js                            |
+| **Database** | Firebase Firestore                             |
+| **Auth**     | Firebase Authentication                        |
+| **Icons**    | Boxicons                                       |
+| **Fonts**    | Google Fonts (Inter, JetBrains Mono)           |
 
-## 📱 Projects Featured
+## 📱 Featured Projects
 
-| Project | Tech | Status |
-|---------|------|--------|
-| **SmartShare** | Mobile · Cross-Platform | ⭐Featured |
-| DocuKeep | Flutter · Firebase · Cloudinary · Dart | Included |
-| Full Stack Web Apps | Next.js · TypeScript · Tailwind | Included |
-| Firebase Cloud Projects | Firebase · Firestore · Cloud Functions | Included |
-| Developer Portfolio | HTML · CSS · JavaScript | Included |
+- **FileShare Pro**: A fast file sharing web app with two modes: direct device-to-device transfer via WebRTC and cloud vault sharing with Firebase.
+- **Attendance Tracker**: A web app to track student attendance with real-time push notifications using Playwright and Firebase.
+- **DocuKeep**: A Flutter mobile app for organizing and storing important documents, backed by Firebase Auth & Cloudinary.
 
 ## 🚀 Getting Started
 
-No build step required – just open `index.html` in any modern browser, or serve with any static host (GitHub Pages, Netlify, Vercel).
+1. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
 
-```bash
-# Quick preview with Python
-python3 -m http.server 8080
-# Then open http://localhost:8080
-```
+2. **Set Up Firebase:**
+   Ensure your Firebase project is configured and `firebase-applet-config.json` contains your credentials.
 
-## 📝 Customisation
+3. **Run the Development Server:**
+   ```bash
+   npm run dev
+   ```
 
-Update the following placeholders in `index.html`:
-- `your.email@example.com` → your actual email address
-- LinkedIn URL → your LinkedIn profile URL
-- Project GitHub links → point to individual repos
-- Your name / bio text in the hero and about sections
+4. **Access the Application:**
+   Open your browser and navigate to `http://localhost:3000`.
+
+## ⚙️ Administration
+
+The portfolio includes a secure admin panel (`/admin-page.html`) for managing content dynamically. 
+- Access requires a verified Google account email matching the administrator's email.
+- The admin can update skills, projects, and other dynamic sections without modifying the source code.
