@@ -64,6 +64,8 @@ portfolio/
 
 ## ⚙️ Administration
 
-The portfolio includes a secure admin panel (`/admin-page.html`) for managing content dynamically. 
+The portfolio includes a secure admin panel (`https://23mh1a1202.github.io/portfolio/admin-page.html`) for managing content dynamically.
 - Access requires a verified Google account email matching the administrator's email.
 - The admin can update skills, projects, and other dynamic sections without modifying the source code.
+- The site is hosted under the `/portfolio/` GitHub Pages subpath, so internal links and Firebase configuration use repository-relative URLs.
+- Resume uploads and asset discovery require the Express server; the existing static assets and resume remain available on GitHub Pages.
