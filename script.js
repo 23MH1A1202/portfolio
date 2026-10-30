@@ -499,7 +499,7 @@ import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10
 // ===== DYNAMIC DATA FETCHING =====
 async function loadDynamicData() {
   try {
-    const configRes = await fetch('/firebase-applet-config.json');
+    const configRes = await fetch(new URL('firebase-applet-config.json', document.baseURI));
     if (!configRes.ok) return;
     const firebaseConfig = await configRes.json();
     
@@ -768,5 +768,4 @@ if (customCursor) {
     });
   });
 }
-
 

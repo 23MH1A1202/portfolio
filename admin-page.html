@@ -476,7 +476,7 @@
 
         <!-- Header Actions -->
         <div class="flex items-center gap-2 sm:gap-3" v-if="user">
-          <a href="/" target="_blank" class="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-blue-600 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-blue-300 transition">
+          <a href="./" target="_blank" class="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-blue-600 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-blue-300 transition">
             <i class='bx bx-link-external'></i> View Live Portfolio
           </a>
 
@@ -573,7 +573,7 @@
         </p>
 
         <div class="mt-8 pt-6 border-t border-slate-100 text-xs text-slate-400">
-          <a href="/" class="hover:text-blue-600 transition flex items-center justify-center gap-1">
+          <a href="./" class="hover:text-blue-600 transition flex items-center justify-center gap-1">
              Back to Portfolio
           </a>
         </div>
@@ -1889,6 +1889,10 @@
     import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut as fbSignOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
+    const siteRoot = new URL('./', window.location.href);
+    const siteUrl = (path) => new URL(path, siteRoot).href;
+    const apiUrl = (path) => siteUrl(`api/${path}`);
+
     // Default Portfolio Data fallback to guarantee no blank states
     const defaultPortfolioData = {
       contact: {
@@ -2105,14 +2109,16 @@
 
             const loadAssetsList = async () => {
               try {
-                const res = await fetch('/api/assets');
+                const res = await fetch(apiUrl('assets'));
                 if (res.ok) {
                   const json = await res.json();
                   if (json.assets && json.assets.length) {
                     availableAssets.value = json.assets;
                   }
                 }
-              } catch(e) {}
+              } catch (e) {
+                console.info('Asset API unavailable; using the built-in asset list.', e);
+              }
             };
             loadAssetsList();
 
@@ -2443,14 +2449,14 @@
 
               uploadingResume.value = true;
               try {
-                const res = await fetch('/api/upload-resume?filename=' + encodeURIComponent(file.name), {
+                const res = await fetch(apiUrl('upload-resume?filename=' + encodeURIComponent(file.name)), {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/octet-stream' },
                   body: file
                 });
 
                 if (!res.ok) {
-                  throw new Error('Upload failed on server');
+                  throw new Error('Resume uploads require the portfolio server; GitHub Pages can only serve the existing PDF.');
                 }
 
                 const resData = await res.json();
@@ -2494,7 +2500,7 @@
             const copyResumeUrl = async () => {
               try {
                 const url = (data.value.resume && data.value.resume.url) ? data.value.resume.url : 'assets/resume.pdf';
-                const fullUrl = url.startsWith('http') ? url : window.location.origin + '/' + url.replace(/^\//, '');
+                const fullUrl = url.startsWith('http') ? url : siteUrl(url);
                 await navigator.clipboard.writeText(fullUrl);
                 showToast('Resume URL copied to clipboard!', 'success');
               } catch (err) {
@@ -2516,7 +2522,7 @@
                 }
                 
                 // Also query server for current assets/resume.pdf metadata
-                fetch('/api/resume-info')
+                fetch(apiUrl('resume-info'))
                   .then(r => r.json())
                   .then(info => {
                     if (info.exists && data.value.resume) {
@@ -2526,7 +2532,9 @@
                       }
                     }
                   })
-                  .catch(() => {});
+                  .catch((e) => {
+                    console.info('Resume metadata API unavailable on this static deployment.', e);
+                  });
 
                 initExpanded();
                 hasUnsavedChanges.value = false;
@@ -2623,4 +2631,3 @@
   </script>
 </body>
 </html>
-
