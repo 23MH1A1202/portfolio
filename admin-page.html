@@ -2036,7 +2036,7 @@
       ]
     };
 
-    fetch('/firebase-applet-config.json')
+    fetch('./firebase-applet-config.json')
       .then(res => res.json())
       .then(firebaseConfig => {
         const app = initializeApp(firebaseConfig);
